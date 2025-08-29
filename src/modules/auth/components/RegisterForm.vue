@@ -20,151 +20,106 @@
           {{ $t('auth.createAccount') }}
         </p>
       </div>
-      <div class="form-group mb-6">
-        <label
-          for="displayName"
-          class="form-label block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3"
-        >
-          {{ $t('auth.displayName') }}
-          <span class="required text-red-500">*</span>
-        </label>
-        <InputText
-          id="displayName"
-          v-model="formData.displayName"
-          type="text"
-          :placeholder="$t('auth.displayNamePlaceholder')"
-          :class="{
-            'p-invalid': formErrors.displayName && formState.touched.displayName
-          }"
-          @blur="markFieldAsTouched('displayName')"
-          class="w-full px-4 py-3 bg-white/80 dark:bg-gray-700/80 border border-gray-300/80 dark:border-gray-600/80 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm shadow-sm focus:shadow-md"
-          autocomplete="name"
-        />
-        <small
-          v-if="formErrors.displayName && formState.touched.displayName"
-          class="p-error"
-        >
-          {{ formErrors.displayName }}
-        </small>
-      </div>
+      <!-- Campo Display Name -->
+      <BaseInput
+        v-model="formData.displayName"
+        type="text"
+        :label="$t('auth.displayName')"
+        :placeholder="$t('auth.displayNamePlaceholder')"
+        :error="
+          formErrors.displayName && formState.touched.displayName
+            ? formErrors.displayName
+            : ''
+        "
+        :required="true"
+        @blur="markFieldAsTouched('displayName')"
+      />
 
       <!-- Campo Email -->
-      <div class="form-group mb-4">
-        <label for="email" class="form-label">
-          {{ $t('auth.email') }} <span class="required">*</span>
-        </label>
-        <InputText
-          id="email"
-          v-model="formData.email"
-          type="email"
-          :placeholder="$t('auth.emailPlaceholder')"
-          :class="{ 'p-invalid': formErrors.email && formState.touched.email }"
-          @blur="markFieldAsTouched('email')"
-          class="w-full"
-          autocomplete="email"
-        />
-        <small
-          v-if="formErrors.email && formState.touched.email"
-          class="p-error"
-        >
-          {{ formErrors.email }}
-        </small>
-      </div>
+      <BaseInput
+        v-model="formData.email"
+        type="email"
+        :label="$t('auth.email')"
+        :placeholder="$t('auth.emailPlaceholder')"
+        :error="
+          formErrors.email && formState.touched.email ? formErrors.email : ''
+        "
+        :required="true"
+        @blur="markFieldAsTouched('email')"
+      />
 
       <!-- Campo Password -->
-      <div class="form-group mb-4">
-        <label for="password" class="form-label">
-          {{ $t('auth.password') }} <span class="required">*</span>
-        </label>
-        <Password
-          id="password"
-          v-model="formData.password"
-          :placeholder="$t('auth.passwordPlaceholder')"
-          :class="{
-            'p-invalid': formErrors.password && formState.touched.password
-          }"
-          @blur="markFieldAsTouched('password')"
-          :feedback="true"
-          :strength-meter="true"
-          toggle-mask
-          class="w-full"
-          input-class="w-full"
-          autocomplete="new-password"
-        />
-        <small
-          v-if="formErrors.password && formState.touched.password"
-          class="p-error"
-        >
-          {{ formErrors.password }}
-        </small>
-      </div>
+      <BasePasswordInput
+        v-model="formData.password"
+        :label="$t('auth.password')"
+        :placeholder="$t('auth.passwordPlaceholder')"
+        :error="
+          formErrors.password && formState.touched.password
+            ? formErrors.password
+            : ''
+        "
+        :required="true"
+        :feedback="true"
+        :strength-meter="true"
+        :toggle-mask="true"
+        @blur="markFieldAsTouched('password')"
+      />
 
       <!-- Campo Confirm Password -->
-      <div class="form-group mb-4">
-        <label for="confirmPassword" class="form-label">
-          {{ $t('auth.confirmPassword') }} <span class="required">*</span>
-        </label>
-        <Password
-          id="confirmPassword"
-          v-model="formData.confirmPassword"
-          :placeholder="$t('auth.confirmPasswordPlaceholder')"
-          :class="{
-            'p-invalid':
-              formErrors.confirmPassword && formState.touched.confirmPassword
-          }"
-          @blur="markFieldAsTouched('confirmPassword')"
-          :feedback="false"
-          toggle-mask
-          class="w-full"
-          input-class="w-full"
-          autocomplete="new-password"
-        />
-        <small
-          v-if="formErrors.confirmPassword && formState.touched.confirmPassword"
-          class="p-error"
-        >
-          {{ formErrors.confirmPassword }}
-        </small>
-      </div>
+      <BasePasswordInput
+        v-model="formData.confirmPassword"
+        :label="$t('auth.confirmPassword')"
+        :placeholder="$t('auth.confirmPasswordPlaceholder')"
+        :error="
+          formErrors.confirmPassword && formState.touched.confirmPassword
+            ? formErrors.confirmPassword
+            : ''
+        "
+        :required="true"
+        :feedback="false"
+        :toggle-mask="true"
+        @blur="markFieldAsTouched('confirmPassword')"
+      />
 
       <!-- Accept Terms -->
-      <div class="form-group mb-6">
-        <div class="checkbox-wrapper">
-          <Checkbox
-            id="acceptTerms"
-            v-model="formData.acceptTerms"
-            :binary="true"
-            :class="{
-              'p-invalid':
-                formErrors.acceptTerms && formState.touched.acceptTerms
-            }"
-            @change="markFieldAsTouched('acceptTerms')"
-          />
-          <label for="acceptTerms" class="checkbox-label">
-            {{ $t('auth.acceptTerms') }}
-            <router-link to="/terms" class="terms-link" target="_blank">
-              {{ $t('auth.termsAndConditions') }}
-            </router-link>
-            <span class="required">*</span>
-          </label>
-        </div>
-        <small
-          v-if="formErrors.acceptTerms && formState.touched.acceptTerms"
-          class="p-error block mt-2"
-        >
-          {{ formErrors.acceptTerms }}
-        </small>
+      <div class="mb-6">
+        <BaseCheckbox
+          v-model="formData.acceptTerms"
+          :binary="true"
+          :error="
+            formErrors.acceptTerms && formState.touched.acceptTerms
+              ? formErrors.acceptTerms
+              : ''
+          "
+          :required="true"
+          @change="markFieldAsTouched('acceptTerms')"
+        />
+        <label class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+          {{ $t('auth.acceptTerms') }}
+          <router-link
+            to="/terms"
+            class="terms-link text-blue-600 hover:text-blue-800"
+            target="_blank"
+          >
+            {{ $t('auth.termsAndConditions') }}
+          </router-link>
+          <span class="required text-red-500 ml-1">*</span>
+        </label>
       </div>
 
       <!-- Submit Button -->
-      <Button
+      <BaseButton
         type="submit"
-        :label="$t('auth.createAccount')"
         :loading="formState.isLoading"
         :disabled="!isFormValid || formState.isLoading"
+        variant="primary"
         class="w-full register-btn mb-4"
-        icon="pi pi-user-plus"
-      />
+      >
+        <template #icon>
+          <BaseIcon name="user-plus" class="w-4 h-4" />
+        </template>
+        {{ $t('auth.createAccount') }}
+      </BaseButton>
 
       <!-- Divider -->
       <div class="divider flex items-center mb-4">
@@ -176,14 +131,13 @@
       </div>
 
       <!-- Google Sign Up -->
-      <Button
-        :label="$t('auth.continueWithGoogle')"
+      <BaseButton
         :loading="googleLoading"
         :disabled="googleLoading"
-        @click="handleGoogleSignUp"
+        variant="secondary"
+        :outlined="true"
         class="w-full mb-4 !bg-white !text-gray-700 !border-gray-300 hover:!bg-gray-50 hover:!border-gray-400 focus:!ring-2 focus:!ring-blue-500 focus:!ring-offset-2 shadow-sm hover:shadow-md transition-all duration-200 font-medium !py-3"
-        severity="secondary"
-        outlined
+        @click="handleGoogleSignUp"
       >
         <template #icon>
           <BaseIcon
@@ -192,7 +146,8 @@
             v-if="!googleLoading"
           />
         </template>
-      </Button>
+        {{ $t('auth.continueWithGoogle') }}
+      </BaseButton>
 
       <!-- Sign In Link -->
       <div class="signin-link">
@@ -216,10 +171,13 @@ import type {
   FormError,
   AuthFormState
 } from '../../../types/api'
-import InputText from 'primevue/inputtext'
-import Password from 'primevue/password'
-import Button from 'primevue/button'
-import Checkbox from 'primevue/checkbox'
+import {
+  BaseInput,
+  BasePasswordInput,
+  BaseButton,
+  BaseCheckbox,
+  BaseIcon
+} from '../../../components/common'
 
 const authStore = useAuthStore()
 const router = useRouter()

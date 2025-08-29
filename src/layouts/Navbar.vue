@@ -32,7 +32,7 @@
         </div>
 
         <!-- Botones de autenticación y tema -->
-        <div class="hidden md:flex items-center space-x-4">
+        <div class="hidden md:flex items-center space-x-3">
           <!-- Language Switcher -->
           <LanguageSwitcher />
 
@@ -40,14 +40,43 @@
           <ThemeToggle />
 
           <BaseButton
-            variant="ghost"
-            size="sm"
+            :text="true"
             @click="handleLogin"
-            class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
+            class="px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 dark:text-gray-300 dark:hover:text-blue-400 dark:hover:bg-blue-900/20 transition-all duration-200 font-medium rounded-lg flex items-center gap-2"
           >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+              />
+            </svg>
             {{ t('auth.login') }}
           </BaseButton>
-          <BaseButton variant="primary" size="sm" @click="handleRegister">
+          <BaseButton
+            variant="primary"
+            @click="handleRegister"
+            class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+              />
+            </svg>
             {{ t('auth.register') }}
           </BaseButton>
         </div>
@@ -129,19 +158,46 @@
         </div>
 
         <BaseButton
-          variant="outline"
-          size="sm"
+          :outlined="true"
+          variant="secondary"
+          size="small"
           @click.stop="handleLogin"
-          class="w-full"
+          class="w-full border-2 border-gray-300 text-gray-700 hover:border-blue-500 hover:text-blue-600 dark:border-gray-600 dark:text-gray-300 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all duration-200 flex items-center justify-center gap-2"
         >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+            />
+          </svg>
           {{ t('auth.login') }}
         </BaseButton>
         <BaseButton
           variant="primary"
-          size="sm"
+          size="small"
           @click.stop="handleRegister"
-          class="w-full"
+          class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
         >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+            />
+          </svg>
           {{ t('auth.register') }}
         </BaseButton>
       </div>

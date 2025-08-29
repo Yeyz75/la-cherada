@@ -22,77 +22,41 @@
       </div>
 
       <!-- Campo Email -->
-      <div class="form-group mb-6">
-        <label
-          for="email"
-          class="form-label block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3"
-        >
-          {{ $t('auth.email') }} <span class="required text-red-500">*</span>
-        </label>
-        <InputText
-          id="email"
-          v-model="formData.email"
-          type="email"
-          :placeholder="$t('auth.emailPlaceholder')"
-          :class="{ 'p-invalid': formErrors.email && formState.touched.email }"
-          @blur="markFieldAsTouched('email')"
-          class="w-full px-4 py-3 bg-white/80 dark:bg-gray-700/80 border border-gray-300/80 dark:border-gray-600/80 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm shadow-sm focus:shadow-md"
-          autocomplete="email"
-        />
-        <small
-          v-if="formErrors.email && formState.touched.email"
-          class="p-error text-red-400 mt-1 block"
-        >
-          {{ formErrors.email }}
-        </small>
-      </div>
+      <BaseInput
+        v-model="formData.email"
+        type="email"
+        :label="$t('auth.email')"
+        :placeholder="$t('auth.emailPlaceholder')"
+        :error="
+          formErrors.email && formState.touched.email ? formErrors.email : ''
+        "
+        :required="true"
+        @blur="markFieldAsTouched('email')"
+      />
 
       <!-- Campo Password -->
-      <div class="form-group mb-6">
-        <label
-          for="password"
-          class="form-label block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3"
-        >
-          {{ $t('auth.password') }} <span class="required text-red-500">*</span>
-        </label>
-        <Password
-          id="password"
-          v-model="formData.password"
-          :placeholder="$t('auth.passwordPlaceholder')"
-          :class="{
-            'p-invalid': formErrors.password && formState.touched.password
-          }"
-          @blur="markFieldAsTouched('password')"
-          :feedback="false"
-          toggle-mask
-          class="w-full"
-          input-class="w-full px-4 py-3 bg-white/80 dark:bg-gray-700/80 border border-gray-300/80 dark:border-gray-600/80 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm shadow-sm focus:shadow-md"
-          autocomplete="current-password"
-        />
-        <small
-          v-if="formErrors.password && formState.touched.password"
-          class="p-error text-red-400 mt-1 block"
-        >
-          {{ formErrors.password }}
-        </small>
-      </div>
+      <BasePasswordInput
+        v-model="formData.password"
+        :label="$t('auth.password')"
+        :placeholder="$t('auth.passwordPlaceholder')"
+        :error="
+          formErrors.password && formState.touched.password
+            ? formErrors.password
+            : ''
+        "
+        :required="true"
+        :feedback="false"
+        :toggle-mask="true"
+        @blur="markFieldAsTouched('password')"
+      />
 
       <!-- Remember Me & Forgot Password -->
       <div class="form-options flex justify-between items-center mb-6">
-        <div class="checkbox-wrapper flex items-center">
-          <Checkbox
-            id="rememberMe"
-            v-model="formData.rememberMe"
-            :binary="true"
-            class="mr-2"
-          />
-          <label
-            for="rememberMe"
-            class="checkbox-label text-sm text-gray-700 dark:text-gray-300"
-          >
-            {{ $t('auth.rememberMe') }}
-          </label>
-        </div>
+        <BaseCheckbox
+          v-model="formData.rememberMe"
+          :label="$t('auth.rememberMe')"
+          :binary="true"
+        />
 
         <router-link
           to="/forgot-password"
@@ -103,14 +67,18 @@
       </div>
 
       <!-- Submit Button -->
-      <Button
+      <BaseButton
         type="submit"
-        :label="$t('auth.signIn')"
         :loading="formState.isLoading"
         :disabled="!isFormValid || formState.isLoading"
-        class="w-full mb-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 px-6 py-4 text-white font-semibold rounded-xl"
-        icon="pi pi-sign-in"
-      />
+        variant="primary"
+        class="w-full mb-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-4 text-white font-semibold rounded-xl"
+      >
+        <template #icon>
+          <BaseIcon name="sign-in" class="w-4 h-4" />
+        </template>
+        {{ $t('auth.signIn') }}
+      </BaseButton>
 
       <!-- Divider -->
       <div class="divider flex items-center mb-6">
@@ -128,14 +96,13 @@
       </div>
 
       <!-- Google Sign In -->
-      <Button
-        :label="$t('auth.continueWithGoogle')"
+      <BaseButton
         :loading="googleLoading"
         :disabled="googleLoading"
-        @click="handleGoogleSignIn"
+        variant="secondary"
+        :outlined="true"
         class="w-full mb-4 !bg-white !text-gray-700 !border-gray-300 hover:!bg-gray-50 hover:!border-gray-400 focus:!ring-2 focus:!ring-blue-500 focus:!ring-offset-2 shadow-sm hover:shadow-md transition-all duration-200 font-medium !py-3"
-        severity="secondary"
-        outlined
+        @click="handleGoogleSignIn"
       >
         <template #icon>
           <BaseIcon
@@ -144,7 +111,8 @@
             v-if="!googleLoading"
           />
         </template>
-      </Button>
+        {{ $t('auth.continueWithGoogle') }}
+      </BaseButton>
 
       <!-- Sign Up Link -->
       <div class="signup-link text-center">
@@ -169,10 +137,13 @@ import { useAuthStore } from '../../../stores/authStore'
 import { useError } from '../../../composables/useError'
 import { useLoading } from '../../../composables/useLoading'
 import type { LoginRequest, FormError, AuthFormState } from '../../../types/api'
-import InputText from 'primevue/inputtext'
-import Password from 'primevue/password'
-import Button from 'primevue/button'
-import Checkbox from 'primevue/checkbox'
+import {
+  BaseInput,
+  BasePasswordInput,
+  BaseButton,
+  BaseCheckbox,
+  BaseIcon
+} from '../../../components/common'
 
 const authStore = useAuthStore()
 const router = useRouter()

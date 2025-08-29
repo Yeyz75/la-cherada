@@ -1,46 +1,41 @@
 <template>
-  <button
+  <Button
     :type="type"
     :disabled="disabled || loading"
+    :loading="loading"
+    :severity="primevueSeverity"
+    :size="size"
+    :outlined="outlined"
+    :text="text"
     :class="buttonClasses"
     @click="handleClick"
   >
-    <div v-if="loading" class="flex items-center">
-      <svg
-        class="animate-spin -ml-1 mr-2 h-4 w-4"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          class="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          stroke-width="4"
-        ></circle>
-        <path
-          class="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        ></path>
-      </svg>
-      <slot />
-    </div>
-    <slot v-else />
-  </button>
+    <template v-if="$slots.icon" #icon>
+      <slot name="icon" />
+    </template>
+    <slot />
+  </Button>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import Button from 'primevue/button'
 
 interface Props {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
-  size?: 'sm' | 'md' | 'lg'
+  variant?:
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'info'
+    | 'warning'
+    | 'help'
+    | 'danger'
+  size?: 'small' | 'large'
   disabled?: boolean
   loading?: boolean
   type?: 'button' | 'submit' | 'reset'
+  outlined?: boolean
+  text?: boolean
 }
 
 interface Emits {
@@ -49,10 +44,11 @@ interface Emits {
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
-  size: 'md',
   disabled: false,
   loading: false,
-  type: 'button'
+  type: 'button',
+  outlined: false,
+  text: false
 })
 
 const emit = defineEmits<Emits>()
@@ -63,29 +59,35 @@ const handleClick = (event: MouseEvent): void => {
   }
 }
 
+// Mapear nuestras variantes a las severity de PrimeVue
+const primevueSeverity = computed(() => {
+  const severityMap = {
+    primary: 'primary',
+    secondary: 'secondary',
+    success: 'success',
+    info: 'info',
+    warning: 'warning',
+    help: 'help',
+    danger: 'danger'
+  } as const
+
+  return severityMap[props.variant] || 'primary'
+})
+
 const buttonClasses = computed((): string => {
-  const baseClasses =
-    'inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
+  const baseClasses = 'transition-all duration-200 font-medium'
 
-  // Size classes
-  const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg'
-  }
-
-  // Variant classes
+  // Clases adicionales según la variante para mantener compatibilidad
   const variantClasses = {
-    primary:
-      'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400',
-    secondary:
-      'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600 dark:focus:ring-gray-400',
-    outline:
-      'border border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-900/20 dark:focus:ring-blue-400',
-    ghost:
-      'text-blue-600 hover:bg-blue-50 focus:ring-blue-500 dark:text-blue-400 dark:hover:bg-blue-900/20 dark:focus:ring-blue-400'
+    primary: 'shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
+    secondary: 'shadow-md hover:shadow-lg',
+    success: 'shadow-lg hover:shadow-xl',
+    info: 'shadow-md hover:shadow-lg',
+    warning: 'shadow-md hover:shadow-lg',
+    help: 'shadow-md hover:shadow-lg',
+    danger: 'shadow-lg hover:shadow-xl'
   }
 
-  return `${baseClasses} ${sizeClasses[props.size]} ${variantClasses[props.variant]}`
+  return `${baseClasses} ${variantClasses[props.variant]}`
 })
 </script>

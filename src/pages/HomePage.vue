@@ -9,7 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import { HeroSection, HowItWorksSection } from '@/components/ui'
+// Lazy load components for better performance
+const HeroSection = () => import('@/components/ui/HeroSection.vue')
+const HowItWorksSection = () => import('@/components/ui/HowItWorksSection.vue')
 </script>
 
 <style scoped>

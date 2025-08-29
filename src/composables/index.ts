@@ -14,3 +14,6 @@ export * from './useAsyncOperation'
 
 // Translation composable (existing)
 export * from './useTranslation'
+
+// Icons composable
+export * from './useIcons'

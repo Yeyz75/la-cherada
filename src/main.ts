@@ -41,6 +41,9 @@ import './styles/primevue-theme.css'
 
 const app = createApp(App)
 
+// Custom components - registrar globalmente
+import { BaseIcon } from '@/components/common'
+
 // Configure PrimeVue with unstyled mode for better TailwindCSS integration
 app.use(PrimeVue, {
   unstyled: false, // Keep styled for now, can be changed to true later for full Tailwind integration
@@ -122,6 +125,9 @@ app.component('PChip', Chip)
 app.component('PTag', Tag)
 app.component('PDivider', Divider)
 app.component('PImage', Image)
+
+// Register custom components globally
+app.component('BaseIcon', BaseIcon)
 
 // Configure Pinia for state management
 app.use(createPinia())

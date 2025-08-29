@@ -46,6 +46,9 @@ export default defineConfig({
           'primevue-layout': [
             'primevue/divider',
             'primevue/image'
+          ],
+          'primevue-icons': [
+            'primeicons/primeicons.css'
           ]
         }
       }

@@ -1,96 +1,142 @@
 <template>
-  <form @submit.prevent="handleSubmit" class="login-form">
-    <!-- Campo Email -->
-    <div class="form-group">
-      <label for="email" class="form-label">
-        {{ $t('auth.email') }} <span class="required">*</span>
-      </label>
-      <InputText
-        id="email"
-        v-model="formData.email"
-        type="email"
-        :placeholder="$t('auth.emailPlaceholder')"
-        :class="{ 'p-invalid': formErrors.email && formState.touched.email }"
-        @blur="markFieldAsTouched('email')"
-        class="w-full"
-        autocomplete="email"
-      />
-      <small v-if="formErrors.email && formState.touched.email" class="p-error">
-        {{ formErrors.email }}
-      </small>
-    </div>
-
-    <!-- Campo Password -->
-    <div class="form-group">
-      <label for="password" class="form-label">
-        {{ $t('auth.password') }} <span class="required">*</span>
-      </label>
-      <Password
-        id="password"
-        v-model="formData.password"
-        :placeholder="$t('auth.passwordPlaceholder')"
-        :class="{
-          'p-invalid': formErrors.password && formState.touched.password
-        }"
-        @blur="markFieldAsTouched('password')"
-        :feedback="false"
-        toggle-mask
-        class="w-full"
-        input-class="w-full"
-        autocomplete="current-password"
-      />
-      <small
-        v-if="formErrors.password && formState.touched.password"
-        class="p-error"
-      >
-        {{ formErrors.password }}
-      </small>
-    </div>
-
-    <!-- Remember Me & Forgot Password -->
-    <div class="form-options">
-      <div class="checkbox-wrapper">
-        <Checkbox
-          id="rememberMe"
-          v-model="formData.rememberMe"
-          :binary="true"
-        />
-        <label for="rememberMe" class="checkbox-label">
-          {{ $t('auth.rememberMe') }}
-        </label>
+  <div class="max-w-md mx-auto">
+    <form
+      @submit.prevent="handleSubmit"
+      class="login-form bg-white/20 dark:bg-gray-800/30 backdrop-blur-md rounded-2xl p-8 shadow-xl border border-white/30 dark:border-gray-700/30"
+    >
+      <!-- Título del formulario -->
+      <div class="text-center mb-8">
+        <h2
+          class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent"
+        >
+          {{ $t('auth.signIn') }}
+        </h2>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">
+          {{ $t('auth.welcomeBack') }}
+        </p>
       </div>
 
-      <router-link to="/forgot-password" class="forgot-password-link">
-        {{ $t('auth.forgotPassword') }}
-      </router-link>
-    </div>
+      <!-- Campo Email -->
+      <div class="form-group mb-6">
+        <label
+          for="email"
+          class="form-label block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          {{ $t('auth.email') }} <span class="required text-red-500">*</span>
+        </label>
+        <InputText
+          id="email"
+          v-model="formData.email"
+          type="email"
+          :placeholder="$t('auth.emailPlaceholder')"
+          :class="{ 'p-invalid': formErrors.email && formState.touched.email }"
+          @blur="markFieldAsTouched('email')"
+          class="w-full px-4 py-3 bg-white/10 dark:bg-gray-700/50 border border-gray-300/50 dark:border-gray-600/50 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
+          autocomplete="email"
+        />
+        <small
+          v-if="formErrors.email && formState.touched.email"
+          class="p-error text-red-400 mt-1 block"
+        >
+          {{ formErrors.email }}
+        </small>
+      </div>
 
-    <!-- Submit Button -->
-    <Button
-      type="submit"
-      :label="$t('auth.signIn')"
-      :loading="formState.isLoading"
-      :disabled="!isFormValid || formState.isLoading"
-      class="w-full login-btn"
-      icon="pi pi-sign-in"
-    />
+      <!-- Campo Password -->
+      <div class="form-group mb-6">
+        <label
+          for="password"
+          class="form-label block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          {{ $t('auth.password') }} <span class="required text-red-500">*</span>
+        </label>
+        <Password
+          id="password"
+          v-model="formData.password"
+          :placeholder="$t('auth.passwordPlaceholder')"
+          :class="{
+            'p-invalid': formErrors.password && formState.touched.password
+          }"
+          @blur="markFieldAsTouched('password')"
+          :feedback="false"
+          toggle-mask
+          class="w-full"
+          input-class="w-full px-4 py-3 bg-white/10 dark:bg-gray-700/50 border border-gray-300/50 dark:border-gray-600/50 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
+          autocomplete="current-password"
+        />
+        <small
+          v-if="formErrors.password && formState.touched.password"
+          class="p-error text-red-400 mt-1 block"
+        >
+          {{ formErrors.password }}
+        </small>
+      </div>
 
-    <!-- Divider -->
-    <div class="divider">
-      <span>{{ $t('auth.orContinueWith') }}</span>
-    </div>
+      <!-- Remember Me & Forgot Password -->
+      <div class="form-options flex justify-between items-center mb-8">
+        <div class="checkbox-wrapper flex items-center">
+          <Checkbox
+            id="rememberMe"
+            v-model="formData.rememberMe"
+            :binary="true"
+            class="mr-2"
+          />
+          <label
+            for="rememberMe"
+            class="checkbox-label text-sm text-gray-700 dark:text-gray-300"
+          >
+            {{ $t('auth.rememberMe') }}
+          </label>
+        </div>
 
-    <!-- Google Sign In -->
-    <GoogleAuthButton :loading="googleLoading" @click="handleGoogleSignIn" />
+        <router-link
+          to="/forgot-password"
+          class="forgot-password-link text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
+        >
+          {{ $t('auth.forgotPassword') }}
+        </router-link>
+      </div>
 
-    <!-- Sign Up Link -->
-    <div class="signup-link">
-      <span>{{ $t('auth.noAccount') }}</span>
-      <router-link to="/register" class="link">
-        {{ $t('auth.signUp') }}
-      </router-link>
-    </div>
-  </form>
+      <!-- Submit Button -->
+      <Button
+        type="submit"
+        :label="$t('auth.signIn')"
+        :loading="formState.isLoading"
+        :disabled="!isFormValid || formState.isLoading"
+        class="w-full mb-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 px-6 py-3 text-white font-semibold rounded-lg"
+        icon="pi pi-sign-in"
+      />
+
+      <!-- Divider -->
+      <div class="divider flex items-center mb-6">
+        <div class="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
+        <span class="px-4 text-sm text-gray-500 dark:text-gray-400">{{
+          $t('auth.orContinueWith')
+        }}</span>
+        <div class="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
+      </div>
+
+      <!-- Google Sign In -->
+      <GoogleAuthButton
+        :loading="googleLoading"
+        @click="handleGoogleSignIn"
+        class="w-full mb-6"
+      />
+
+      <!-- Sign Up Link -->
+      <div class="signup-link text-center">
+        <span class="text-gray-600 dark:text-gray-300">{{
+          $t('auth.noAccount')
+        }}</span>
+        <router-link
+          to="/register"
+          class="link ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-semibold transition-colors"
+        >
+          {{ $t('auth.signUp') }}
+        </router-link>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script setup lang="ts">

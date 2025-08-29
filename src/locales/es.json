@@ -4,6 +4,89 @@
     "title": "Bienvenido a LaCherada",
     "section": {
       "title": "La plataforma comunitaria donde puedes prestar, pedir prestado, donar, vender objetos o ofrecer servicios de forma sencilla y segura."
+    },
+    "hero": {
+      "headline": "Comparte, Intercambia y",
+      "headlineHighlight": "Conecta",
+      "headlineEnd": "con tu Comunidad",
+      "subtitle": "LaCherada es la plataforma donde puedes prestar, pedir prestado, donar o vender objetos de forma segura con personas de tu comunidad.",
+      "getStarted": "Comenzar Ahora",
+      "learnMore": "Conoce Más",
+      "benefits": {
+        "lendBorrow": {
+          "title": "Presta y Pide",
+          "subtitle": "Objetos que necesitas",
+          "description": "Intercambia objetos que tienes por cosas que necesitas. Ahorra dinero y reduce el desperdicio."
+        },
+        "donate": {
+          "title": "Dona y Ayuda",
+          "subtitle": "A tu comunidad",
+          "description": "Dona objetos que ya no uses y ayuda a otros miembros de tu comunidad mientras liberas espacio."
+        },
+        "sell": {
+          "title": "Vende Fácil",
+          "subtitle": "Sin complicaciones",
+          "description": "Vende tus objetos de segunda mano de manera rápida y segura a personas cercanas a ti."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "¿Cómo Funciona LaCherada?",
+      "subtitle": "En solo 3 pasos simples puedes comenzar a intercambiar, donar o vender con tu comunidad de manera segura y confiable.",
+      "steps": {
+        "register": {
+          "title": "1. Regístrate",
+          "subtitle": "Crea tu perfil",
+          "description": "Crea tu cuenta gratuita y completa tu perfil con información básica. Verifica tu identidad para generar confianza en la comunidad.",
+          "features": [
+            "Registro rápido y gratuito",
+            "Verificación de identidad",
+            "Perfil personalizable"
+          ]
+        },
+        "publish": {
+          "title": "2. Publica o Busca",
+          "subtitle": "Encuentra lo que necesitas",
+          "description": "Publica los objetos que quieres prestar, donar o vender. O busca entre miles de artículos disponibles en tu área.",
+          "features": [
+            "Fotos y descripciones detalladas",
+            "Filtros por ubicación y categoría",
+            "Sistema de etiquetas inteligente"
+          ]
+        },
+        "connect": {
+          "title": "3. Conecta y Intercambia",
+          "subtitle": "Completa la transacción",
+          "description": "Contacta directamente con otros usuarios, acuerda los términos y completa el intercambio de forma segura.",
+          "features": [
+            "Chat integrado y seguro",
+            "Sistema de calificaciones",
+            "Puntos de encuentro sugeridos"
+          ]
+        }
+      },
+      "whyChoose": {
+        "title": "¿Por Qué Elegir LaCherada?",
+        "subtitle": "Más que una plataforma de intercambio, somos una comunidad comprometida con el consumo responsable y la economía circular.",
+        "benefits": {
+          "secure": {
+            "title": "100% Seguro",
+            "description": "Verificación de usuarios y sistema de reputación"
+          },
+          "saveMoney": {
+            "title": "Ahorra Dinero",
+            "description": "Obtén lo que necesitas sin gastar de más"
+          },
+          "community": {
+            "title": "Comunidad Local",
+            "description": "Conecta con personas de tu área"
+          },
+          "ecoFriendly": {
+            "title": "Eco-Friendly",
+            "description": "Reduce el desperdicio y cuida el planeta"
+          }
+        }
+      }
     }
   },
   "notFound": {

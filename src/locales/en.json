@@ -4,6 +4,89 @@
     "title": "Welcome to LaCherada",
     "section": {
       "title": "The community platform where you can lend, borrow, donate, sell objects or offer services in a simple and secure way."
+    },
+    "hero": {
+      "headline": "Share, Exchange and",
+      "headlineHighlight": "Connect",
+      "headlineEnd": "with your Community",
+      "subtitle": "LaCherada is the platform where you can lend, borrow, donate or sell objects safely with people in your community.",
+      "getStarted": "Get Started",
+      "learnMore": "Learn More",
+      "benefits": {
+        "lendBorrow": {
+          "title": "Lend & Borrow",
+          "subtitle": "Objects you need",
+          "description": "Exchange objects you have for things you need. Save money and reduce waste."
+        },
+        "donate": {
+          "title": "Donate & Help",
+          "subtitle": "Your community",
+          "description": "Donate objects you no longer use and help other community members while freeing up space."
+        },
+        "sell": {
+          "title": "Sell Easy",
+          "subtitle": "No complications",
+          "description": "Sell your second-hand objects quickly and safely to people close to you."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "How Does LaCherada Work?",
+      "subtitle": "In just 3 simple steps you can start exchanging, donating or selling with your community safely and reliably.",
+      "steps": {
+        "register": {
+          "title": "1. Register",
+          "subtitle": "Create your profile",
+          "description": "Create your free account and complete your profile with basic information. Verify your identity to build trust in the community.",
+          "features": [
+            "Quick and free registration",
+            "Identity verification",
+            "Customizable profile"
+          ]
+        },
+        "publish": {
+          "title": "2. Publish or Search",
+          "subtitle": "Find what you need",
+          "description": "Publish the objects you want to lend, donate or sell. Or search among thousands of items available in your area.",
+          "features": [
+            "Detailed photos and descriptions",
+            "Location and category filters",
+            "Smart tagging system"
+          ]
+        },
+        "connect": {
+          "title": "3. Connect and Exchange",
+          "subtitle": "Complete the transaction",
+          "description": "Contact other users directly, agree on terms and complete the exchange safely.",
+          "features": [
+            "Integrated and secure chat",
+            "Rating system",
+            "Suggested meeting points"
+          ]
+        }
+      },
+      "whyChoose": {
+        "title": "Why Choose LaCherada?",
+        "subtitle": "More than an exchange platform, we are a community committed to responsible consumption and circular economy.",
+        "benefits": {
+          "secure": {
+            "title": "100% Secure",
+            "description": "User verification and reputation system"
+          },
+          "saveMoney": {
+            "title": "Save Money",
+            "description": "Get what you need without overspending"
+          },
+          "community": {
+            "title": "Local Community",
+            "description": "Connect with people in your area"
+          },
+          "ecoFriendly": {
+            "title": "Eco-Friendly",
+            "description": "Reduce waste and take care of the planet"
+          }
+        }
+      }
     }
   },
   "notFound": {

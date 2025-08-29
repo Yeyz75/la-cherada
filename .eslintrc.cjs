@@ -10,13 +10,17 @@ module.exports = {
     'plugin:vue/vue3-strongly-recommended',
     'eslint:recommended',
     '@vue/eslint-config-typescript/recommended',
-    '@vue/eslint-config-prettier'
+    '@vue/eslint-config-prettier',
+    'plugin:prettier/recommended'
   ],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
   rules: {
+    // Prettier integration
+    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
+    
     // TypeScript strict rules - prohibir 'any'
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_', 'varsIgnorePattern': '^_' }],

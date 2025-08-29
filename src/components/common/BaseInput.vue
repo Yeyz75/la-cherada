@@ -76,16 +76,16 @@ const handleFocus = (event: FocusEvent): void => {
 
 const inputClasses = computed((): string => {
   const baseClasses =
-    'block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition-colors'
+    'block w-full px-3 py-2 border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 sm:text-sm transition-colors dark:placeholder-gray-500'
 
   if (props.error) {
-    return `${baseClasses} border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500`
+    return `${baseClasses} border-red-300 text-red-900 focus:ring-red-500 focus:border-red-500 dark:border-red-500 dark:text-red-300 dark:focus:ring-red-400 dark:focus:border-red-400`
   }
 
   if (props.disabled) {
-    return `${baseClasses} border-gray-300 bg-gray-50 text-gray-500 cursor-not-allowed`
+    return `${baseClasses} border-gray-300 bg-gray-50 text-gray-500 cursor-not-allowed dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400`
   }
 
-  return `${baseClasses} border-gray-300 focus:ring-blue-500 focus:border-blue-500`
+  return `${baseClasses} border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-400 dark:focus:border-blue-400`
 })
 </script>

@@ -17,3 +17,6 @@ export * from './useTranslation'
 
 // Icons composable
 export * from './useIcons'
+
+// Theme composable
+export * from './useTheme'

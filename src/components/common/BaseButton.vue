@@ -76,11 +76,14 @@ const buttonClasses = computed((): string => {
 
   // Variant classes
   const variantClasses = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-    secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
+    primary:
+      'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400',
+    secondary:
+      'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500 dark:bg-gray-500 dark:hover:bg-gray-600 dark:focus:ring-gray-400',
     outline:
-      'border border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500',
-    ghost: 'text-blue-600 hover:bg-blue-50 focus:ring-blue-500'
+      'border border-blue-600 text-blue-600 hover:bg-blue-50 focus:ring-blue-500 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-900/20 dark:focus:ring-blue-400',
+    ghost:
+      'text-blue-600 hover:bg-blue-50 focus:ring-blue-500 dark:text-blue-400 dark:hover:bg-blue-900/20 dark:focus:ring-blue-400'
   }
 
   return `${baseClasses} ${sizeClasses[props.size]} ${variantClasses[props.variant]}`

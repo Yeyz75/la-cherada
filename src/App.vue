@@ -16,8 +16,11 @@
 <script setup lang="ts">
 import LanguageSwitcher from './components/LanguageSwitcher.vue'
 import { MainLayout } from '@/layouts'
+import { useTheme } from '@/composables/useTheme'
 
-// Main App component with MainLayout integration
+// Initialize theme system
+const { initializeTheme } = useTheme()
+initializeTheme()
 </script>
 
 <style scoped>

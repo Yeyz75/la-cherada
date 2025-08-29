@@ -33,15 +33,18 @@
               <!-- Header -->
               <div
                 v-if="title || closable"
-                class="flex items-center justify-between p-6 border-b border-gray-200"
+                class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700"
               >
-                <h3 v-if="title" class="text-lg font-semibold text-gray-900">
+                <h3
+                  v-if="title"
+                  class="text-lg font-semibold text-gray-900 dark:text-gray-100"
+                >
                   {{ title }}
                 </h3>
                 <button
                   v-if="closable"
                   type="button"
-                  class="text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600 transition-colors"
+                  class="text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600 transition-colors dark:text-gray-500 dark:hover:text-gray-300 dark:focus:text-gray-300"
                   @click="handleClose"
                 >
                   <svg
@@ -116,7 +119,7 @@ const handleEscape = (event: KeyboardEvent): void => {
 
 const modalClasses = computed((): string => {
   const baseClasses =
-    'relative bg-white rounded-lg shadow-xl max-h-[90vh] overflow-y-auto'
+    'relative bg-white rounded-lg shadow-xl max-h-[90vh] overflow-y-auto dark:bg-gray-800'
 
   const sizeClasses = {
     sm: 'max-w-sm w-full',

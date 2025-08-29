@@ -1,10 +1,13 @@
 <template>
   <div :class="cardClasses">
     <div v-if="title || subtitle" :class="headerClasses">
-      <h3 v-if="title" class="text-lg font-semibold text-gray-900">
+      <h3
+        v-if="title"
+        class="text-lg font-semibold text-gray-900 dark:text-gray-100"
+      >
         {{ title }}
       </h3>
-      <p v-if="subtitle" class="text-sm text-gray-600 mt-1">
+      <p v-if="subtitle" class="text-sm text-gray-600 mt-1 dark:text-gray-300">
         {{ subtitle }}
       </p>
     </div>
@@ -36,19 +39,19 @@ const props = withDefaults(defineProps<Props>(), {
 
 const cardClasses = computed((): string => {
   const baseClasses =
-    'bg-white rounded-lg border border-gray-200 transition-all duration-200'
+    'bg-white rounded-lg border border-gray-200 transition-all duration-200 dark:bg-gray-800 dark:border-gray-700'
 
   // Shadow classes
   const shadowClasses = {
     none: '',
-    sm: 'shadow-sm',
-    md: 'shadow-md',
-    lg: 'shadow-lg'
+    sm: 'shadow-sm dark:shadow-gray-900/20',
+    md: 'shadow-md dark:shadow-gray-900/20',
+    lg: 'shadow-lg dark:shadow-gray-900/20'
   }
 
   // Hover effect
   const hoverClasses = props.hoverable
-    ? 'hover:shadow-lg hover:-translate-y-1 cursor-pointer'
+    ? 'hover:shadow-lg hover:-translate-y-1 cursor-pointer dark:hover:shadow-gray-900/30'
     : ''
 
   return `${baseClasses} ${shadowClasses[props.shadow]} ${hoverClasses}`.trim()
@@ -62,7 +65,7 @@ const headerClasses = computed((): string => {
     lg: 'px-8 py-6'
   }
 
-  return `border-b border-gray-200 ${paddingClasses[props.padding]}`
+  return `border-b border-gray-200 dark:border-gray-700 ${paddingClasses[props.padding]}`
 })
 
 const contentClasses = computed((): string => {

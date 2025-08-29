@@ -1,22 +1,24 @@
 <template>
   <section
-    class="relative bg-gradient-to-br from-blue-50 to-indigo-100 py-16 sm:py-24"
+    class="relative bg-gradient-to-br from-blue-50 to-indigo-100 py-16 sm:py-24 dark:from-gray-900 dark:to-gray-800"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center">
         <!-- Hero Headline -->
         <h1
-          class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
+          class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 dark:text-gray-100"
         >
           {{ $t('homePage.hero.headline') }}
-          <span class="text-blue-600">{{
+          <span class="text-blue-600 dark:text-blue-400">{{
             $t('homePage.hero.headlineHighlight')
           }}</span>
           {{ $t('homePage.hero.headlineEnd') }}
         </h1>
 
         <!-- Hero Subtitle -->
-        <p class="text-xl sm:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+        <p
+          class="text-xl sm:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto dark:text-gray-300"
+        >
           {{ $t('homePage.hero.subtitle') }}
         </p>
 
@@ -44,10 +46,10 @@
             <div class="flex justify-center mb-4">
               <!-- Placeholder for icon -->
               <div
-                class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center"
+                class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center dark:bg-blue-900"
               >
                 <svg
-                  class="w-8 h-8 text-blue-600"
+                  class="w-8 h-8 text-blue-600 dark:text-blue-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -61,7 +63,7 @@
                 </svg>
               </div>
             </div>
-            <p class="text-gray-600">
+            <p class="text-gray-600 dark:text-gray-300">
               {{ $t('homePage.hero.benefits.lendBorrow.description') }}
             </p>
           </BaseCard>
@@ -75,10 +77,10 @@
             <div class="flex justify-center mb-4">
               <!-- Placeholder for icon -->
               <div
-                class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center"
+                class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center dark:bg-green-900"
               >
                 <svg
-                  class="w-8 h-8 text-green-600"
+                  class="w-8 h-8 text-green-600 dark:text-green-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -92,7 +94,7 @@
                 </svg>
               </div>
             </div>
-            <p class="text-gray-600">
+            <p class="text-gray-600 dark:text-gray-300">
               {{ $t('homePage.hero.benefits.donate.description') }}
             </p>
           </BaseCard>
@@ -106,10 +108,10 @@
             <div class="flex justify-center mb-4">
               <!-- Placeholder for icon -->
               <div
-                class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center"
+                class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center dark:bg-orange-900"
               >
                 <svg
-                  class="w-8 h-8 text-orange-600"
+                  class="w-8 h-8 text-orange-600 dark:text-orange-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -123,7 +125,7 @@
                 </svg>
               </div>
             </div>
-            <p class="text-gray-600">
+            <p class="text-gray-600 dark:text-gray-300">
               {{ $t('homePage.hero.benefits.sell.description') }}
             </p>
           </BaseCard>
@@ -136,10 +138,10 @@
       class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none"
     >
       <div
-        class="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full opacity-20"
+        class="absolute -top-40 -right-40 w-80 h-80 bg-blue-200 rounded-full opacity-20 dark:bg-blue-800"
       ></div>
       <div
-        class="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-200 rounded-full opacity-20"
+        class="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-200 rounded-full opacity-20 dark:bg-indigo-800"
       ></div>
     </div>
   </section>

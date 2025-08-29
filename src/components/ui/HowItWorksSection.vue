@@ -1,12 +1,14 @@
 <template>
-  <section class="py-16 sm:py-24 bg-white">
+  <section class="py-16 sm:py-24 bg-white dark:bg-gray-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section Header -->
       <div class="text-center mb-16">
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        <h2
+          class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 dark:text-gray-100"
+        >
           {{ $t('homePage.howItWorks.title') }}
         </h2>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto dark:text-gray-300">
           {{ $t('homePage.howItWorks.subtitle') }}
         </p>
       </div>
@@ -40,10 +42,10 @@
               </svg>
             </div>
           </div>
-          <p class="text-gray-600 mb-4">
+          <p class="text-gray-600 mb-4 dark:text-gray-300">
             {{ $t('homePage.howItWorks.steps.register.description') }}
           </p>
-          <ul class="text-sm text-gray-500 space-y-1">
+          <ul class="text-sm text-gray-500 space-y-1 dark:text-gray-400">
             <li
               v-for="feature in $tm(
                 'homePage.howItWorks.steps.register.features'
@@ -101,10 +103,10 @@
               </svg>
             </div>
           </div>
-          <p class="text-gray-600 mb-4">
+          <p class="text-gray-600 mb-4 dark:text-gray-300">
             {{ $t('homePage.howItWorks.steps.publish.description') }}
           </p>
-          <ul class="text-sm text-gray-500 space-y-1">
+          <ul class="text-sm text-gray-500 space-y-1 dark:text-gray-400">
             <li
               v-for="feature in $tm(
                 'homePage.howItWorks.steps.publish.features'
@@ -162,10 +164,10 @@
               </svg>
             </div>
           </div>
-          <p class="text-gray-600 mb-4">
+          <p class="text-gray-600 mb-4 dark:text-gray-300">
             {{ $t('homePage.howItWorks.steps.connect.description') }}
           </p>
-          <ul class="text-sm text-gray-500 space-y-1">
+          <ul class="text-sm text-gray-500 space-y-1 dark:text-gray-400">
             <li
               v-for="feature in $tm(
                 'homePage.howItWorks.steps.connect.features'
@@ -179,12 +181,12 @@
       </div>
 
       <!-- Additional Benefits Section -->
-      <div class="mt-16 bg-gray-50 rounded-2xl p-8 sm:p-12">
+      <div class="mt-16 bg-gray-50 rounded-2xl p-8 sm:p-12 dark:bg-gray-800">
         <div class="text-center mb-8">
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 dark:text-gray-100">
             {{ $t('homePage.howItWorks.whyChoose.title') }}
           </h3>
-          <p class="text-gray-600">
+          <p class="text-gray-600 dark:text-gray-300">
             {{ $t('homePage.howItWorks.whyChoose.subtitle') }}
           </p>
         </div>
@@ -192,10 +194,10 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div class="text-center">
             <div
-              class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3"
+              class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3 dark:bg-blue-900"
             >
               <svg
-                class="w-6 h-6 text-blue-600"
+                class="w-6 h-6 text-blue-600 dark:text-blue-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -208,10 +210,10 @@
                 ></path>
               </svg>
             </div>
-            <h4 class="font-semibold text-gray-900 mb-1">
+            <h4 class="font-semibold text-gray-900 mb-1 dark:text-gray-100">
               {{ $t('homePage.howItWorks.whyChoose.benefits.secure.title') }}
             </h4>
-            <p class="text-sm text-gray-600">
+            <p class="text-sm text-gray-600 dark:text-gray-300">
               {{
                 $t('homePage.howItWorks.whyChoose.benefits.secure.description')
               }}
@@ -220,10 +222,10 @@
 
           <div class="text-center">
             <div
-              class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3"
+              class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3 dark:bg-green-900"
             >
               <svg
-                class="w-6 h-6 text-green-600"
+                class="w-6 h-6 text-green-600 dark:text-green-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -236,10 +238,10 @@
                 ></path>
               </svg>
             </div>
-            <h4 class="font-semibold text-gray-900 mb-1">
+            <h4 class="font-semibold text-gray-900 mb-1 dark:text-gray-100">
               {{ $t('homePage.howItWorks.whyChoose.benefits.saveMoney.title') }}
             </h4>
-            <p class="text-sm text-gray-600">
+            <p class="text-sm text-gray-600 dark:text-gray-300">
               {{
                 $t(
                   'homePage.howItWorks.whyChoose.benefits.saveMoney.description'
@@ -250,10 +252,10 @@
 
           <div class="text-center">
             <div
-              class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3"
+              class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-3 dark:bg-purple-900"
             >
               <svg
-                class="w-6 h-6 text-purple-600"
+                class="w-6 h-6 text-purple-600 dark:text-purple-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -266,10 +268,10 @@
                 ></path>
               </svg>
             </div>
-            <h4 class="font-semibold text-gray-900 mb-1">
+            <h4 class="font-semibold text-gray-900 mb-1 dark:text-gray-100">
               {{ $t('homePage.howItWorks.whyChoose.benefits.community.title') }}
             </h4>
-            <p class="text-sm text-gray-600">
+            <p class="text-sm text-gray-600 dark:text-gray-300">
               {{
                 $t(
                   'homePage.howItWorks.whyChoose.benefits.community.description'
@@ -280,10 +282,10 @@
 
           <div class="text-center">
             <div
-              class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3"
+              class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-3 dark:bg-green-900"
             >
               <svg
-                class="w-6 h-6 text-green-600"
+                class="w-6 h-6 text-green-600 dark:text-green-300"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -296,12 +298,12 @@
                 ></path>
               </svg>
             </div>
-            <h4 class="font-semibold text-gray-900 mb-1">
+            <h4 class="font-semibold text-gray-900 mb-1 dark:text-gray-100">
               {{
                 $t('homePage.howItWorks.whyChoose.benefits.ecoFriendly.title')
               }}
             </h4>
-            <p class="text-sm text-gray-600">
+            <p class="text-sm text-gray-600 dark:text-gray-300">
               {{
                 $t(
                   'homePage.howItWorks.whyChoose.benefits.ecoFriendly.description'

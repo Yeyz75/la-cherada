@@ -8,6 +8,14 @@
     :outlined="outlined"
     :text="text"
     :class="buttonClasses"
+    :pt="{
+      root: {
+        'data-pc-name': 'button',
+        'data-pc-section': 'root',
+        'data-p-disabled': disabled || loading
+      }
+    }"
+    :unstyled="false"
     @click="handleClick"
   >
     <template v-if="$slots.icon" #icon>
@@ -75,11 +83,11 @@ const primevueSeverity = computed(() => {
 })
 
 const buttonClasses = computed((): string => {
-  const baseClasses = 'transition-all duration-200 font-medium'
+  const baseClasses = 'base-button font-medium'
 
   // Clases adicionales según la variante para mantener compatibilidad
   const variantClasses = {
-    primary: 'shadow-lg hover:shadow-xl transform hover:-translate-y-0.5',
+    primary: 'shadow-lg hover:shadow-xl',
     secondary: 'shadow-md hover:shadow-lg',
     success: 'shadow-lg hover:shadow-xl',
     info: 'shadow-md hover:shadow-lg',

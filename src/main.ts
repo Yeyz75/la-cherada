@@ -46,8 +46,8 @@ import { BaseIcon } from '@/components/common'
 
 // Configure PrimeVue with unstyled mode for better TailwindCSS integration
 app.use(PrimeVue, {
-  unstyled: false, // Keep styled for now, can be changed to true later for full Tailwind integration
-  ripple: true,
+  unstyled: false,
+  ripple: false,
   locale: {
     accept: 'Aceptar',
     reject: 'Cancelar',

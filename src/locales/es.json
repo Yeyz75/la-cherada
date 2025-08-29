@@ -163,7 +163,7 @@
     "emailSentTitle": "Email enviado",
     "emailSentDescription": "Revisa tu bandeja de entrada y sigue las instrucciones para restablecer tu contraseña",
     "forgotPasswordDescription": "Ingresa tu email y te enviaremos las instrucciones para restablecer tu contraseña",
-    "emailPlaceholder": "tu@email.com",
+    "emailPlaceholder": "Ingresa tu email",
     "passwordPlaceholder": "Tu contraseña",
     "displayNamePlaceholder": "Juan Pérez",
     "confirmPasswordPlaceholder": "Confirma tu contraseña"
@@ -306,7 +306,7 @@
       "name": "Nombre completo",
       "namePlaceholder": "Tu nombre completo",
       "email": "Correo electrónico",
-      "emailPlaceholder": "tu@email.com",
+      "emailPlaceholder": "Ingresa tu email",
       "subject": "Asunto",
       "selectSubject": "Selecciona un asunto",
       "subjects": {

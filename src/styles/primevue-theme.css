@@ -60,8 +60,56 @@
 
 /* Button customizations */
 .p-button {
-  @apply font-medium transition-all duration-200;
+  @apply font-medium;
   border-radius: var(--border-radius);
+  /* Defensive CSS to prevent ripple issues */
+  position: relative !important;
+  overflow: hidden !important;
+  transform: none !important;
+  animation: none !important;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease !important;
+}
+
+/* Disable ripple effect completely for consistent behavior */
+.p-button:before,
+.p-button:after,
+.p-button .p-ink {
+  display: none !important;
+  opacity: 0 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Custom BaseButton defensive styles */
+.base-button {
+  position: relative !important;
+  overflow: hidden !important;
+  transform: none !important;
+  animation: none !important;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease !important;
+}
+
+.base-button:hover {
+  transform: none !important;
+  animation: none !important;
+}
+
+.base-button:active {
+  transform: none !important;
+  animation: none !important;
+}
+
+.base-button:focus {
+  transform: none !important;
+  animation: none !important;
 }
 
 .p-button.p-button-primary {

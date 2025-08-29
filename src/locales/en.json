@@ -306,7 +306,7 @@
       "name": "Full name",
       "namePlaceholder": "Your full name",
       "email": "Email",
-      "emailPlaceholder": "your@email.com",
+      "emailPlaceholder": "added your email",
       "subject": "Subject",
       "selectSubject": "Select a subject",
       "subjects": {

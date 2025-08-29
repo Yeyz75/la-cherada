@@ -100,7 +100,7 @@
                 href="tel:+573001234567"
                 class="text-gray-300 hover:text-white transition-colors duration-200"
               >
-                +57 300 123 4567
+                +503 0000-1122
               </a>
             </li>
             <li class="flex items-start space-x-3">
@@ -123,7 +123,7 @@
                   d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                 />
               </svg>
-              <span class="text-gray-300"> Bogotá, Colombia </span>
+              <span class="text-gray-300"> San Miguel, El Salvador </span>
             </li>
           </ul>
         </div>

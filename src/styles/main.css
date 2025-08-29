@@ -14,7 +14,7 @@
 
   /* Mejoras de accesibilidad */
   *:focus {
-    @apply outline-none ring-2 ring-lacherada-blue-500 ring-offset-2;
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2;
   }
 
   /* Scrollbar personalizado */
@@ -39,15 +39,15 @@
 @layer components {
   /* Botones base */
   .btn-primary {
-    @apply bg-lacherada-green-600 hover:bg-lacherada-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:ring-lacherada-green-500;
+    @apply bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:ring-green-500;
   }
 
   .btn-secondary {
-    @apply bg-lacherada-blue-600 hover:bg-lacherada-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:ring-lacherada-blue-500;
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:ring-blue-500;
   }
 
   .btn-outline {
-    @apply border-2 border-lacherada-green-600 text-lacherada-green-600 hover:bg-lacherada-green-600 hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:ring-lacherada-green-500;
+    @apply border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:ring-green-500;
   }
 
   /* Cards */
@@ -61,7 +61,7 @@
 
   /* Inputs */
   .input-base {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-lacherada-blue-500 focus:border-lacherada-blue-500 transition-colors duration-200;
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200;
   }
 
   .input-error {
@@ -70,7 +70,7 @@
 
   /* Texto */
   .text-gradient {
-    @apply bg-gradient-to-r from-lacherada-green-600 to-lacherada-blue-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent;
   }
 }
 

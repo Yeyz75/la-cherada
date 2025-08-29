@@ -36,6 +36,22 @@
         }
       }
     },
+    "benefits": {
+      "title": "¿Qué Puedes Hacer en LaCherada?",
+      "subtitle": "Una plataforma completa para todas tus necesidades de intercambio comunitario"
+    },
+    "cta": {
+      "title": "¿Listo para Unirte a la Revolución del Intercambio?",
+      "subtitle": "Únete a miles de personas que ya están compartiendo, ahorrando y conectando en su comunidad.",
+      "startNow": "Comenzar Ahora - Gratis",
+      "learnMore": "Conocer Más"
+    },
+    "stats": {
+      "users": "Usuarios Activos",
+      "exchanges": "Intercambios Exitosos", 
+      "satisfaction": "Satisfacción",
+      "cities": "Ciudades"
+    },
     "howItWorks": {
       "title": "¿Cómo Funciona LaCherada?",
       "subtitle": "En solo 3 pasos simples puedes comenzar a intercambiar, donar o vender con tu comunidad de manera segura y confiable.",

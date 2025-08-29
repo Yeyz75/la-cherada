@@ -36,6 +36,22 @@
         }
       }
     },
+    "benefits": {
+      "title": "What Can You Do on LaCherada?",
+      "subtitle": "A complete platform for all your community exchange needs"
+    },
+    "cta": {
+      "title": "Ready to Join the Exchange Revolution?",
+      "subtitle": "Join thousands of people who are already sharing, saving and connecting in their community.",
+      "startNow": "Start Now - Free",
+      "learnMore": "Learn More"
+    },
+    "stats": {
+      "users": "Active Users",
+      "exchanges": "Successful Exchanges",
+      "satisfaction": "Satisfaction",
+      "cities": "Cities"
+    },
     "howItWorks": {
       "title": "How Does LaCherada Work?",
       "subtitle": "In just 3 simple steps you can start exchanging, donating or selling with your community safely and reliably.",

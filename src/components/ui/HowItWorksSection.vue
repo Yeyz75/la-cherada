@@ -45,7 +45,7 @@
           </p>
           <ul class="text-sm text-gray-500 space-y-1">
             <li
-              v-for="feature in $t(
+              v-for="feature in $tm(
                 'homePage.howItWorks.steps.register.features'
               )"
               :key="feature"
@@ -106,7 +106,7 @@
           </p>
           <ul class="text-sm text-gray-500 space-y-1">
             <li
-              v-for="feature in $t(
+              v-for="feature in $tm(
                 'homePage.howItWorks.steps.publish.features'
               )"
               :key="feature"
@@ -167,7 +167,7 @@
           </p>
           <ul class="text-sm text-gray-500 space-y-1">
             <li
-              v-for="feature in $t(
+              v-for="feature in $tm(
                 'homePage.howItWorks.steps.connect.features'
               )"
               :key="feature"

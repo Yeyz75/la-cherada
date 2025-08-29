@@ -9,9 +9,14 @@
 </template>
 
 <script setup lang="ts">
-// Lazy load components for better performance
-const HeroSection = () => import('@/components/ui/HeroSection.vue')
-const HowItWorksSection = () => import('@/components/ui/HowItWorksSection.vue')
+import { defineAsyncComponent } from 'vue'
+// Lazy load components para mejor performance
+const HeroSection = defineAsyncComponent(
+  () => import('@/components/ui/HeroSection.vue')
+)
+const HowItWorksSection = defineAsyncComponent(
+  () => import('@/components/ui/HowItWorksSection.vue')
+)
 </script>
 
 <style scoped>

@@ -3,6 +3,9 @@ import i18n from '@/i18n'
 
 // Lazy load pages for better performance
 const HomePage = () => import('@/pages/HomePage.vue')
+const HowItWorksPage = () => import('@/pages/HowItWorksPage.vue')
+const ExplorePage = () => import('@/pages/ExplorePage.vue')
+const ContactPage = () => import('@/pages/ContactPage.vue')
 
 // Define routes with TypeScript typing
 const routes: RouteRecordRaw[] = [
@@ -12,6 +15,33 @@ const routes: RouteRecordRaw[] = [
     component: HomePage,
     meta: {
       titleKey: 'meta.homeTitle',
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/como-funciona',
+    name: 'how-it-works',
+    component: HowItWorksPage,
+    meta: {
+      titleKey: 'meta.howItWorksTitle',
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/explorar',
+    name: 'explore',
+    component: ExplorePage,
+    meta: {
+      titleKey: 'meta.exploreTitle',
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/contacto',
+    name: 'contact',
+    component: ContactPage,
+    meta: {
+      titleKey: 'meta.contactTitle',
       requiresAuth: false
     }
   },

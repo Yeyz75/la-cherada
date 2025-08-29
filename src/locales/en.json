@@ -1,5 +1,11 @@
 {
   "new": "New",
+  "navbar": {
+    "home": "Home",
+    "howItWorks": "How It Works",
+    "explore": "Explore",
+    "contact": "Contact"
+  },
   "homePage": {
     "title": "Welcome to LaCherada",
     "section": {
@@ -116,8 +122,187 @@
     "registering": "Creating account...",
     "checkingAuth": "Checking authentication..."
   },
+  "howItWorks": {
+    "badge": "Complete Guide",
+    "title": "How Does LaCherada Work?",
+    "subtitle": "Discover how easy it is to share, lend, and connect with your community in just 3 simple steps.",
+    "steps": {
+      "register": {
+        "title": "1. Register",
+        "subtitle": "Create your profile",
+        "description": "Create your free account and complete your profile with basic information. Verify your identity to build trust in the community.",
+        "features": [
+          "Quick and free registration",
+          "Identity verification",
+          "Customizable profile"
+        ]
+      },
+      "publish": {
+        "title": "2. Publish or Search",
+        "subtitle": "Find what you need",
+        "description": "Publish the objects you want to lend, donate or sell. Or search among thousands of items available in your area.",
+        "features": [
+          "Detailed photos and descriptions",
+          "Location and category filters",
+          "Smart tagging system"
+        ]
+      },
+      "connect": {
+        "title": "3. Connect and Exchange",
+        "subtitle": "Complete the transaction",
+        "description": "Contact other users directly, agree on terms and complete the exchange safely.",
+        "features": [
+          "Integrated and secure chat",
+          "Rating system",
+          "Suggested meeting points"
+        ]
+      }
+    },
+    "stats": {
+      "title": "Our Community in Numbers",
+      "users": "Active Users",
+      "exchanges": "Completed Exchanges",
+      "satisfaction": "Satisfaction",
+      "cities": "Cities"
+    },
+    "benefits": {
+      "title": "Why Choose LaCherada?",
+      "subtitle": "More than an exchange platform, we are a community committed to responsible consumption and circular economy.",
+      "secure": {
+        "title": "100% Secure",
+        "description": "User verification and reputation system for trustworthy transactions."
+      },
+      "saveMoney": {
+        "title": "Save Money",
+        "description": "Get what you need without overspending, exchange or borrow."
+      },
+      "community": {
+        "title": "Local Community",
+        "description": "Connect with people in your area and strengthen community bonds."
+      },
+      "ecoFriendly": {
+        "title": "Eco-Friendly",
+        "description": "Reduce waste and contribute to planet care by reusing."
+      }
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "subtitle": "Join thousands of people who are already part of the LaCherada community.",
+      "startNow": "Start Now",
+      "learnMore": "Learn More"
+    }
+  },
+  "explore": {
+    "badge": "Discover Treasures",
+    "title": "Explore What's Available",
+    "subtitle": "Discover thousands of objects available in your community to lend, sell or donate.",
+    "searchPlaceholder": "Search objects, services...",
+    "categories": {
+      "all": "All",
+      "electronics": "Electronics",
+      "tools": "Tools",
+      "books": "Books",
+      "home": "Home",
+      "sports": "Sports",
+      "clothing": "Clothing"
+    },
+    "filters": {
+      "all": "All types",
+      "lend": "To lend",
+      "sell": "For sale",
+      "donate": "Donations",
+      "allLocations": "All locations",
+      "nearby": "Near me",
+      "myCity": "My city"
+    },
+    "types": {
+      "lend": "Lend",
+      "sell": "Sale",
+      "donate": "Donation"
+    },
+    "noResults": {
+      "title": "No results found",
+      "message": "Try changing the filters or searching for something different."
+    },
+    "cta": {
+      "title": "Have something to share?",
+      "subtitle": "Publish your items and help other community members.",
+      "publish": "Publish Now"
+    }
+  },
+  "contact": {
+    "badge": "We're Here",
+    "title": "Contact Us",
+    "subtitle": "Have questions, suggestions or need help? Our team is ready to assist you.",
+    "getInTouch": {
+      "title": "Get In Touch",
+      "description": "We're here to help you. Choose your preferred contact method and we'll get back to you as soon as possible."
+    },
+    "methods": {
+      "email": {
+        "title": "Email",
+        "description": "Write to us for general inquiries"
+      },
+      "phone": {
+        "title": "Phone",
+        "description": "Call us for immediate support"
+      },
+      "address": {
+        "title": "Office",
+        "description": "Visit us in person"
+      }
+    },
+    "social": {
+      "title": "Follow Us on Social Media"
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "name": "Full name",
+      "namePlaceholder": "Your full name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "subject": "Subject",
+      "selectSubject": "Select a subject",
+      "subjects": {
+        "general": "General inquiry",
+        "support": "Technical support",
+        "business": "Business opportunities",
+        "feedback": "Comments and suggestions"
+      },
+      "message": "Message",
+      "messagePlaceholder": "Tell us how we can help you...",
+      "send": "Send Message",
+      "sending": "Sending..."
+    },
+    "stats": {
+      "title": "Our Commitment to You",
+      "responseTime": "Response Time",
+      "satisfaction": "Satisfaction",
+      "dailyMessages": "Daily Messages"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "items": [
+        {
+          "question": "How can I register on LaCherada?",
+          "answer": "Registration is free and simple. You just need to provide your email, create a password and verify your account."
+        },
+        {
+          "question": "Is it safe to exchange objects with strangers?",
+          "answer": "Yes, we have a user verification and rating system that ensures safe transactions. We always recommend meeting in public places."
+        },
+        {
+          "question": "What types of objects can I publish?",
+          "answer": "You can publish almost any legal object: electronics, tools, books, clothes, household items and much more."
+        }
+      ]
+    }
+  },
   "meta": {
     "homeTitle": "LaCherada - Share, Lend, Connect",
-    "notFoundTitle": "Page not found - LaCherada"
+    "notFoundTitle": "Page not found - LaCherada",
+    "howItWorksTitle": "How It Works - LaCherada",
+    "exploreTitle": "Explore - LaCherada",
+    "contactTitle": "Contact - LaCherada"
   }
 }

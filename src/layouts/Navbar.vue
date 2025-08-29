@@ -45,10 +45,10 @@
             @click="handleLogin"
             class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
           >
-            Iniciar Sesión
+            {{ t('auth.login') }}
           </BaseButton>
           <BaseButton variant="primary" size="sm" @click="handleRegister">
-            Registrarse
+            {{ t('auth.register') }}
           </BaseButton>
         </div>
 
@@ -134,7 +134,7 @@
           @click.stop="handleLogin"
           class="w-full"
         >
-          Iniciar Sesión
+          {{ t('auth.login') }}
         </BaseButton>
         <BaseButton
           variant="primary"
@@ -142,7 +142,7 @@
           @click.stop="handleRegister"
           class="w-full"
         >
-          Registrarse
+          {{ t('auth.register') }}
         </BaseButton>
       </div>
     </div>
@@ -151,6 +151,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useTranslation } from '@/composables/useTranslation'
 import { BaseButton } from '@/components/common'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
@@ -160,11 +161,13 @@ interface NavigationItem {
   href: string
 }
 
+const { t } = useTranslation()
+
 const navigationItems: NavigationItem[] = [
-  { name: 'Inicio', href: '/' },
-  { name: 'Cómo funciona', href: '/como-funciona' },
-  { name: 'Explorar', href: '/explorar' },
-  { name: 'Contacto', href: '/contacto' }
+  { name: t('navbar.home'), href: '/' },
+  { name: t('navbar.howItWorks'), href: '/como-funciona' },
+  { name: t('navbar.explore'), href: '/explorar' },
+  { name: t('navbar.contact'), href: '/contacto' }
 ]
 
 const isMobileMenuOpen = ref<boolean>(false)

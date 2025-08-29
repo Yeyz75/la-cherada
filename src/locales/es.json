@@ -1,5 +1,11 @@
 {
   "new": "Nuevo",
+  "navbar": {
+    "home": "Inicio",
+    "howItWorks": "Cómo Funciona",
+    "explore": "Explorar",
+    "contact": "Contacto"
+  },
   "homePage": {
     "title": "Bienvenido a LaCherada",
     "section": {
@@ -116,8 +122,187 @@
     "registering": "Creando cuenta...",
     "checkingAuth": "Verificando autenticación..."
   },
+  "howItWorks": {
+    "badge": "Guía Completa",
+    "title": "¿Cómo Funciona LaCherada?",
+    "subtitle": "Descubre lo fácil que es compartir, prestar y conectar con tu comunidad en solo 3 simples pasos.",
+    "steps": {
+      "register": {
+        "title": "1. Regístrate",
+        "subtitle": "Crea tu perfil",
+        "description": "Crea tu cuenta gratuita y completa tu perfil con información básica. Verifica tu identidad para generar confianza en la comunidad.",
+        "features": [
+          "Registro rápido y gratuito",
+          "Verificación de identidad",
+          "Perfil personalizable"
+        ]
+      },
+      "publish": {
+        "title": "2. Publica o Busca",
+        "subtitle": "Encuentra lo que necesitas",
+        "description": "Publica los objetos que quieres prestar, donar o vender. O busca entre miles de artículos disponibles en tu área.",
+        "features": [
+          "Fotos y descripciones detalladas",
+          "Filtros por ubicación y categoría",
+          "Sistema de etiquetas inteligente"
+        ]
+      },
+      "connect": {
+        "title": "3. Conecta y Intercambia",
+        "subtitle": "Completa la transacción",
+        "description": "Contacta directamente con otros usuarios, acuerda los términos y completa el intercambio de forma segura.",
+        "features": [
+          "Chat integrado y seguro",
+          "Sistema de calificaciones",
+          "Puntos de encuentro sugeridos"
+        ]
+      }
+    },
+    "stats": {
+      "title": "Nuestra Comunidad en Números",
+      "users": "Usuarios Activos",
+      "exchanges": "Intercambios Realizados",
+      "satisfaction": "Satisfacción",
+      "cities": "Ciudades"
+    },
+    "benefits": {
+      "title": "¿Por Qué Elegir LaCherada?",
+      "subtitle": "Más que una plataforma de intercambio, somos una comunidad comprometida con el consumo responsable y la economía circular.",
+      "secure": {
+        "title": "100% Seguro",
+        "description": "Sistema de verificación de usuarios y reputación para transacciones confiables."
+      },
+      "saveMoney": {
+        "title": "Ahorra Dinero",
+        "description": "Obtén lo que necesitas sin gastar de más, intercambia o pide prestado."
+      },
+      "community": {
+        "title": "Comunidad Local",
+        "description": "Conecta con personas de tu área y fortalece los lazos comunitarios."
+      },
+      "ecoFriendly": {
+        "title": "Eco-Friendly",
+        "description": "Reduce el desperdicio y contribuye al cuidado del planeta reutilizando."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para Comenzar?",
+      "subtitle": "Únete a miles de personas que ya forman parte de la comunidad LaCherada.",
+      "startNow": "Comenzar Ahora",
+      "learnMore": "Conocer Más"
+    }
+  },
+  "explore": {
+    "badge": "Descubre Tesoros",
+    "title": "Explora lo Disponible",
+    "subtitle": "Descubre miles de objetos disponibles en tu comunidad para prestar, vender o donar.",
+    "searchPlaceholder": "Buscar objetos, servicios...",
+    "categories": {
+      "all": "Todo",
+      "electronics": "Electrónicos",
+      "tools": "Herramientas",
+      "books": "Libros",
+      "home": "Hogar",
+      "sports": "Deportes",
+      "clothing": "Ropa"
+    },
+    "filters": {
+      "all": "Todos los tipos",
+      "lend": "Para prestar",
+      "sell": "En venta",
+      "donate": "Donaciones",
+      "allLocations": "Todas las ubicaciones",
+      "nearby": "Cerca de mí",
+      "myCity": "Mi ciudad"
+    },
+    "types": {
+      "lend": "Préstamo",
+      "sell": "Venta",
+      "donate": "Donación"
+    },
+    "noResults": {
+      "title": "No hay resultados",
+      "message": "Intenta cambiar los filtros o buscar algo diferente."
+    },
+    "cta": {
+      "title": "¿Tienes algo para compartir?",
+      "subtitle": "Publica tus objetos y ayuda a otros miembros de la comunidad.",
+      "publish": "Publicar Ahora"
+    }
+  },
+  "contact": {
+    "badge": "Estamos Aquí",
+    "title": "Contáctanos",
+    "subtitle": "¿Tienes preguntas, sugerencias o necesitas ayuda? Nuestro equipo está listo para asistirte.",
+    "getInTouch": {
+      "title": "Ponerse en Contacto",
+      "description": "Estamos aquí para ayudarte. Elige la forma de contacto que prefieras y te responderemos lo antes posible."
+    },
+    "methods": {
+      "email": {
+        "title": "Correo Electrónico",
+        "description": "Escríbenos para consultas generales"
+      },
+      "phone": {
+        "title": "Teléfono",
+        "description": "Llámanos para soporte inmediato"
+      },
+      "address": {
+        "title": "Oficina",
+        "description": "Visítanos en persona"
+      }
+    },
+    "social": {
+      "title": "Síguenos en Redes Sociales"
+    },
+    "form": {
+      "title": "Envíanos un Mensaje",
+      "name": "Nombre completo",
+      "namePlaceholder": "Tu nombre completo",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "tu@email.com",
+      "subject": "Asunto",
+      "selectSubject": "Selecciona un asunto",
+      "subjects": {
+        "general": "Consulta general",
+        "support": "Soporte técnico",
+        "business": "Oportunidades de negocio",
+        "feedback": "Comentarios y sugerencias"
+      },
+      "message": "Mensaje",
+      "messagePlaceholder": "Cuéntanos en qué podemos ayudarte...",
+      "send": "Enviar Mensaje",
+      "sending": "Enviando..."
+    },
+    "stats": {
+      "title": "Nuestro Compromiso Contigo",
+      "responseTime": "Tiempo de Respuesta",
+      "satisfaction": "Satisfacción",
+      "dailyMessages": "Mensajes Diarios"
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "items": [
+        {
+          "question": "¿Cómo puedo registrarme en LaCherada?",
+          "answer": "El registro es gratuito y sencillo. Solo necesitas proporcionar tu email, crear una contraseña y verificar tu cuenta."
+        },
+        {
+          "question": "¿Es seguro intercambiar objetos con desconocidos?",
+          "answer": "Sí, tenemos un sistema de verificación de usuarios y calificaciones que garantiza transacciones seguras. Siempre recomendamos encontrarse en lugares públicos."
+        },
+        {
+          "question": "¿Qué tipos de objetos puedo publicar?",
+          "answer": "Puedes publicar casi cualquier objeto legal: electrónicos, herramientas, libros, ropa, artículos para el hogar y mucho más."
+        }
+      ]
+    }
+  },
   "meta": {
     "homeTitle": "LaCherada - Comparte, Presta, Conecta",
-    "notFoundTitle": "Página no encontrada - LaCherada"
+    "notFoundTitle": "Página no encontrada - LaCherada",
+    "howItWorksTitle": "Cómo Funciona - LaCherada",
+    "exploreTitle": "Explorar - LaCherada",
+    "contactTitle": "Contacto - LaCherada"
   }
 }

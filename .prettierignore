@@ -2,3 +2,11 @@ dist
 node_modules
 .kiro
 *.md
+*.json
+.env*
+.gitignore
+.eslintrc.cjs
+tailwind.config.js
+postcss.config.js
+vite.config.ts
+tsconfig*.json

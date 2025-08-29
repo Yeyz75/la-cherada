@@ -48,10 +48,24 @@ defineEmits<{
 
 <style scoped>
 .google-btn {
-  @apply border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500 transition-colors;
+  @apply border-slate-300 hover:border-slate-400 dark:border-slate-600 dark:hover:border-slate-500 transition-all duration-200 font-semibold;
+  @apply text-slate-700 dark:text-slate-200;
 }
 
 .google-btn:hover {
-  @apply bg-gray-50 dark:bg-gray-800;
+  @apply bg-slate-50 dark:bg-slate-700 transform hover:scale-[1.02];
+}
+
+.google-btn:focus {
+  @apply ring-2 ring-blue-500/20 dark:ring-blue-400/20;
+}
+
+/* Override PrimeVue button styles */
+:deep(.p-button) {
+  @apply justify-center;
+}
+
+:deep(.p-button-icon) {
+  @apply mr-2;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <MainLayout>
+  <AuthLayout>
     <AuthContainer
       :title="$t('auth.createAccount')"
       :subtitle="$t('auth.joinCommunity')"
@@ -8,14 +8,14 @@
     >
       <RegisterForm />
     </AuthContainer>
-  </MainLayout>
+  </AuthLayout>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/authStore'
-import MainLayout from '../layouts/MainLayout.vue'
+import { AuthLayout } from '../layouts'
 import { AuthContainer } from '../components'
 import { RegisterForm } from '../modules/auth'
 

@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-blue-50"
-  >
-    <!-- Navbar -->
-    <Navbar />
-
+  <div class="min-h-screen flex flex-col">
     <!-- Loading overlay global -->
     <div
       v-if="isLoading"
@@ -33,9 +28,9 @@
     >
       <div
         v-if="hasError"
-        class="fixed top-16 left-0 right-0 z-40 mx-4 sm:mx-6 lg:mx-8"
+        class="fixed top-4 left-0 right-0 z-40 mx-4 sm:mx-6 lg:mx-8"
       >
-        <div class="max-w-7xl mx-auto">
+        <div class="max-w-md mx-auto">
           <div class="bg-red-50 border border-red-200 rounded-lg p-4 shadow-lg">
             <div class="flex items-start">
               <div class="flex-shrink-0">
@@ -97,7 +92,7 @@
     <main class="flex-1 relative">
       <div
         :class="{
-          'pt-16': hasError,
+          'pt-20': hasError,
           'opacity-50 pointer-events-none': isLoading
         }"
         class="transition-all duration-300"
@@ -105,9 +100,6 @@
         <slot />
       </div>
     </main>
-
-    <!-- Footer -->
-    <Footer />
   </div>
 </template>
 
@@ -115,8 +107,6 @@
 import { computed, onMounted, onUnmounted } from 'vue'
 import { useAppStore } from '@/stores/appStore'
 import { BaseLoader } from '@/components/common'
-import Navbar from './Navbar.vue'
-import Footer from './Footer.vue'
 
 const appStore = useAppStore()
 
@@ -199,13 +189,6 @@ onUnmounted(() => {
 .error-slide-leave-to {
   transform: translateY(-100%);
   opacity: 0;
-}
-
-/* Asegurar que el layout sea responsivo */
-@media (max-width: 640px) {
-  .fixed.top-16 {
-    top: 4rem;
-  }
 }
 
 /* Mejorar la accesibilidad del overlay de loading */

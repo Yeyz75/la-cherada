@@ -23,7 +23,7 @@ import {
   type Unsubscribe
 } from 'firebase/firestore'
 
-import { db } from '@/firebase/config'
+import { initializeFirebase } from '@/firebase/config'
 import type {
   ServiceResponse,
   CrudResult,
@@ -81,7 +81,14 @@ export class FirestoreService extends BaseFirebaseService {
         updatedAt: serverTimestamp()
       })
 
-      const docRef = await addDoc(collection(db, collectionName), sanitizedData)
+      const dbInstance = initializeFirebase().db
+      if (!dbInstance) {
+        throw new Error('Firebase Firestore no inicializado')
+      }
+      const docRef = await addDoc(
+        collection(dbInstance, collectionName),
+        sanitizedData
+      )
 
       // Fetch the created document to return with proper timestamps
       const createdDoc = await this.getById<T>(collectionName, docRef.id)
@@ -105,7 +112,11 @@ export class FirestoreService extends BaseFirebaseService {
     id: string
   ): Promise<CrudResult<T>> {
     try {
-      const docRef = doc(db, collectionName, id)
+      const dbInstance = initializeFirebase().db
+      if (!dbInstance) {
+        throw new Error('Firebase Firestore no inicializado')
+      }
+      const docRef = doc(dbInstance, collectionName, id)
       const docSnap = await getDoc(docRef)
 
       if (docSnap.exists()) {
@@ -137,7 +148,11 @@ export class FirestoreService extends BaseFirebaseService {
         updatedAt: serverTimestamp()
       })
 
-      const docRef = doc(db, collectionName, id)
+      const dbInstance = initializeFirebase().db
+      if (!dbInstance) {
+        throw new Error('Firebase Firestore no inicializado')
+      }
+      const docRef = doc(dbInstance, collectionName, id)
       await updateDoc(docRef, sanitizedData)
 
       // Fetch updated document
@@ -159,7 +174,11 @@ export class FirestoreService extends BaseFirebaseService {
    */
   async delete(collectionName: string, id: string): Promise<CrudResult<void>> {
     try {
-      const docRef = doc(db, collectionName, id)
+      const dbInstance = initializeFirebase().db
+      if (!dbInstance) {
+        throw new Error('Firebase Firestore no inicializado')
+      }
+      const docRef = doc(dbInstance, collectionName, id)
       await deleteDoc(docRef)
 
       return this.createSuccessCrudResult(undefined, id)
@@ -184,7 +203,11 @@ export class FirestoreService extends BaseFirebaseService {
         updatedAt: serverTimestamp()
       })
 
-      const docRef = doc(db, collectionName, id)
+      const dbInstance = initializeFirebase().db
+      if (!dbInstance) {
+        throw new Error('Firebase Firestore no inicializado')
+      }
+      const docRef = doc(dbInstance, collectionName, id)
       await firebaseSetDoc(docRef, sanitizedData)
 
       // Fetch the set document
@@ -234,7 +257,11 @@ export class FirestoreService extends BaseFirebaseService {
         constraints.push(limit(options.limit + 1)) // +1 to check if there are more results
       }
 
-      const q = query(collection(db, collectionName), ...constraints)
+      const dbInstance = initializeFirebase().db
+      if (!dbInstance) {
+        throw new Error('Firebase Firestore no inicializado')
+      }
+      const q = query(collection(dbInstance, collectionName), ...constraints)
       const querySnapshot = await getDocs(q)
 
       const documents: T[] = []
@@ -271,7 +298,13 @@ export class FirestoreService extends BaseFirebaseService {
     collectionName: string
   ): Promise<ServiceResponse<T[]>> {
     try {
-      const querySnapshot = await getDocs(collection(db, collectionName))
+      const dbInstance = initializeFirebase().db
+      if (!dbInstance) {
+        throw new Error('Firebase Firestore no inicializado')
+      }
+      const querySnapshot = await getDocs(
+        collection(dbInstance, collectionName)
+      )
 
       const documents: T[] = []
       querySnapshot.forEach(doc => {
@@ -293,7 +326,11 @@ export class FirestoreService extends BaseFirebaseService {
     id: string,
     callback: (doc: T | null) => void
   ): Unsubscribe {
-    const docRef = doc(db, collectionName, id)
+    const dbInstance = initializeFirebase().db
+    if (!dbInstance) {
+      throw new Error('Firebase Firestore no inicializado')
+    }
+    const docRef = doc(dbInstance, collectionName, id)
 
     return onSnapshot(docRef, docSnap => {
       if (docSnap.exists()) {
@@ -332,7 +369,11 @@ export class FirestoreService extends BaseFirebaseService {
       constraints.push(limit(options.limit))
     }
 
-    const q = query(collection(db, collectionName), ...constraints)
+    const dbInstance = initializeFirebase().db
+    if (!dbInstance) {
+      throw new Error('Firebase Firestore no inicializado')
+    }
+    const q = query(collection(dbInstance, collectionName), ...constraints)
 
     return onSnapshot(q, querySnapshot => {
       const documents: T[] = []
@@ -374,7 +415,11 @@ export class FirestoreService extends BaseFirebaseService {
    */
   async exists(collectionName: string, id: string): Promise<boolean> {
     try {
-      const docRef = doc(db, collectionName, id)
+      const dbInstance = initializeFirebase().db
+      if (!dbInstance) {
+        throw new Error('Firebase Firestore no inicializado')
+      }
+      const docRef = doc(dbInstance, collectionName, id)
       const docSnap = await getDoc(docRef)
       return docSnap.exists()
     } catch (error) {

@@ -53,38 +53,29 @@ const getFirebaseConfig = (): FirebaseConfig => {
 }
 
 // Initialize Firebase
-let app: FirebaseApp
-let auth: Auth
-let db: Firestore
-let storage: FirebaseStorage
+let app: FirebaseApp | undefined
+let auth: Auth | undefined
+let db: Firestore | undefined
+let storage: FirebaseStorage | undefined
 let analytics: Analytics | undefined
 
-try {
+// Inicializa Firebase solo si no está inicializado y la config es válida
+export function initializeFirebase() {
+  if (app) {
+    return { app, auth, db, storage, analytics }
+  }
   const firebaseConfig = getFirebaseConfig()
-
-  // Initialize Firebase app
   app = initializeApp(firebaseConfig)
-
-  // Initialize Firebase services
   auth = getAuth(app)
   db = getFirestore(app)
   storage = getStorage(app)
-
-  // Initialize Analytics only in production
   if (import.meta.env.PROD && firebaseConfig.measurementId) {
     analytics = getAnalytics(app)
   }
-
   // eslint-disable-next-line no-console
   console.log('🔥 Firebase initialized successfully')
-} catch (error) {
-  // eslint-disable-next-line no-console
-  console.error('❌ Firebase initialization failed:', error)
-  throw error
+  return { app, auth, db, storage, analytics }
 }
-
-// Export Firebase services
-export { app as firebaseApp, auth, db, storage, analytics }
 
 // Export Firebase service getters (useful for testing and dynamic imports)
 export const getFirebaseServices = () => ({
@@ -122,21 +113,27 @@ export const connectToEmulators = async (): Promise<void> => {
 
     // Connect to Auth emulator
     try {
-      connectAuthEmulator(auth, 'http://localhost:9099')
+      if (auth) {
+        connectAuthEmulator(auth, 'http://localhost:9099')
+      }
     } catch (error) {
       // Emulator already connected or not available
     }
 
     // Connect to Firestore emulator
     try {
-      connectFirestoreEmulator(db, 'localhost', 8080)
+      if (db) {
+        connectFirestoreEmulator(db, 'localhost', 8080)
+      }
     } catch (error) {
       // Emulator already connected or not available
     }
 
     // Connect to Storage emulator
     try {
-      connectStorageEmulator(storage, 'localhost', 9199)
+      if (storage) {
+        connectStorageEmulator(storage, 'localhost', 9199)
+      }
     } catch (error) {
       // Emulator already connected or not available
     }

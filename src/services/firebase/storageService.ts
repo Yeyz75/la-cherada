@@ -18,7 +18,7 @@ import {
   type FullMetadata
 } from 'firebase/storage'
 
-import { storage } from '@/firebase/config'
+import { initializeFirebase } from '@/firebase/config'
 import type {
   ServiceResponse,
   StorageUploadResult,
@@ -41,7 +41,11 @@ export class StorageService extends BaseFirebaseService {
     metadata?: UploadMetadata
   ): Promise<ServiceResponse<StorageUploadResult>> {
     try {
-      const storageRef = ref(storage, path)
+      const storageInstance = initializeFirebase().storage
+      if (!storageInstance) {
+        throw new Error('Firebase Storage no inicializado')
+      }
+      const storageRef = ref(storageInstance, path)
       const snapshot = await uploadBytes(storageRef, file, metadata)
       const downloadURL = await getDownloadURL(snapshot.ref)
 
@@ -70,7 +74,11 @@ export class StorageService extends BaseFirebaseService {
   ): Promise<ServiceResponse<StorageUploadResult>> {
     return new Promise(resolve => {
       try {
-        const storageRef = ref(storage, path)
+        const storageInstance = initializeFirebase().storage
+        if (!storageInstance) {
+          throw new Error('Firebase Storage no inicializado')
+        }
+        const storageRef = ref(storageInstance, path)
         const uploadTask: UploadTask = uploadBytesResumable(
           storageRef,
           file,
@@ -182,7 +190,11 @@ export class StorageService extends BaseFirebaseService {
    */
   async getDownloadURL(path: string): Promise<ServiceResponse<string>> {
     try {
-      const storageRef = ref(storage, path)
+      const storageInstance = initializeFirebase().storage
+      if (!storageInstance) {
+        throw new Error('Firebase Storage no inicializado')
+      }
+      const storageRef = ref(storageInstance, path)
       const url = await getDownloadURL(storageRef)
       return this.createSuccessResponse(url)
     } catch (error) {
@@ -196,7 +208,11 @@ export class StorageService extends BaseFirebaseService {
    */
   async deleteFile(path: string): Promise<ServiceResponse<void>> {
     try {
-      const storageRef = ref(storage, path)
+      const storageInstance = initializeFirebase().storage
+      if (!storageInstance) {
+        throw new Error('Firebase Storage no inicializado')
+      }
+      const storageRef = ref(storageInstance, path)
       await deleteObject(storageRef)
       return this.createSuccessResponse()
     } catch (error) {
@@ -210,7 +226,11 @@ export class StorageService extends BaseFirebaseService {
    */
   async getMetadata(path: string): Promise<ServiceResponse<FullMetadata>> {
     try {
-      const storageRef = ref(storage, path)
+      const storageInstance = initializeFirebase().storage
+      if (!storageInstance) {
+        throw new Error('Firebase Storage no inicializado')
+      }
+      const storageRef = ref(storageInstance, path)
       const metadata = await getMetadata(storageRef)
       return this.createSuccessResponse(metadata)
     } catch (error) {
@@ -227,7 +247,11 @@ export class StorageService extends BaseFirebaseService {
     metadata: Partial<UploadMetadata>
   ): Promise<ServiceResponse<FullMetadata>> {
     try {
-      const storageRef = ref(storage, path)
+      const storageInstance = initializeFirebase().storage
+      if (!storageInstance) {
+        throw new Error('Firebase Storage no inicializado')
+      }
+      const storageRef = ref(storageInstance, path)
       const updatedMetadata = await updateMetadata(storageRef, metadata)
       return this.createSuccessResponse(updatedMetadata)
     } catch (error) {
@@ -241,7 +265,11 @@ export class StorageService extends BaseFirebaseService {
    */
   async listFiles(path: string): Promise<ServiceResponse<StorageReference[]>> {
     try {
-      const storageRef = ref(storage, path)
+      const storageInstance = initializeFirebase().storage
+      if (!storageInstance) {
+        throw new Error('Firebase Storage no inicializado')
+      }
+      const storageRef = ref(storageInstance, path)
       const result = await listAll(storageRef)
       return this.createSuccessResponse(result.items)
     } catch (error) {

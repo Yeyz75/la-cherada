@@ -333,7 +333,7 @@ const handleGoogleSignUp = async (): Promise<void> => {
 
 <style scoped>
 .register-form {
-  @apply space-y-4;
+  @apply space-y-5;
 }
 
 .form-group {
@@ -341,27 +341,27 @@ const handleGoogleSignUp = async (): Promise<void> => {
 }
 
 .form-label {
-  @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+  @apply block text-sm font-semibold text-slate-700 dark:text-slate-200;
 }
 
 .required {
-  @apply text-red-500;
+  @apply text-red-600 dark:text-red-400;
 }
 
 .checkbox-wrapper {
-  @apply flex items-start space-x-2;
+  @apply flex items-start space-x-3;
 }
 
 .checkbox-label {
-  @apply text-sm text-gray-600 dark:text-gray-400 cursor-pointer leading-relaxed;
+  @apply text-sm text-slate-600 dark:text-slate-300 cursor-pointer leading-relaxed;
 }
 
 .terms-link {
-  @apply text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline transition-colors mx-1;
+  @apply text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline transition-colors mx-1 font-medium;
 }
 
 .register-btn {
-  @apply mt-6;
+  @apply mt-6 bg-blue-600 hover:bg-blue-700 border-blue-600 hover:border-blue-700 focus:ring-blue-500;
 }
 
 .divider {
@@ -374,20 +374,49 @@ const handleGoogleSignUp = async (): Promise<void> => {
 }
 
 .divider::before::after {
-  @apply flex-1 border-t border-gray-300 dark:border-gray-600;
+  @apply flex-1 border-t border-slate-300 dark:border-slate-600;
   content: '';
 }
 
 .divider span {
-  @apply bg-white dark:bg-gray-800 px-3 text-sm text-gray-500 dark:text-gray-400;
+  @apply bg-white dark:bg-slate-800 px-4 text-sm text-slate-500 dark:text-slate-400 font-medium;
 }
 
 .signin-link {
-  @apply text-center text-sm text-gray-600 dark:text-gray-400 mt-6;
+  @apply text-center text-sm text-slate-600 dark:text-slate-300 mt-6;
 }
 
 .signin-link .link {
-  @apply text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium ml-1 transition-colors;
+  @apply text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-semibold ml-1 transition-colors;
+}
+
+/* Override PrimeVue styles for better dark mode support */
+:deep(.p-inputtext) {
+  @apply bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100;
+}
+
+:deep(.p-inputtext:focus) {
+  @apply border-blue-500 dark:border-blue-400 ring-2 ring-blue-500/20 dark:ring-blue-400/20;
+}
+
+:deep(.p-password .p-inputtext) {
+  @apply bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100;
+}
+
+:deep(.p-button) {
+  @apply font-semibold;
+}
+
+:deep(.p-checkbox .p-checkbox-box) {
+  @apply bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600;
+}
+
+:deep(.p-checkbox .p-checkbox-box.p-highlight) {
+  @apply bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500;
+}
+
+:deep(.p-error) {
+  @apply text-red-600 dark:text-red-400 font-medium;
 }
 
 /* Responsive adjustments */
@@ -398,6 +427,10 @@ const handleGoogleSignUp = async (): Promise<void> => {
 
   .checkbox-label {
     @apply text-xs leading-relaxed;
+  }
+
+  .register-form {
+    @apply space-y-4;
   }
 }
 </style>

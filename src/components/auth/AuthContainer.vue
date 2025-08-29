@@ -79,11 +79,7 @@ const handleBack = (): void => {
 <style scoped>
 .auth-container {
   @apply min-h-screen flex items-center justify-center relative;
-  background: linear-gradient(
-    135deg,
-    var(--primary-50) 0%,
-    var(--primary-100) 100%
-  );
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
 .auth-background {
@@ -91,10 +87,10 @@ const handleBack = (): void => {
 }
 
 .auth-background-pattern {
-  @apply absolute inset-0 opacity-10;
+  @apply absolute inset-0 opacity-5;
   background-image:
-    radial-gradient(circle at 25% 25%, var(--primary-400) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, var(--primary-300) 0%, transparent 50%);
+    radial-gradient(circle at 25% 25%, #3b82f6 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, #1d4ed8 0%, transparent 50%);
 }
 
 .auth-content {
@@ -106,18 +102,16 @@ const handleBack = (): void => {
 }
 
 .back-btn {
-  @apply text-blue-700 hover:text-blue-800 transition-colors;
+  @apply text-slate-600 hover:text-slate-800 transition-colors;
 }
 
 .auth-card {
-  @apply shadow-2xl backdrop-blur-sm;
-  background: rgba(255, 255, 255, 0.95);
+  @apply shadow-xl border border-slate-200 bg-white;
   border-radius: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .auth-header {
-  @apply text-center py-6 px-6 border-b border-blue-100;
+  @apply text-center py-6 px-6 border-b border-slate-100;
 }
 
 .auth-logo {
@@ -125,11 +119,11 @@ const handleBack = (): void => {
 }
 
 .auth-title {
-  @apply text-2xl font-bold text-gray-800 mb-2;
+  @apply text-2xl font-bold text-slate-900 mb-2;
 }
 
 .auth-subtitle {
-  @apply text-gray-600 text-sm;
+  @apply text-slate-600 text-sm;
 }
 
 .auth-form {
@@ -137,7 +131,7 @@ const handleBack = (): void => {
 }
 
 .auth-footer {
-  @apply px-6 pb-6 pt-0 border-t border-gray-100 text-center;
+  @apply px-6 pb-6 pt-0 border-t border-slate-100 text-center;
 }
 
 /* Responsive */
@@ -166,24 +160,38 @@ const handleBack = (): void => {
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .auth-container {
-    background: linear-gradient(
-      135deg,
-      var(--primary-900) 0%,
-      var(--primary-800) 100%
-    );
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+
+  .auth-background-pattern {
+    @apply opacity-10;
+    background-image:
+      radial-gradient(circle at 25% 25%, #3b82f6 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, #60a5fa 0%, transparent 50%);
+  }
+
+  .back-btn {
+    @apply text-slate-300 hover:text-slate-100;
   }
 
   .auth-card {
-    background: rgba(30, 30, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    @apply bg-slate-800 border-slate-700;
+  }
+
+  .auth-header {
+    @apply border-b-slate-700;
   }
 
   .auth-title {
-    @apply text-gray-100;
+    @apply text-slate-100;
   }
 
   .auth-subtitle {
-    @apply text-gray-300;
+    @apply text-slate-300;
+  }
+
+  .auth-footer {
+    @apply border-t-slate-700;
   }
 }
 </style>

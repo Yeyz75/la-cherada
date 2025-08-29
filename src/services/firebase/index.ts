@@ -16,11 +16,7 @@ export { StorageService } from './storageService'
 
 // Re-export Firebase configuration
 export {
-  firebaseApp,
-  auth,
-  db,
-  storage,
-  analytics,
-  isFirebaseInitialized,
+  initializeFirebase,
+  getFirebaseServices,
   connectToEmulators
 } from '@/firebase/config'

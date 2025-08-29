@@ -151,6 +151,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useTranslation } from '@/composables/useTranslation'
 import { BaseButton } from '@/components/common'
 import ThemeToggle from '@/components/ThemeToggle.vue'
@@ -162,6 +163,7 @@ interface NavigationItem {
 }
 
 const { t } = useTranslation()
+const router = useRouter()
 
 const navigationItems: NavigationItem[] = [
   { name: t('navbar.home'), href: '/' },
@@ -182,15 +184,13 @@ const closeMobileMenu = (): void => {
 
 // Preparado para futuras funcionalidades de autenticación
 const handleLogin = (): void => {
-  // TODO: Implementar lógica de login
-  // eslint-disable-next-line no-console
-  console.log('Login clicked')
+  // Navegar a la página de login
+  router.push({ name: 'login' })
 }
 
 const handleRegister = (): void => {
-  // TODO: Implementar lógica de registro
-  // eslint-disable-next-line no-console
-  console.log('Register clicked')
+  // Navegar a la página de registro
+  router.push({ name: 'register' })
 }
 
 // Cerrar menú móvil al hacer clic fuera o cambiar de ruta

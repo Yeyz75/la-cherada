@@ -16,7 +16,7 @@ import {
   type UserCredential
 } from 'firebase/auth'
 
-import { auth } from '@/firebase/config'
+import { initializeFirebase } from '@/firebase/config'
 import type {
   ServiceResponse,
   AuthUser,
@@ -41,7 +41,7 @@ export class AuthService extends BaseFirebaseService {
       this.validateRequired(credentials, ['email', 'password'])
 
       const userCredential: UserCredential = await signInWithEmailAndPassword(
-        auth,
+        initializeFirebase().auth as import('firebase/auth').Auth,
         credentials.email,
         credentials.password
       )
@@ -64,8 +64,12 @@ export class AuthService extends BaseFirebaseService {
       provider.addScope('email')
       provider.addScope('profile')
 
+      const authInstance = initializeFirebase().auth
+      if (!authInstance) {
+        throw new Error('Firebase Auth no inicializado')
+      }
       const userCredential: UserCredential = await signInWithPopup(
-        auth,
+        authInstance,
         provider
       )
       const authUser = this.mapFirebaseUserToAuthUser(userCredential.user)
@@ -94,9 +98,13 @@ export class AuthService extends BaseFirebaseService {
       }
 
       // Create user account
+      const authInstance = initializeFirebase().auth
+      if (!authInstance) {
+        throw new Error('Firebase Auth no inicializado')
+      }
       const userCredential: UserCredential =
         await createUserWithEmailAndPassword(
-          auth,
+          authInstance,
           registerData.email,
           registerData.password
         )
@@ -120,7 +128,11 @@ export class AuthService extends BaseFirebaseService {
    */
   async signOut(): Promise<ServiceResponse<void>> {
     try {
-      await signOut(auth)
+      const authInstance = initializeFirebase().auth
+      if (!authInstance) {
+        throw new Error('Firebase Auth no inicializado')
+      }
+      await signOut(authInstance)
       return this.createSuccessResponse()
     } catch (error) {
       const firebaseError = this.handleError(error, 'signOut')
@@ -137,7 +149,11 @@ export class AuthService extends BaseFirebaseService {
     try {
       this.validateRequired(resetData, ['email'])
 
-      await sendPasswordResetEmail(auth, resetData.email)
+      const authInstance = initializeFirebase().auth
+      if (!authInstance) {
+        throw new Error('Firebase Auth no inicializado')
+      }
+      await sendPasswordResetEmail(authInstance, resetData.email)
       return this.createSuccessResponse()
     } catch (error) {
       const firebaseError = this.handleError(error, 'resetPassword')
@@ -153,7 +169,8 @@ export class AuthService extends BaseFirebaseService {
     photoURL?: string
   }): Promise<ServiceResponse<AuthUser>> {
     try {
-      const currentUser = auth.currentUser
+      const authInstance = initializeFirebase().auth
+      const currentUser = authInstance ? authInstance.currentUser : null
       if (!currentUser) {
         throw new Error('No authenticated user found')
       }
@@ -172,7 +189,8 @@ export class AuthService extends BaseFirebaseService {
    * Get current authenticated user
    */
   getCurrentUser(): AuthUser | null {
-    const currentUser = auth.currentUser
+    const authInstance = initializeFirebase().auth
+    const currentUser = authInstance ? authInstance.currentUser : null
     return currentUser ? this.mapFirebaseUserToAuthUser(currentUser) : null
   }
 
@@ -180,19 +198,27 @@ export class AuthService extends BaseFirebaseService {
    * Check if user is authenticated
    */
   isAuthenticated(): boolean {
-    return !!auth.currentUser
+    const authInstance = initializeFirebase().auth
+    return !!authInstance?.currentUser
   }
 
   /**
    * Listen to authentication state changes
    */
   onAuthStateChanged(callback: (user: AuthUser | null) => void): () => void {
-    return onAuthStateChanged(auth, (firebaseUser: FirebaseUser | null) => {
-      const authUser = firebaseUser
-        ? this.mapFirebaseUserToAuthUser(firebaseUser)
-        : null
-      callback(authUser)
-    })
+    const authInstance = initializeFirebase().auth
+    if (!authInstance) {
+      throw new Error('Firebase Auth no inicializado')
+    }
+    return onAuthStateChanged(
+      authInstance,
+      (firebaseUser: FirebaseUser | null) => {
+        const authUser = firebaseUser
+          ? this.mapFirebaseUserToAuthUser(firebaseUser)
+          : null
+        callback(authUser)
+      }
+    )
   }
 
   /**
@@ -200,7 +226,11 @@ export class AuthService extends BaseFirebaseService {
    */
   async waitForAuthInit(): Promise<AuthUser | null> {
     return new Promise(resolve => {
-      const unsubscribe = onAuthStateChanged(auth, firebaseUser => {
+      const authInstance = initializeFirebase().auth
+      if (!authInstance) {
+        throw new Error('Firebase Auth no inicializado')
+      }
+      const unsubscribe = onAuthStateChanged(authInstance, firebaseUser => {
         unsubscribe()
         const authUser = firebaseUser
           ? this.mapFirebaseUserToAuthUser(firebaseUser)
@@ -215,7 +245,8 @@ export class AuthService extends BaseFirebaseService {
    */
   async getIdToken(forceRefresh = false): Promise<string | null> {
     try {
-      const currentUser = auth.currentUser
+      const authInstance = initializeFirebase().auth
+      const currentUser = authInstance ? authInstance.currentUser : null
       if (!currentUser) {
         return null
       }
@@ -232,7 +263,8 @@ export class AuthService extends BaseFirebaseService {
    */
   async reloadUser(): Promise<ServiceResponse<AuthUser>> {
     try {
-      const currentUser = auth.currentUser
+      const authInstance = initializeFirebase().auth
+      const currentUser = authInstance ? authInstance.currentUser : null
       if (!currentUser) {
         throw new Error('No authenticated user found')
       }

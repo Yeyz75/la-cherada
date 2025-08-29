@@ -45,6 +45,7 @@ export const useAuthStore = defineStore('auth', () => {
   // Placeholder actions for future authentication implementation
   const login = async (_email: string, _password: string): Promise<void> => {
     // TODO: Implement login logic
+    // Note: In real implementation, use i18n.global.t('auth.loggingIn')
     setLoading(true, 'Iniciando sesión...')
     try {
       // Future implementation will handle actual authentication
@@ -63,6 +64,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const logout = async (): Promise<void> => {
     // TODO: Implement logout logic
+    // Note: In real implementation, use i18n.global.t('auth.loggingOut')
     setLoading(true, 'Cerrando sesión...')
     try {
       setUser(null)
@@ -78,6 +80,7 @@ export const useAuthStore = defineStore('auth', () => {
     _name: string
   ): Promise<void> => {
     // TODO: Implement registration logic
+    // Note: In real implementation, use i18n.global.t('auth.registering')
     setLoading(true, 'Creando cuenta...')
     try {
       // Future implementation will handle actual registration
@@ -96,6 +99,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const checkAuthStatus = async (): Promise<void> => {
     // TODO: Implement auth status check
+    // Note: In real implementation, use i18n.global.t('auth.checkingAuth')
     setLoading(true, 'Verificando autenticación...')
     try {
       // Future implementation will check authentication status

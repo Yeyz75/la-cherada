@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import i18n from '@/i18n'
 
 // Lazy load pages for better performance
 const HomePage = () => import('@/pages/HomePage.vue')
@@ -10,7 +11,7 @@ const routes: RouteRecordRaw[] = [
     name: 'home',
     component: HomePage,
     meta: {
-      title: 'LaCherada - Comparte, Presta, Conecta',
+      titleKey: 'meta.homeTitle',
       requiresAuth: false
     }
   },
@@ -59,7 +60,7 @@ const routes: RouteRecordRaw[] = [
     name: 'not-found',
     component: () => import('@/pages/NotFoundPage.vue'),
     meta: {
-      title: 'Página no encontrada - LaCherada'
+      titleKey: 'meta.notFoundTitle'
     }
   }
 ]
@@ -80,8 +81,10 @@ const router = createRouter({
 
 // Navigation guards for future authentication
 router.beforeEach((to, from, next) => {
-  // Set page title
-  if (to.meta.title) {
+  // Set page title using i18n
+  if (to.meta.titleKey) {
+    document.title = i18n.global.t(to.meta.titleKey as string)
+  } else if (to.meta.title) {
     document.title = to.meta.title
   }
 

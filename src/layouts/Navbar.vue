@@ -33,6 +33,9 @@
 
         <!-- Botones de autenticación y tema -->
         <div class="hidden md:flex items-center space-x-4">
+          <!-- Language Switcher -->
+          <LanguageSwitcher />
+
           <!-- Theme Toggle -->
           <ThemeToggle />
 
@@ -105,6 +108,7 @@
           :class="{
             'text-blue-600 bg-blue-50': $route.path === item.href
           }"
+          @click.stop
         >
           {{ item.name }}
         </router-link>
@@ -114,15 +118,20 @@
       <div
         class="px-4 py-3 border-t border-gray-200 space-y-2 dark:border-gray-700"
       >
+        <!-- Language Switcher para móvil -->
+        <div class="flex justify-center pb-2" @click.stop>
+          <LanguageSwitcher />
+        </div>
+
         <!-- Theme Toggle para móvil -->
-        <div class="flex justify-center pb-2">
-          <ThemeToggle show-label />
+        <div class="flex justify-center pb-2" @click.stop>
+          <ThemeToggle />
         </div>
 
         <BaseButton
           variant="outline"
           size="sm"
-          @click="handleLogin"
+          @click.stop="handleLogin"
           class="w-full"
         >
           Iniciar Sesión
@@ -130,7 +139,7 @@
         <BaseButton
           variant="primary"
           size="sm"
-          @click="handleRegister"
+          @click.stop="handleRegister"
           class="w-full"
         >
           Registrarse
@@ -144,6 +153,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { BaseButton } from '@/components/common'
 import ThemeToggle from '@/components/ThemeToggle.vue'
+import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
 interface NavigationItem {
   name: string

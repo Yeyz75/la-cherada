@@ -3,6 +3,10 @@
     :aria-label="getThemeLabel()"
     :title="getThemeLabel()"
     class="theme-toggle-button"
+    :class="[
+      size ? `size-${size}` : '',
+      variant !== 'ghost' ? `variant-${variant}` : ''
+    ]"
     @click="toggleTheme"
   >
     <!-- Sol/Luna icon con animación -->
@@ -87,6 +91,9 @@ const { isDark, toggleTheme, getThemeLabel } = useTheme()
     @apply p-3 text-lg;
   }
 
+  /* Default size (md) */
+  @apply p-2 text-base;
+
   /* Variant styles */
   @apply text-gray-600 hover:text-gray-900 hover:bg-gray-100;
   @apply dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-800;
@@ -123,10 +130,14 @@ const { isDark, toggleTheme, getThemeLabel } = useTheme()
   @apply select-none;
 }
 
-/* Responsive utility para ocultar label en móvil */
+/* Responsive improvements */
 @media (max-width: 640px) {
+  .theme-toggle-button {
+    @apply gap-1.5 p-1.5;
+  }
+
   .theme-toggle-label {
-    @apply sr-only;
+    @apply hidden;
   }
 }
 

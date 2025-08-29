@@ -124,7 +124,8 @@
     "save": "Guardar",
     "delete": "Eliminar",
     "edit": "Editar",
-    "required": "Requerido"
+    "required": "Requerido",
+    "back": "Volver"
   },
   "auth": {
     "login": "Iniciar sesión",
@@ -136,7 +137,36 @@
     "loggingIn": "Iniciando sesión...",
     "loggingOut": "Cerrando sesión...",
     "registering": "Creando cuenta...",
-    "checkingAuth": "Verificando autenticación..."
+    "checkingAuth": "Verificando autenticación...",
+    "welcomeBack": "¡Bienvenido de vuelta!",
+    "signInToAccount": "Inicia sesión en tu cuenta",
+    "createAccount": "Crear cuenta",
+    "joinCommunity": "Únete a nuestra comunidad",
+    "resetPassword": "Restablecer contraseña",
+    "recoverAccount": "Recupera tu cuenta",
+    "displayName": "Nombre completo",
+    "confirmPassword": "Confirmar contraseña",
+    "acceptTerms": "Acepto los",
+    "termsAndConditions": "términos y condiciones",
+    "rememberMe": "Recordarme",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "continueWithGoogle": "Continuar con Google",
+    "orContinueWith": "o continuar con",
+    "noAccount": "¿No tienes cuenta?",
+    "alreadyHaveAccount": "¿Ya tienes cuenta?",
+    "backToLogin": "Volver al inicio de sesión",
+    "sendResetEmail": "Enviar email de restablecimiento",
+    "resendEmail": "Reenviar email",
+    "resendIn": "Reenviar en",
+    "emailSentTitle": "Email enviado",
+    "emailSentDescription": "Revisa tu bandeja de entrada y sigue las instrucciones para restablecer tu contraseña",
+    "forgotPasswordDescription": "Ingresa tu email y te enviaremos las instrucciones para restablecer tu contraseña",
+    "emailPlaceholder": "tu@email.com",
+    "passwordPlaceholder": "Tu contraseña",
+    "displayNamePlaceholder": "Juan Pérez",
+    "confirmPasswordPlaceholder": "Confirma tu contraseña"
   },
   "howItWorks": {
     "badge": "Guía Completa",
@@ -319,6 +349,9 @@
     "notFoundTitle": "Página no encontrada - LaCherada",
     "howItWorksTitle": "Cómo Funciona - LaCherada",
     "exploreTitle": "Explorar - LaCherada",
-    "contactTitle": "Contacto - LaCherada"
+    "contactTitle": "Contacto - LaCherada",
+    "loginTitle": "Iniciar Sesión - LaCherada",
+    "registerTitle": "Crear Cuenta - LaCherada",
+    "forgotPasswordTitle": "Restablecer Contraseña - LaCherada"
   }
 }

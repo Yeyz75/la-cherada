@@ -7,6 +7,11 @@ const HowItWorksPage = () => import('@/pages/HowItWorksPage.vue')
 const ExplorePage = () => import('@/pages/ExplorePage.vue')
 const ContactPage = () => import('@/pages/ContactPage.vue')
 
+// Auth pages
+const LoginPage = () => import('@/pages/LoginPage.vue')
+const RegisterPage = () => import('@/pages/RegisterPage.vue')
+const ForgotPasswordPage = () => import('@/pages/ForgotPasswordPage.vue')
+
 // Define routes with TypeScript typing
 const routes: RouteRecordRaw[] = [
   {
@@ -42,6 +47,34 @@ const routes: RouteRecordRaw[] = [
     component: ContactPage,
     meta: {
       titleKey: 'meta.contactTitle',
+      requiresAuth: false
+    }
+  },
+  // Auth routes
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage,
+    meta: {
+      titleKey: 'meta.loginTitle',
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterPage,
+    meta: {
+      titleKey: 'meta.registerTitle',
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: ForgotPasswordPage,
+    meta: {
+      titleKey: 'meta.forgotPasswordTitle',
       requiresAuth: false
     }
   },

@@ -124,7 +124,8 @@
     "save": "Save",
     "delete": "Delete",
     "edit": "Edit",
-    "required": "Required"
+    "required": "Required",
+    "back": "Back"
   },
   "auth": {
     "login": "Login",
@@ -136,7 +137,36 @@
     "loggingIn": "Logging in...",
     "loggingOut": "Logging out...",
     "registering": "Creating account...",
-    "checkingAuth": "Checking authentication..."
+    "checkingAuth": "Checking authentication...",
+    "welcomeBack": "Welcome back!",
+    "signInToAccount": "Sign in to your account",
+    "createAccount": "Create account",
+    "joinCommunity": "Join our community",
+    "resetPassword": "Reset password",
+    "recoverAccount": "Recover your account",
+    "displayName": "Full name",
+    "confirmPassword": "Confirm password",
+    "acceptTerms": "I accept the",
+    "termsAndConditions": "terms and conditions",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot your password?",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "continueWithGoogle": "Continue with Google",
+    "orContinueWith": "or continue with",
+    "noAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "backToLogin": "Back to login",
+    "sendResetEmail": "Send reset email",
+    "resendEmail": "Resend email",
+    "resendIn": "Resend in",
+    "emailSentTitle": "Email sent",
+    "emailSentDescription": "Check your inbox and follow the instructions to reset your password",
+    "forgotPasswordDescription": "Enter your email and we'll send you instructions to reset your password",
+    "emailPlaceholder": "your@email.com",
+    "passwordPlaceholder": "Your password",
+    "displayNamePlaceholder": "John Doe",
+    "confirmPasswordPlaceholder": "Confirm your password"
   },
   "howItWorks": {
     "badge": "Complete Guide",
@@ -319,6 +349,9 @@
     "notFoundTitle": "Page not found - LaCherada",
     "howItWorksTitle": "How It Works - LaCherada",
     "exploreTitle": "Explore - LaCherada",
-    "contactTitle": "Contact - LaCherada"
+    "contactTitle": "Contact - LaCherada",
+    "loginTitle": "Login - LaCherada",
+    "registerTitle": "Sign Up - LaCherada",
+    "forgotPasswordTitle": "Reset Password - LaCherada"
   }
 }

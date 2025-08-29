@@ -10,6 +10,8 @@ import {
   sendPasswordResetEmail,
   updateProfile,
   onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
   type User as FirebaseUser,
   type UserCredential
 } from 'firebase/auth'
@@ -49,6 +51,28 @@ export class AuthService extends BaseFirebaseService {
       return this.createSuccessResponse(authUser)
     } catch (error) {
       const firebaseError = this.handleError(error, 'signIn')
+      return this.createErrorResponse(firebaseError)
+    }
+  }
+
+  /**
+   * Sign in with Google
+   */
+  async signInWithGoogle(): Promise<ServiceResponse<AuthUser>> {
+    try {
+      const provider = new GoogleAuthProvider()
+      provider.addScope('email')
+      provider.addScope('profile')
+
+      const userCredential: UserCredential = await signInWithPopup(
+        auth,
+        provider
+      )
+      const authUser = this.mapFirebaseUserToAuthUser(userCredential.user)
+
+      return this.createSuccessResponse(authUser)
+    } catch (error) {
+      const firebaseError = this.handleError(error, 'signInWithGoogle')
       return this.createErrorResponse(firebaseError)
     }
   }

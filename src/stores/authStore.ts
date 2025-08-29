@@ -144,6 +144,35 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  const loginWithGoogle = async (): Promise<void> => {
+    setLoading(true, 'Iniciando sesión con Google...')
+    clearError()
+
+    try {
+      const result = await authService.signInWithGoogle()
+
+      if (result.success && result.data) {
+        setFirebaseUser(result.data)
+        setUser(mapFirebaseUserToUser(result.data))
+      } else {
+        throw new Error(
+          result.error?.message ?? 'Error al iniciar sesión con Google'
+        )
+      }
+    } catch (err) {
+      const error: AppError = {
+        message: err instanceof Error ? err.message : 'Error desconocido',
+        type: 'auth',
+        timestamp: new Date()
+      }
+      setError(error)
+      setUser(null)
+      setFirebaseUser(null)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const resetPassword = async (email: string): Promise<void> => {
     setLoading(true, 'Enviando correo de recuperación...')
     clearError()
@@ -273,6 +302,7 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     register,
+    loginWithGoogle,
     resetPassword,
     updateProfile,
     checkAuthStatus,

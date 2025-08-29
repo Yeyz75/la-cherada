@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos base personalizados para LaCherada */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+
+  /* Mejoras de accesibilidad */
+  *:focus {
+    @apply outline-none ring-2 ring-lacherada-blue-500 ring-offset-2;
+  }
+
+  /* Scrollbar personalizado */
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+}
+
+/* Componentes reutilizables */
+@layer components {
+  /* Botones base */
+  .btn-primary {
+    @apply bg-lacherada-green-600 hover:bg-lacherada-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:ring-lacherada-green-500;
+  }
+
+  .btn-secondary {
+    @apply bg-lacherada-blue-600 hover:bg-lacherada-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:ring-lacherada-blue-500;
+  }
+
+  .btn-outline {
+    @apply border-2 border-lacherada-green-600 text-lacherada-green-600 hover:bg-lacherada-green-600 hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:ring-lacherada-green-500;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-xl shadow-soft border border-gray-100;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-medium transition-shadow duration-300;
+  }
+
+  /* Inputs */
+  .input-base {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-lacherada-blue-500 focus:border-lacherada-blue-500 transition-colors duration-200;
+  }
+
+  .input-error {
+    @apply input-base border-red-500 focus:ring-red-500 focus:border-red-500;
+  }
+
+  /* Texto */
+  .text-gradient {
+    @apply bg-gradient-to-r from-lacherada-green-600 to-lacherada-blue-600 bg-clip-text text-transparent;
+  }
+}
+
+/* Utilidades personalizadas */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  /* Espaciado consistente */
+  .section-padding {
+    @apply py-16 px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  /* Estados de loading */
+  .loading-pulse {
+    @apply animate-pulse bg-gray-200 rounded;
+  }
+
+  /* Responsive text */
+  .text-responsive-xl {
+    @apply text-2xl sm:text-3xl lg:text-4xl xl:text-5xl;
+  }
+
+  .text-responsive-lg {
+    @apply text-xl sm:text-2xl lg:text-3xl;
+  }
+}

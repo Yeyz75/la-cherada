@@ -6,7 +6,7 @@
         <div class="col-span-1 lg:col-span-2">
           <div class="flex items-center space-x-3 mb-4">
             <div
-              class="w-8 h-8 bg-gradient-to-r from-lacherada-green to-lacherada-blue rounded-lg flex items-center justify-center"
+              class="w-8 h-8 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg flex items-center justify-center"
             >
               <span class="text-white font-bold text-sm">LC</span>
             </div>

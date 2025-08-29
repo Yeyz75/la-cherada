@@ -6,7 +6,7 @@
         <div class="flex items-center">
           <router-link to="/" class="flex items-center space-x-3">
             <div
-              class="w-8 h-8 bg-gradient-to-r from-lacherada-green to-lacherada-blue rounded-lg flex items-center justify-center"
+              class="w-8 h-8 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg flex items-center justify-center"
             >
               <span class="text-white font-bold text-sm">LC</span>
             </div>
@@ -20,8 +20,8 @@
             v-for="item in navigationItems"
             :key="item.name"
             :to="item.href"
-            class="text-gray-600 hover:text-lacherada-blue transition-colors duration-200 font-medium"
-            :class="{ 'text-lacherada-blue': $route.path === item.href }"
+            class="text-gray-600 hover:text-blue-600 transition-colors duration-200 font-medium"
+            :class="{ 'text-blue-600': $route.path === item.href }"
           >
             {{ item.name }}
           </router-link>
@@ -33,7 +33,7 @@
             variant="ghost"
             size="sm"
             @click="handleLogin"
-            class="text-gray-600 hover:text-lacherada-blue"
+            class="text-gray-600 hover:text-blue-600"
           >
             Iniciar Sesión
           </BaseButton>
@@ -94,9 +94,9 @@
           v-for="item in navigationItems"
           :key="item.name"
           :to="item.href"
-          class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-lacherada-blue hover:bg-gray-50 rounded-md transition-colors duration-200"
+          class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
           :class="{
-            'text-lacherada-blue bg-blue-50': $route.path === item.href
+            'text-blue-600 bg-blue-50': $route.path === item.href
           }"
         >
           {{ item.name }}

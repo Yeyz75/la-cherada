@@ -38,30 +38,30 @@
 }
 
 .p-button.p-button-primary {
-  @apply bg-lacherada-green-600 hover:bg-lacherada-green-700 border-lacherada-green-600 hover:border-lacherada-green-700;
+  @apply bg-green-600 hover:bg-green-700 border-green-600 hover:border-green-700;
 }
 
 .p-button.p-button-secondary {
-  @apply bg-lacherada-blue-600 hover:bg-lacherada-blue-700 border-lacherada-blue-600 hover:border-lacherada-blue-700;
+  @apply bg-blue-600 hover:bg-blue-700 border-blue-600 hover:border-blue-700;
 }
 
 .p-button.p-button-outlined {
-  @apply border-2 border-lacherada-green-600 text-lacherada-green-600 hover:bg-lacherada-green-600 hover:text-white;
+  @apply border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white;
 }
 
 .p-button:focus {
-  @apply ring-2 ring-lacherada-green-500 ring-offset-2;
+  @apply ring-2 ring-green-500 ring-offset-2;
   box-shadow: var(--focus-ring);
 }
 
 /* Input customizations */
 .p-inputtext {
-  @apply border-gray-300 focus:border-lacherada-blue-500 focus:ring-lacherada-blue-500;
+  @apply border-gray-300 focus:border-blue-500 focus:ring-blue-500;
   border-radius: var(--border-radius);
 }
 
 .p-inputtext:focus {
-  @apply ring-2 ring-lacherada-blue-500 ring-offset-0;
+  @apply ring-2 ring-blue-500 ring-offset-0;
   box-shadow: 0 0 0 2px #3b82f6;
 }
 
@@ -132,12 +132,12 @@
 
 /* Dropdown customizations */
 .p-dropdown {
-  @apply border-gray-300 focus:border-lacherada-blue-500 focus:ring-lacherada-blue-500;
+  @apply border-gray-300 focus:border-blue-500 focus:ring-blue-500;
   border-radius: var(--border-radius);
 }
 
 .p-dropdown:focus {
-  @apply ring-2 ring-lacherada-blue-500 ring-offset-0;
+  @apply ring-2 ring-blue-500 ring-offset-0;
   box-shadow: 0 0 0 2px #3b82f6;
 }
 
@@ -150,12 +150,12 @@
 }
 
 .p-dropdown-item.p-highlight {
-  @apply bg-lacherada-green-50 text-lacherada-green-700;
+  @apply bg-green-50 text-green-700;
 }
 
 /* Calendar customizations */
 .p-calendar .p-inputtext {
-  @apply border-gray-300 focus:border-lacherada-blue-500 focus:ring-lacherada-blue-500;
+  @apply border-gray-300 focus:border-blue-500 focus:ring-blue-500;
 }
 
 .p-datepicker {
@@ -167,11 +167,11 @@
 }
 
 .p-datepicker .p-datepicker-today > span {
-  @apply bg-lacherada-blue-100 text-lacherada-blue-700;
+  @apply bg-blue-100 text-blue-700;
 }
 
 .p-datepicker .p-highlight {
-  @apply bg-lacherada-green-600 text-white;
+  @apply bg-green-600 text-white;
 }
 
 /* Toast customizations */
@@ -237,7 +237,7 @@
 }
 
 .p-menu .p-menuitem-link:focus {
-  @apply bg-lacherada-green-50 text-lacherada-green-700;
+  @apply bg-green-50 text-green-700;
 }
 
 /* Menubar customizations */
@@ -250,22 +250,22 @@
 }
 
 .p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:focus {
-  @apply bg-lacherada-green-50 text-lacherada-green-700;
+  @apply bg-green-50 text-green-700;
 }
 
 /* Progress Spinner customizations */
 .p-progress-spinner-circle {
-  @apply text-lacherada-green-600;
+  @apply text-green-600;
   stroke: #16a34a;
 }
 
 /* Badge and Chip customizations */
 .p-badge {
-  @apply bg-lacherada-green-600 text-white;
+  @apply bg-green-600 text-white;
 }
 
 .p-badge.p-badge-secondary {
-  @apply bg-lacherada-blue-600;
+  @apply bg-blue-600;
 }
 
 .p-badge.p-badge-success {
@@ -294,11 +294,11 @@
 
 /* Tag customizations */
 .p-tag {
-  @apply bg-lacherada-green-600 text-white rounded-md;
+  @apply bg-green-600 text-white rounded-md;
 }
 
 .p-tag.p-tag-secondary {
-  @apply bg-lacherada-blue-600;
+  @apply bg-blue-600;
 }
 
 .p-tag.p-tag-success {
@@ -319,7 +319,7 @@
 
 /* Avatar customizations */
 .p-avatar {
-  @apply bg-lacherada-green-100 text-lacherada-green-700;
+  @apply bg-green-100 text-green-700;
 }
 
 .p-avatar.p-avatar-circle {

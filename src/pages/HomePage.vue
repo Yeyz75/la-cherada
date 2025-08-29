@@ -11,8 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-
 // This is a placeholder HomePage component
 // The full implementation will be done in task 10
 

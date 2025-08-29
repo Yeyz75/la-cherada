@@ -2,10 +2,15 @@
   <div class="max-w-md mx-auto">
     <form
       @submit.prevent="handleSubmit"
-      class="login-form bg-white/20 dark:bg-gray-800/30 backdrop-blur-md rounded-2xl p-8 shadow-xl border border-white/30 dark:border-gray-700/30"
+      class="login-form bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20 dark:border-gray-700/20"
     >
       <!-- Título del formulario -->
       <div class="text-center mb-8">
+        <div
+          class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl mb-4 shadow-lg"
+        >
+          <BaseIcon name="user" class="w-8 h-8 text-white" />
+        </div>
         <h2
           class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent"
         >
@@ -20,7 +25,7 @@
       <div class="form-group mb-6">
         <label
           for="email"
-          class="form-label block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          class="form-label block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3"
         >
           {{ $t('auth.email') }} <span class="required text-red-500">*</span>
         </label>
@@ -31,7 +36,7 @@
           :placeholder="$t('auth.emailPlaceholder')"
           :class="{ 'p-invalid': formErrors.email && formState.touched.email }"
           @blur="markFieldAsTouched('email')"
-          class="w-full px-4 py-3 bg-white/10 dark:bg-gray-700/50 border border-gray-300/50 dark:border-gray-600/50 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
+          class="w-full px-4 py-3 bg-white/80 dark:bg-gray-700/80 border border-gray-300/80 dark:border-gray-600/80 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm shadow-sm focus:shadow-md"
           autocomplete="email"
         />
         <small
@@ -46,7 +51,7 @@
       <div class="form-group mb-6">
         <label
           for="password"
-          class="form-label block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          class="form-label block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3"
         >
           {{ $t('auth.password') }} <span class="required text-red-500">*</span>
         </label>
@@ -61,7 +66,7 @@
           :feedback="false"
           toggle-mask
           class="w-full"
-          input-class="w-full px-4 py-3 bg-white/10 dark:bg-gray-700/50 border border-gray-300/50 dark:border-gray-600/50 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm"
+          input-class="w-full px-4 py-3 bg-white/80 dark:bg-gray-700/80 border border-gray-300/80 dark:border-gray-600/80 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm shadow-sm focus:shadow-md"
           autocomplete="current-password"
         />
         <small
@@ -73,7 +78,7 @@
       </div>
 
       <!-- Remember Me & Forgot Password -->
-      <div class="form-options flex justify-between items-center mb-8">
+      <div class="form-options flex justify-between items-center mb-6">
         <div class="checkbox-wrapper flex items-center">
           <Checkbox
             id="rememberMe"
@@ -103,25 +108,43 @@
         :label="$t('auth.signIn')"
         :loading="formState.isLoading"
         :disabled="!isFormValid || formState.isLoading"
-        class="w-full mb-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 px-6 py-3 text-white font-semibold rounded-lg"
+        class="w-full mb-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 px-6 py-4 text-white font-semibold rounded-xl"
         icon="pi pi-sign-in"
       />
 
       <!-- Divider -->
       <div class="divider flex items-center mb-6">
-        <div class="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
-        <span class="px-4 text-sm text-gray-500 dark:text-gray-400">{{
-          $t('auth.orContinueWith')
-        }}</span>
-        <div class="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
+        <div
+          class="flex-1 border-t border-gray-300/60 dark:border-gray-600/60"
+        ></div>
+        <span
+          class="px-6 text-sm text-gray-500 dark:text-gray-400 font-medium bg-white/60 dark:bg-gray-800/60 rounded-full"
+        >
+          {{ $t('auth.orContinueWith') }}
+        </span>
+        <div
+          class="flex-1 border-t border-gray-300/60 dark:border-gray-600/60"
+        ></div>
       </div>
 
       <!-- Google Sign In -->
-      <GoogleAuthButton
+      <Button
+        :label="$t('auth.continueWithGoogle')"
         :loading="googleLoading"
+        :disabled="googleLoading"
         @click="handleGoogleSignIn"
-        class="w-full mb-6"
-      />
+        class="w-full mb-4 !bg-white !text-gray-700 !border-gray-300 hover:!bg-gray-50 hover:!border-gray-400 focus:!ring-2 focus:!ring-blue-500 focus:!ring-offset-2 shadow-sm hover:shadow-md transition-all duration-200 font-medium !py-3"
+        severity="secondary"
+        outlined
+      >
+        <template #icon>
+          <BaseIcon
+            name="google"
+            class="w-5 h-5 text-red-500"
+            v-if="!googleLoading"
+          />
+        </template>
+      </Button>
 
       <!-- Sign Up Link -->
       <div class="signup-link text-center">
@@ -150,7 +173,6 @@ import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
-import GoogleAuthButton from '../../../components/auth/GoogleAuthButton.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()

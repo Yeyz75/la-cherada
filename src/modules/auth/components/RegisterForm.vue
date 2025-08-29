@@ -2,10 +2,15 @@
   <div class="max-w-md mx-auto">
     <form
       @submit.prevent="handleSubmit"
-      class="register-form bg-white/20 dark:bg-gray-800/30 backdrop-blur-md rounded-2xl p-8 shadow-xl border border-white/30 dark:border-gray-700/30"
+      class="register-form bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20 dark:border-gray-700/20"
     >
       <!-- Título del formulario -->
       <div class="text-center mb-8">
+        <div
+          class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl mb-4 shadow-lg"
+        >
+          <BaseIcon name="user-plus" class="w-8 h-8 text-white" />
+        </div>
         <h2
           class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent"
         >
@@ -15,9 +20,13 @@
           {{ $t('auth.createAccount') }}
         </p>
       </div>
-      <div class="form-group">
-        <label for="displayName" class="form-label">
-          {{ $t('auth.displayName') }} <span class="required">*</span>
+      <div class="form-group mb-6">
+        <label
+          for="displayName"
+          class="form-label block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3"
+        >
+          {{ $t('auth.displayName') }}
+          <span class="required text-red-500">*</span>
         </label>
         <InputText
           id="displayName"
@@ -28,7 +37,7 @@
             'p-invalid': formErrors.displayName && formState.touched.displayName
           }"
           @blur="markFieldAsTouched('displayName')"
-          class="w-full"
+          class="w-full px-4 py-3 bg-white/80 dark:bg-gray-700/80 border border-gray-300/80 dark:border-gray-600/80 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm shadow-sm focus:shadow-md"
           autocomplete="name"
         />
         <small
@@ -40,7 +49,7 @@
       </div>
 
       <!-- Campo Email -->
-      <div class="form-group">
+      <div class="form-group mb-4">
         <label for="email" class="form-label">
           {{ $t('auth.email') }} <span class="required">*</span>
         </label>
@@ -63,7 +72,7 @@
       </div>
 
       <!-- Campo Password -->
-      <div class="form-group">
+      <div class="form-group mb-4">
         <label for="password" class="form-label">
           {{ $t('auth.password') }} <span class="required">*</span>
         </label>
@@ -91,7 +100,7 @@
       </div>
 
       <!-- Campo Confirm Password -->
-      <div class="form-group">
+      <div class="form-group mb-4">
         <label for="confirmPassword" class="form-label">
           {{ $t('auth.confirmPassword') }} <span class="required">*</span>
         </label>
@@ -119,7 +128,7 @@
       </div>
 
       <!-- Accept Terms -->
-      <div class="form-group">
+      <div class="form-group mb-6">
         <div class="checkbox-wrapper">
           <Checkbox
             id="acceptTerms"
@@ -153,17 +162,37 @@
         :label="$t('auth.createAccount')"
         :loading="formState.isLoading"
         :disabled="!isFormValid || formState.isLoading"
-        class="w-full register-btn"
+        class="w-full register-btn mb-4"
         icon="pi pi-user-plus"
       />
 
       <!-- Divider -->
-      <div class="divider">
-        <span>{{ $t('auth.orContinueWith') }}</span>
+      <div class="divider flex items-center mb-4">
+        <div class="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
+        <span class="px-4 text-sm text-gray-500 dark:text-gray-400">
+          {{ $t('auth.orContinueWith') }}
+        </span>
+        <div class="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
       </div>
 
       <!-- Google Sign Up -->
-      <GoogleAuthButton :loading="googleLoading" @click="handleGoogleSignUp" />
+      <Button
+        :label="$t('auth.continueWithGoogle')"
+        :loading="googleLoading"
+        :disabled="googleLoading"
+        @click="handleGoogleSignUp"
+        class="w-full mb-4 !bg-white !text-gray-700 !border-gray-300 hover:!bg-gray-50 hover:!border-gray-400 focus:!ring-2 focus:!ring-blue-500 focus:!ring-offset-2 shadow-sm hover:shadow-md transition-all duration-200 font-medium !py-3"
+        severity="secondary"
+        outlined
+      >
+        <template #icon>
+          <BaseIcon
+            name="google"
+            class="w-5 h-5 text-red-500"
+            v-if="!googleLoading"
+          />
+        </template>
+      </Button>
 
       <!-- Sign In Link -->
       <div class="signin-link">
@@ -191,7 +220,6 @@ import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
 import Button from 'primevue/button'
 import Checkbox from 'primevue/checkbox'
-import GoogleAuthButton from '../../../components/auth/GoogleAuthButton.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()

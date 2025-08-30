@@ -21,7 +21,14 @@ export default {
         '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
         '4xl': ['2.25rem', { lineHeight: '2.5rem' }],
         '5xl': ['3rem', { lineHeight: '1' }],
-        '6xl': ['3.75rem', { lineHeight: '1' }]
+        '6xl': ['3.75rem', { lineHeight: '1' }],
+        // Tamaños estándar del proyecto LaCherada
+        'xs-project': ['0.625rem', { lineHeight: '1.3' }], // 10px
+        'sm-project': ['0.75rem', { lineHeight: '1.4' }],   // 12px
+        'base-project': ['0.875rem', { lineHeight: '1.5' }], // 14px - ESTÁNDAR
+        'lg-project': ['1rem', { lineHeight: '1.5' }],      // 16px
+        'xl-project': ['1.125rem', { lineHeight: '1.4' }],  // 18px
+        '2xl-project': ['1.25rem', { lineHeight: '1.3' }]   // 20px
       },
       spacing: {
         '18': '4.5rem',

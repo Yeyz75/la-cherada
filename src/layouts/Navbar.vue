@@ -67,7 +67,7 @@
                   }}
                 </div>
                 <span
-                  class="text-sm font-medium text-gray-700 dark:text-gray-300"
+                  class="text-sm-project font-medium text-gray-700 dark:text-gray-300"
                 >
                   {{
                     authStore.currentUser?.displayName ||
@@ -111,12 +111,7 @@
 
           <!-- Guest user buttons -->
           <template v-else>
-            <BaseButton
-              variant="primary"
-              size="large"
-              @click="handleLogin"
-              class="bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 px-6 py-2 flex items-center gap-2"
-            >
+            <BaseButton variant="info" size="small" @click="handleLogin">
               <svg
                 class="w-4 h-4"
                 fill="none"
@@ -133,9 +128,9 @@
               {{ t('auth.login') }}
             </BaseButton>
             <BaseButton
-              variant="primary"
+              variant="secondary"
+              size="small"
               @click="handleRegister"
-              class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
             >
               <svg
                 class="w-4 h-4"
@@ -236,7 +231,7 @@
           variant="secondary"
           size="small"
           @click.stop="handleLogin"
-          class="w-full border-2 border-gray-300 text-gray-700 hover:border-blue-500 hover:text-blue-600 dark:border-gray-600 dark:text-gray-300 dark:hover:border-blue-400 dark:hover:text-blue-400 transition-all duration-200 flex items-center justify-center gap-2"
+          class="w-full"
         >
           <svg
             class="w-4 h-4"
@@ -257,7 +252,7 @@
           variant="primary"
           size="small"
           @click.stop="handleRegister"
-          class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          class="w-full"
         >
           <svg
             class="w-4 h-4"

@@ -3,7 +3,7 @@
     <label
       v-if="label"
       :for="inputId"
-      class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+      class="block text-sm-project font-medium text-gray-700 dark:text-gray-300 mb-1"
     >
       {{ label }}
       <span v-if="required" class="text-red-500 ml-1">*</span>
@@ -21,7 +21,7 @@
       @focus="handleFocus"
     />
 
-    <p v-if="error" class="mt-1 text-sm text-red-600 dark:text-red-400">
+    <p v-if="error" class="mt-1 text-sm-project text-red-600 dark:text-red-400">
       {{ error }}
     </p>
   </div>
@@ -76,7 +76,7 @@ const handleFocus = (event: FocusEvent): void => {
 
 const inputClasses = computed((): string => {
   const baseClasses =
-    'w-full px-4 py-3 bg-white/80 dark:bg-gray-700/80 border border-gray-300/80 dark:border-gray-600/80 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm shadow-sm focus:shadow-md'
+    'w-full px-4 py-3 text-base-project bg-white/80 dark:bg-gray-700/80 border border-gray-300/80 dark:border-gray-600/80 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 backdrop-blur-sm shadow-sm focus:shadow-md'
 
   if (props.error) {
     return `${baseClasses} p-invalid !border-red-300 dark:!border-red-500 !focus:ring-red-500 !focus:border-red-500`

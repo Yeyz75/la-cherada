@@ -308,7 +308,9 @@
             <div class="preferences-content space-y-4">
               <div class="preference-item">
                 <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-700 dark:text-gray-300">
+                  <span
+                    class="text-sm-project text-gray-700 dark:text-gray-300"
+                  >
                     {{ $t('dashboard.darkMode') }}
                   </span>
                   <ThemeToggle />
@@ -317,7 +319,9 @@
 
               <div class="preference-item">
                 <div class="flex items-center justify-between">
-                  <span class="text-sm text-gray-700 dark:text-gray-300">
+                  <span
+                    class="text-sm-project text-gray-700 dark:text-gray-300"
+                  >
                     {{ $t('dashboard.language') }}
                   </span>
                   <LanguageSwitcher />

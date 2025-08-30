@@ -107,17 +107,34 @@ const buttonClasses = computed((): string => {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0.5rem !important;
+  gap: 0.375rem !important;
   white-space: nowrap !important;
 
-  /* Better text rendering */
+  /* Better text rendering - smaller text */
   font-weight: 500 !important;
   letter-spacing: 0.025em !important;
-  line-height: 1.25 !important;
+  line-height: 1.2 !important;
+  font-size: 0.875rem !important; /* 14px - smaller default size */
+
+  /* Better padding for small buttons */
+  padding: 0.5rem 1rem !important;
 
   /* Auto-adjust padding based on content */
   min-width: fit-content !important;
   width: auto !important;
+}
+
+/* Size-specific styling */
+:deep(.p-button.p-button-sm) {
+  font-size: 0.75rem !important; /* 12px - even smaller for small buttons */
+  padding: 0.375rem 0.75rem !important;
+  gap: 0.25rem !important;
+}
+
+:deep(.p-button.p-button-lg) {
+  font-size: 1rem !important; /* 16px - larger for large buttons */
+  padding: 0.75rem 1.5rem !important;
+  gap: 0.5rem !important;
 }
 
 /* When button has w-full class, override the auto width */
@@ -129,30 +146,33 @@ const buttonClasses = computed((): string => {
 /* Special handling for justified buttons */
 :deep(.p-button.justify-start) {
   justify-content: flex-start !important;
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+  text-align: left !important;
 }
 
-/* Icon spacing in buttons */
+/* Icon spacing in buttons - smaller gap for small buttons */
 :deep(.p-button .p-button-icon) {
   flex-shrink: 0 !important;
 }
 
+:deep(.p-button.p-button-sm .p-button-icon) {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
 /* Better text container for justified buttons */
-:deep(.p-button.justify-start) {
-  text-align: left !important;
-}
-
-/* Ensure text doesn't overflow in full-width justified buttons */
-:deep(.p-button.w-full.justify-start) {
-  overflow: hidden !important;
-}
-
-:deep(.p-button.w-full.justify-start .p-button-label) {
+:deep(.p-button.justify-start .p-button-label) {
   flex: 1 !important;
   text-overflow: ellipsis !important;
   overflow: hidden !important;
   white-space: nowrap !important;
   text-align: left !important;
+  font-size: inherit !important;
+}
+
+/* Ensure text doesn't overflow in full-width justified buttons */
+:deep(.p-button.w-full.justify-start) {
+  overflow: hidden !important;
 }
 </style>

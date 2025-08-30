@@ -175,7 +175,8 @@
     "firstNamePlaceholder": "Your first name",
     "lastNamePlaceholder": "Your last name",
     "displayNamePlaceholder": "John Doe",
-    "confirmPasswordPlaceholder": "Confirm your password"
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "confirmLogout": "Are you sure you want to log out?"
   },
   "howItWorks": {
     "badge": "Complete Guide",
@@ -354,7 +355,10 @@
     }
   },
   "profile": {
+    "title": "My profile",
+    "subtitle": "Manage your profile information",
     "editProfile": "Edit Profile",
+    "currentProfile": "Current profile",
     "updateYourInformation": "Update your personal information",
     "firstName": "First Name",
     "lastName": "Last Name",
@@ -368,7 +372,6 @@
     "saveChanges": "Save Changes",
     "cancel": "Cancel",
     "profileUpdatedSuccessfully": "Profile updated successfully",
-    "title": "Profile",
     "viewProfile": "View profile",
     "personalInfo": "Personal information",
     "email": "Email",
@@ -399,6 +402,17 @@
     "viewMyItems": "View my items",
     "browseItems": "Browse items"
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome",
+    "subtitle": "Manage your profile and community activity",
+    "editProfile": "Edit profile",
+    "explore": "Explore",
+    "myItems": "My items",
+    "myRequests": "My requests",
+    "messages": "Messages",
+    "settings": "Settings"
+  },
   "meta": {
     "homeTitle": "LaCherada - Share, Lend, Connect",
     "notFoundTitle": "Page not found - LaCherada",
@@ -407,6 +421,8 @@
     "contactTitle": "Contact - LaCherada",
     "loginTitle": "Login - LaCherada",
     "registerTitle": "Sign Up - LaCherada",
-    "forgotPasswordTitle": "Reset Password - LaCherada"
+    "forgotPasswordTitle": "Reset Password - LaCherada",
+    "dashboardTitle": "Dashboard - LaCherada",
+    "profileTitle": "My Profile - LaCherada"
   }
 }

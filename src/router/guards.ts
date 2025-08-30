@@ -1,6 +1,7 @@
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 
-// Type-safe navigation guard utilities for future use
+// Type-safe navigation guard utilities
 
 export type NavigationGuard = (
   to: RouteLocationNormalized,
@@ -8,37 +9,53 @@ export type NavigationGuard = (
   next: NavigationGuardNext
 ) => void
 
-// Authentication guard (to be implemented when auth module is ready)
+// Authentication guard - require user to be authenticated
 export const requireAuth: NavigationGuard = (to, from, next) => {
-  // Future implementation:
-  // const authStore = useAuthStore()
-  // if (!authStore.isAuthenticated) {
-  //   next({ name: 'login', query: { redirect: to.fullPath } })
-  //   return
-  // }
+  const authStore = useAuthStore()
+
+  if (!authStore.isAuthenticated) {
+    next({
+      name: 'login',
+      query: { redirect: to.fullPath }
+    })
+    return
+  }
+
   next()
 }
 
-// Guest guard (redirect authenticated users away from auth pages)
+// Guest guard - redirect authenticated users away from auth pages
 export const requireGuest: NavigationGuard = (to, from, next) => {
-  // Future implementation:
-  // const authStore = useAuthStore()
-  // if (authStore.isAuthenticated) {
-  //   next({ name: 'dashboard' })
-  //   return
-  // }
+  const authStore = useAuthStore()
+
+  if (authStore.isAuthenticated) {
+    // Redirect to dashboard if already authenticated
+    const redirectTo = to.query.redirect as string
+    next(redirectTo ? { path: redirectTo } : { name: 'dashboard-home' })
+    return
+  }
+
   next()
 }
 
 // Role-based access guard
 export const requireRole = (_roles: string[]): NavigationGuard => {
   return (to, from, next) => {
-    // Future implementation:
-    // const authStore = useAuthStore()
-    // if (!authStore.user || !roles.some(role => authStore.user?.roles?.includes(role))) {
+    const authStore = useAuthStore()
+
+    if (!authStore.isAuthenticated) {
+      next({ name: 'login', query: { redirect: to.fullPath } })
+      return
+    }
+
+    // For now, since we don't have roles implemented yet, just check authentication
+    // Future implementation: check if user has required roles
+    // const userRoles = authStore.currentUser?.roles || []
+    // if (!roles.some(role => userRoles.includes(role))) {
     //   next({ name: 'unauthorized' })
     //   return
     // }
+
     next()
   }
 }

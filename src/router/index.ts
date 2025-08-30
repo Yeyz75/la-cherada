@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
+import { requireAuth, requireGuest } from './guards'
+import { useAuthStore } from '@/stores/authStore'
 import i18n from '@/i18n'
 
 // Lazy load pages for better performance
@@ -11,6 +13,10 @@ const ContactPage = () => import('@/pages/ContactPage.vue')
 const LoginPage = () => import('@/pages/LoginPage.vue')
 const RegisterPage = () => import('@/pages/RegisterPage.vue')
 const ForgotPasswordPage = () => import('@/pages/ForgotPasswordPage.vue')
+
+// Protected pages
+const UserDashboardPage = () => import('@/pages/UserDashboardPage.vue')
+const UserProfilePage = () => import('@/pages/UserProfilePage.vue')
 
 // Define routes with TypeScript typing
 const routes: RouteRecordRaw[] = [
@@ -55,6 +61,7 @@ const routes: RouteRecordRaw[] = [
     path: '/login',
     name: 'login',
     component: LoginPage,
+    beforeEnter: requireGuest,
     meta: {
       titleKey: 'meta.loginTitle',
       requiresAuth: false
@@ -64,6 +71,7 @@ const routes: RouteRecordRaw[] = [
     path: '/register',
     name: 'register',
     component: RegisterPage,
+    beforeEnter: requireGuest,
     meta: {
       titleKey: 'meta.registerTitle',
       requiresAuth: false
@@ -73,6 +81,7 @@ const routes: RouteRecordRaw[] = [
     path: '/forgot-password',
     name: 'forgot-password',
     component: ForgotPasswordPage,
+    beforeEnter: requireGuest,
     meta: {
       titleKey: 'meta.forgotPasswordTitle',
       requiresAuth: false
@@ -101,21 +110,28 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/dashboard',
     name: 'dashboard',
+    beforeEnter: requireAuth,
     children: [
-      // Future protected dashboard routes will go here
-      // {
-      //   path: '',
-      //   name: 'dashboard-home',
-      //   component: () => import('@/modules/dashboard/pages/DashboardPage.vue'),
-      //   meta: { requiresAuth: true }
-      // },
-      // {
-      //   path: 'items',
-      //   name: 'my-items',
-      //   component: () => import('@/modules/items/pages/MyItemsPage.vue'),
-      //   meta: { requiresAuth: true }
-      // }
+      {
+        path: '',
+        name: 'dashboard-home',
+        component: UserDashboardPage,
+        meta: {
+          requiresAuth: true,
+          titleKey: 'meta.dashboardTitle'
+        }
+      }
     ]
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: UserProfilePage,
+    beforeEnter: requireAuth,
+    meta: {
+      requiresAuth: true,
+      titleKey: 'meta.profileTitle'
+    }
   },
   // Catch-all route for 404 pages
   {
@@ -142,8 +158,10 @@ const router = createRouter({
   }
 })
 
-// Navigation guards for future authentication
-router.beforeEach((to, from, next) => {
+// Navigation guards for authentication
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore()
+
   // Set page title using i18n
   if (to.meta.titleKey) {
     document.title = i18n.global.t(to.meta.titleKey as string)
@@ -151,12 +169,10 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title
   }
 
-  // Future authentication check will go here
-  // const authStore = useAuthStore()
-  // if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-  //   next({ name: 'login' })
-  //   return
-  // }
+  // Wait for auth to initialize
+  if (authStore.loading.isLoading && !authStore.isAuthenticated) {
+    await authStore.checkAuthStatus()
+  }
 
   next()
 })

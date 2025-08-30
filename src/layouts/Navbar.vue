@@ -39,47 +39,123 @@
           <!-- Theme Toggle -->
           <ThemeToggle />
 
-          <BaseButton
-            variant="primary"
-            size="large"
-            @click="handleLogin"
-            class="bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 px-6 py-2 flex items-center gap-2"
-          >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          <!-- Authenticated user menu -->
+          <template v-if="authStore.isAuthenticated">
+            <!-- User avatar and name -->
+            <div class="flex items-center space-x-3">
+              <div class="flex items-center space-x-2">
+                <div
+                  v-if="authStore.currentUser?.photoURL"
+                  class="w-8 h-8 rounded-full overflow-hidden ring-2 ring-white dark:ring-gray-800"
+                >
+                  <img
+                    :src="authStore.currentUser.photoURL"
+                    :alt="authStore.currentUser.displayName"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div
+                  v-else
+                  class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+                >
+                  {{
+                    getInitials(
+                      authStore.currentUser?.displayName ||
+                        authStore.currentUser?.email ||
+                        ''
+                    )
+                  }}
+                </div>
+                <span
+                  class="text-sm font-medium text-gray-700 dark:text-gray-300"
+                >
+                  {{
+                    authStore.currentUser?.displayName ||
+                    authStore.currentUser?.firstName
+                  }}
+                </span>
+              </div>
+
+              <!-- Dashboard Button -->
+              <BaseButton
+                variant="secondary"
+                size="small"
+                @click="handleDashboard"
+                class="flex items-center gap-2"
+              >
+                <BaseIcon name="layout-dashboard" class="w-4 h-4" />
+                {{ t('dashboard.title') }}
+              </BaseButton>
+
+              <!-- Profile Button -->
+              <BaseButton
+                variant="secondary"
+                size="small"
+                @click="handleProfile"
+                class="flex items-center gap-2"
+              >
+                <BaseIcon name="user" class="w-4 h-4" />
+                {{ t('profile.title') }}
+              </BaseButton>
+
+              <!-- Logout Button -->
+              <BaseButton
+                variant="danger"
+                size="small"
+                @click="handleLogout"
+                class="flex items-center gap-2"
+                :loading="authStore.isLoading"
+              >
+                <BaseIcon name="logout" class="w-4 h-4" />
+                {{ t('auth.logout') }}
+              </BaseButton>
+            </div>
+          </template>
+
+          <!-- Guest user buttons -->
+          <template v-else>
+            <BaseButton
+              variant="primary"
+              size="large"
+              @click="handleLogin"
+              class="bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 px-6 py-2 flex items-center gap-2"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-              />
-            </svg>
-            {{ t('auth.login') }}
-          </BaseButton>
-          <BaseButton
-            variant="primary"
-            @click="handleRegister"
-            class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
-          >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                />
+              </svg>
+              {{ t('auth.login') }}
+            </BaseButton>
+            <BaseButton
+              variant="primary"
+              @click="handleRegister"
+              class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-              />
-            </svg>
-            {{ t('auth.register') }}
-          </BaseButton>
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                />
+              </svg>
+              {{ t('auth.register') }}
+            </BaseButton>
+          </template>
         </div>
 
         <!-- Botón menú móvil -->
@@ -210,7 +286,8 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTranslation } from '@/composables/useTranslation'
-import { BaseButton } from '@/components/common'
+import { useAuthStore } from '@/stores/authStore'
+import { BaseButton, BaseIcon } from '@/components/common'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
@@ -221,6 +298,7 @@ interface NavigationItem {
 
 const { t } = useTranslation()
 const router = useRouter()
+const authStore = useAuthStore()
 
 const navigationItems: NavigationItem[] = [
   { name: t('navbar.home'), href: '/' },
@@ -239,15 +317,63 @@ const closeMobileMenu = (): void => {
   isMobileMenuOpen.value = false
 }
 
-// Preparado para futuras funcionalidades de autenticación
+// Helper function to get user initials
+const getInitials = (name: string): string => {
+  if (!name) {
+    return 'U'
+  }
+  const parts = name.split(' ')
+  if (parts.length === 1) {
+    return parts[0]?.charAt(0).toUpperCase() || 'U'
+  }
+  const firstInitial = parts[0]?.charAt(0) || ''
+  const lastInitial = parts[parts.length - 1]?.charAt(0) || ''
+  return (firstInitial + lastInitial).toUpperCase() || 'U'
+}
+
+// Navigation handlers
 const handleLogin = (): void => {
-  // Navegar a la página de login
+  closeMobileMenu()
   router.push({ name: 'login' })
 }
 
 const handleRegister = (): void => {
-  // Navegar a la página de registro
+  closeMobileMenu()
   router.push({ name: 'register' })
+}
+
+const handleDashboard = (): void => {
+  closeMobileMenu()
+  router.push({ name: 'dashboard-home' })
+}
+
+const handleProfile = (): void => {
+  closeMobileMenu()
+  router.push({ name: 'profile' })
+}
+
+const handleLogout = async (): Promise<void> => {
+  try {
+    // Show confirmation dialog
+    const confirmed = window.confirm(t('auth.confirmLogout'))
+
+    if (!confirmed) {
+      return
+    }
+
+    closeMobileMenu()
+    await authStore.logout()
+
+    // Redirect to home page after logout
+    router.push({ name: 'home' })
+  } catch (error) {
+    // Handle error silently or use proper error handling
+    authStore.setError({
+      message: 'Error al cerrar sesión',
+      type: 'auth',
+      timestamp: new Date()
+    })
+  }
 }
 
 // Cerrar menú móvil al hacer clic fuera o cambiar de ruta

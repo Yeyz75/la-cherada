@@ -279,7 +279,7 @@ import BaseIcon from '@/components/common/BaseIcon.vue'
 import BaseLoader from '@/components/common/BaseLoader.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
-import UserProfile from './UserProfile.vue'
+import UserProfile from '@/modules/users/components/UserProfile.vue'
 
 // Types
 interface ActivityItem {

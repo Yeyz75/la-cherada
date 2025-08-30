@@ -175,7 +175,8 @@
     "firstNamePlaceholder": "Tu nombre",
     "lastNamePlaceholder": "Tu apellido",
     "displayNamePlaceholder": "Juan Pérez",
-    "confirmPasswordPlaceholder": "Confirma tu contraseña"
+    "confirmPasswordPlaceholder": "Confirma tu contraseña",
+    "confirmLogout": "¿Estás seguro de que deseas cerrar sesión?"
   },
   "howItWorks": {
     "badge": "Guía Completa",
@@ -354,7 +355,10 @@
     }
   },
   "profile": {
+    "title": "Mi perfil",
+    "subtitle": "Gestiona la información de tu perfil",
     "editProfile": "Editar Perfil",
+    "currentProfile": "Perfil actual",
     "updateYourInformation": "Actualiza tu información personal",
     "firstName": "Nombre",
     "lastName": "Apellido",
@@ -368,7 +372,6 @@
     "saveChanges": "Guardar Cambios",
     "cancel": "Cancelar",
     "profileUpdatedSuccessfully": "Perfil actualizado exitosamente",
-    "title": "Perfil",
     "viewProfile": "Ver perfil",
     "personalInfo": "Información personal",
     "email": "Correo electrónico",
@@ -399,6 +402,17 @@
     "viewMyItems": "Ver mis artículos",
     "browseItems": "Explorar artículos"
   },
+  "dashboard": {
+    "title": "Panel de control",
+    "welcome": "Bienvenido",
+    "subtitle": "Gestiona tu perfil y actividad en la comunidad",
+    "editProfile": "Editar perfil",
+    "explore": "Explorar",
+    "myItems": "Mis artículos",
+    "myRequests": "Mis solicitudes",
+    "messages": "Mensajes",
+    "settings": "Configuración"
+  },
   "meta": {
     "homeTitle": "LaCherada - Comparte, Presta, Conecta",
     "notFoundTitle": "Página no encontrada - LaCherada",
@@ -407,6 +421,8 @@
     "contactTitle": "Contacto - LaCherada",
     "loginTitle": "Iniciar Sesión - LaCherada",
     "registerTitle": "Crear Cuenta - LaCherada",
-    "forgotPasswordTitle": "Restablecer Contraseña - LaCherada"
+    "forgotPasswordTitle": "Restablecer Contraseña - LaCherada",
+    "dashboardTitle": "Panel de Control - LaCherada",
+    "profileTitle": "Mi Perfil - LaCherada"
   }
 }

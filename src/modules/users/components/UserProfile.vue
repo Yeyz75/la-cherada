@@ -374,7 +374,7 @@ if (!userStore.currentProfile && authUser.value?.id) {
   }
 
   .grid.grid-cols-1.md\\:grid-cols-2 {
-    @apply grid-cols-1;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
 </style>

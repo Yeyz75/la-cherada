@@ -125,7 +125,12 @@
     "delete": "Eliminar",
     "edit": "Editar",
     "required": "Requerido",
-    "back": "Volver"
+    "back": "Volver",
+    "theme": "Tema",
+    "language": "Idioma",
+    "changePassword": "Cambiar contraseña",
+    "account": "Cuenta",
+    "preferences": "Preferencias"
   },
   "auth": {
     "login": "Iniciar sesión",
@@ -362,7 +367,37 @@
     "bioPlaceholder": "Cuéntanos un poco sobre ti...",
     "saveChanges": "Guardar Cambios",
     "cancel": "Cancelar",
-    "profileUpdatedSuccessfully": "Perfil actualizado exitosamente"
+    "profileUpdatedSuccessfully": "Perfil actualizado exitosamente",
+    "title": "Perfil",
+    "viewProfile": "Ver perfil",
+    "personalInfo": "Información personal",
+    "email": "Correo electrónico",
+    "location": "Ubicación",
+    "website": "Sitio web",
+    "memberSince": "Miembro desde",
+    "profileSettings": "Configuración del perfil",
+    "accountSettings": "Configuración de la cuenta",
+    "privacy": "Privacidad",
+    "notifications": "Notificaciones",
+    "dashboard": "Panel de control",
+    "stats": "Estadísticas",
+    "items": {
+      "count": "Artículos",
+      "total": "Total de artículos"
+    },
+    "exchanges": {
+      "count": "Intercambios", 
+      "completed": "Intercambios completados"
+    },
+    "rating": {
+      "average": "Calificación promedio"
+    },
+    "recentActivity": "Actividad reciente",
+    "noRecentActivity": "No hay actividad reciente",
+    "quickActions": "Acciones rápidas",
+    "addNewItem": "Agregar nuevo artículo",
+    "viewMyItems": "Ver mis artículos",
+    "browseItems": "Explorar artículos"
   },
   "meta": {
     "homeTitle": "LaCherada - Comparte, Presta, Conecta",

@@ -428,7 +428,7 @@ const memberSinceFormatted = computed(() => {
       ? currentUser.value.createdAt
       : new Date(currentUser.value.createdAt)
 
-  return formatDate(date, 'MMM yyyy')
+  return formatDate(date, 'MMMM YYYY')
 })
 
 // Methods

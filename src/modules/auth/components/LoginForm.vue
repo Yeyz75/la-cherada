@@ -3,7 +3,7 @@
     <div
       class="auth-wrapper bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/20 overflow-hidden"
     >
-      <div class="grid lg:grid-cols-5 h-[700px]">
+      <div class="grid lg:grid-cols-5 min-h-[700px]">
         <!-- Panel izquierdo - Informac.login-form {
   @apply space-y-3;
 } visual -->
@@ -70,11 +70,36 @@
           >
             <!-- Header del formulario -->
             <div class="mb-4">
+              <!-- Botón de volver atrás integrado -->
+              <div class="flex items-center justify-between mb-4">
+                <button
+                  @click="() => $router.push('/')"
+                  class="group inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200 border border-gray-200 dark:border-gray-600"
+                >
+                  <BaseIcon
+                    name="arrow-left"
+                    class="w-4 h-4 mr-2 group-hover:-translate-x-0.5 transition-transform duration-200"
+                  />
+                  {{ $t('common.back') }}
+                </button>
+                <div class="text-right">
+                  <div class="text-xs text-gray-500 dark:text-gray-400">
+                    {{ $t('auth.noAccount') }}
+                  </div>
+                  <router-link
+                    to="/register"
+                    class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                  >
+                    {{ $t('auth.signUp') }}
+                  </router-link>
+                </div>
+              </div>
+
               <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                 {{ $t('auth.signIn') }}
               </h2>
               <p class="text-sm text-gray-600 dark:text-gray-400">
-                Ingresa tus datos para acceder
+                {{ $t('auth.signInToAccount') }}
               </p>
             </div>
 
@@ -172,19 +197,6 @@
               </template>
               {{ $t('auth.continueWithGoogle') }}
             </BaseButton>
-
-            <!-- Sign Up Link -->
-            <div class="signup-link text-center">
-              <span class="text-gray-600 dark:text-gray-400">{{
-                $t('auth.noAccount')
-              }}</span>
-              <router-link
-                to="/register"
-                class="link ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors"
-              >
-                {{ $t('auth.signUp') }}
-              </router-link>
-            </div>
           </form>
         </div>
       </div>
@@ -195,6 +207,7 @@
 <script setup lang="ts">
 import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '../../../stores/authStore'
 import { useError } from '../../../composables/useError'
 import { useLoading } from '../../../composables/useLoading'
@@ -209,6 +222,7 @@ import {
 
 const authStore = useAuthStore()
 const router = useRouter()
+const { t } = useI18n()
 const { handleError } = useError()
 const { isLoading: googleLoading, withLoading } = useLoading()
 
@@ -244,18 +258,27 @@ const validateForm = (): FormError[] => {
 
   // Email validation
   if (!formData.email.trim()) {
-    errors.push({ field: 'email', message: 'El email es obligatorio' })
+    errors.push({
+      field: 'email',
+      message: t('auth.validation.emailRequired')
+    })
   } else if (!isValidEmail(formData.email)) {
-    errors.push({ field: 'email', message: 'El email no es válido' })
+    errors.push({
+      field: 'email',
+      message: t('auth.validation.emailInvalid')
+    })
   }
 
   // Password validation
   if (!formData.password.trim()) {
-    errors.push({ field: 'password', message: 'La contraseña es obligatoria' })
+    errors.push({
+      field: 'password',
+      message: t('auth.validation.passwordRequired')
+    })
   } else if (formData.password.length < 6) {
     errors.push({
       field: 'password',
-      message: 'La contraseña debe tener al menos 6 caracteres'
+      message: t('auth.validation.passwordMinLength')
     })
   }
 

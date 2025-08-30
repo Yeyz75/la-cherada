@@ -3,7 +3,7 @@
     <div
       class="auth-wrapper bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/20 overflow-hidden"
     >
-      <div class="grid lg:grid-cols-5 h-[700px]">
+      <div class="grid lg:grid-cols-5 min-h-[700px]">
         <!-- Panel izquierdo - Información visual -->
         <div
           class="lg:col-span-2 bg-gradient-to-br from-green-600 via-blue-600 to-purple-700 p-6 lg:p-8 flex flex-col justify-center relative overflow-hidden"
@@ -72,6 +72,31 @@
           >
             <!-- Header del formulario -->
             <div class="mb-3">
+              <!-- Botón de volver atrás integrado -->
+              <div class="flex items-center justify-between mb-4">
+                <button
+                  @click="() => $router.push('/')"
+                  class="group inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200 border border-gray-200 dark:border-gray-600"
+                >
+                  <BaseIcon
+                    name="arrow-left"
+                    class="w-4 h-4 mr-2 group-hover:-translate-x-0.5 transition-transform duration-200"
+                  />
+                  {{ $t('common.back') }}
+                </button>
+                <div class="text-right">
+                  <div class="text-xs text-gray-500 dark:text-gray-400">
+                    {{ $t('auth.alreadyHaveAccount') }}
+                  </div>
+                  <router-link
+                    to="/login"
+                    class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+                  >
+                    {{ $t('auth.signIn') }}
+                  </router-link>
+                </div>
+              </div>
+
               <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                 {{ $t('auth.signUp') }}
               </h2>
@@ -158,33 +183,87 @@
               @blur="markFieldAsTouched('confirmPassword')"
             />
 
-            <!-- Accept Terms -->
-            <div class="mb-2">
-              <div class="flex items-start space-x-2">
-                <BaseCheckbox
-                  v-model="formData.acceptTerms"
-                  :binary="true"
-                  :error="
+            <!-- Accept Terms - Diseño moderno -->
+            <div class="mb-4">
+              <div
+                class="relative bg-gray-50/80 dark:bg-gray-700/40 backdrop-blur-sm rounded-xl p-4 border border-gray-200/60 dark:border-gray-600/40 hover:bg-gray-50 dark:hover:bg-gray-700/60 transition-all duration-200"
+                :class="{
+                  '!border-red-300 dark:!border-red-500 !bg-red-50/50 dark:!bg-red-900/10':
                     formErrors.acceptTerms && formState.touched.acceptTerms
-                      ? formErrors.acceptTerms
-                      : ''
-                  "
-                  :required="true"
-                  @change="markFieldAsTouched('acceptTerms')"
-                />
-                <label
-                  class="text-xs text-gray-700 dark:text-gray-300 leading-tight flex-1"
-                >
-                  {{ $t('auth.acceptTerms') }}
-                  <router-link
-                    to="/terms"
-                    class="terms-link text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
-                    target="_blank"
+                }"
+              >
+                <div class="flex items-start space-x-3">
+                  <!-- Custom Checkbox -->
+                  <div
+                    class="terms-checkbox-container relative flex-shrink-0 mt-0.5"
                   >
-                    {{ $t('auth.termsAndConditions') }}
-                  </router-link>
-                  <span class="required text-red-500 ml-1">*</span>
-                </label>
+                    <input
+                      v-model="formData.acceptTerms"
+                      type="checkbox"
+                      id="acceptTerms"
+                      class="peer sr-only"
+                      @change="markFieldAsTouched('acceptTerms')"
+                    />
+                    <label
+                      for="acceptTerms"
+                      class="relative flex items-center justify-center w-5 h-5 bg-white dark:bg-gray-600 border-2 border-gray-300 dark:border-gray-500 rounded-md cursor-pointer transition-all duration-200 peer-checked:bg-gradient-to-r peer-checked:from-green-500 peer-checked:to-blue-500 peer-checked:border-transparent hover:border-blue-400 dark:hover:border-blue-500"
+                      :class="{
+                        '!border-red-400 dark:!border-red-500':
+                          formErrors.acceptTerms &&
+                          formState.touched.acceptTerms
+                      }"
+                    >
+                      <!-- Checkmark Icon -->
+                      <BaseIcon
+                        name="check"
+                        class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                      />
+                    </label>
+                  </div>
+
+                  <!-- Terms Text -->
+                  <div class="flex-1">
+                    <label
+                      for="acceptTerms"
+                      class="block text-sm text-gray-700 dark:text-gray-200 leading-relaxed cursor-pointer"
+                    >
+                      <span class="font-medium">{{
+                        $t('auth.acceptTerms')
+                      }}</span>
+                      <router-link
+                        to="/terms"
+                        class="terms-link-animation inline-flex items-center ml-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-semibold transition-colors duration-200"
+                        target="_blank"
+                      >
+                        {{ $t('auth.termsAndConditions') }}
+                        <BaseIcon
+                          name="external-link"
+                          class="w-3 h-3 ml-1 opacity-70"
+                        />
+                      </router-link>
+                      <span class="text-red-500 ml-1 font-medium">*</span>
+                    </label>
+
+                    <!-- Descripción adicional -->
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      {{ $t('auth.termsDescription') }}
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Error message -->
+                <div
+                  v-if="formErrors.acceptTerms && formState.touched.acceptTerms"
+                  class="mt-2 flex items-center space-x-2"
+                >
+                  <BaseIcon
+                    name="alert-circle"
+                    class="w-4 h-4 text-red-500 flex-shrink-0"
+                  />
+                  <p class="text-sm text-red-600 dark:text-red-400 font-medium">
+                    {{ formErrors.acceptTerms }}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -235,19 +314,6 @@
               </template>
               {{ $t('auth.continueWithGoogle') }}
             </BaseButton>
-
-            <!-- Sign In Link -->
-            <div class="signin-link text-center">
-              <span class="text-gray-600 dark:text-gray-400">{{
-                $t('auth.alreadyHaveAccount')
-              }}</span>
-              <router-link
-                to="/login"
-                class="link ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors"
-              >
-                {{ $t('auth.signIn') }}
-              </router-link>
-            </div>
           </form>
         </div>
       </div>
@@ -258,6 +324,7 @@
 <script setup lang="ts">
 import { ref, computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { useAuthStore } from '../../../stores/authStore'
 import { useError } from '../../../composables/useError'
 import { useLoading } from '../../../composables/useLoading'
@@ -276,6 +343,7 @@ import {
 
 const authStore = useAuthStore()
 const router = useRouter()
+const { t } = useI18n()
 const { handleError } = useError()
 const { isLoading: googleLoading, withLoading } = useLoading()
 
@@ -315,38 +383,53 @@ const validateForm = (): FormError[] => {
 
   // First name validation
   if (!formData.firstName.trim()) {
-    errors.push({ field: 'firstName', message: 'El nombre es obligatorio' })
+    errors.push({
+      field: 'firstName',
+      message: t('auth.validation.firstNameRequired')
+    })
   } else if (formData.firstName.trim().length < 2) {
     errors.push({
       field: 'firstName',
-      message: 'El nombre debe tener al menos 2 caracteres'
+      message: t('auth.validation.firstNameMinLength')
     })
   }
 
   // Last name validation
   if (!formData.lastName.trim()) {
-    errors.push({ field: 'lastName', message: 'El apellido es obligatorio' })
+    errors.push({
+      field: 'lastName',
+      message: t('auth.validation.lastNameRequired')
+    })
   } else if (formData.lastName.trim().length < 2) {
     errors.push({
       field: 'lastName',
-      message: 'El apellido debe tener al menos 2 caracteres'
+      message: t('auth.validation.lastNameMinLength')
     })
   }
 
   // Email validation
   if (!formData.email.trim()) {
-    errors.push({ field: 'email', message: 'El email es obligatorio' })
+    errors.push({
+      field: 'email',
+      message: t('auth.validation.emailRequired')
+    })
   } else if (!isValidEmail(formData.email)) {
-    errors.push({ field: 'email', message: 'El email no es válido' })
+    errors.push({
+      field: 'email',
+      message: t('auth.validation.emailInvalid')
+    })
   }
 
   // Password validation
   if (!formData.password.trim()) {
-    errors.push({ field: 'password', message: 'La contraseña es obligatoria' })
+    errors.push({
+      field: 'password',
+      message: t('auth.validation.passwordRequired')
+    })
   } else if (formData.password.length < 6) {
     errors.push({
       field: 'password',
-      message: 'La contraseña debe tener al menos 6 caracteres'
+      message: t('auth.validation.passwordMinLength')
     })
   }
 
@@ -354,12 +437,12 @@ const validateForm = (): FormError[] => {
   if (!formData.confirmPassword.trim()) {
     errors.push({
       field: 'confirmPassword',
-      message: 'Confirma tu contraseña'
+      message: t('auth.validation.confirmPasswordRequired')
     })
   } else if (formData.password !== formData.confirmPassword) {
     errors.push({
       field: 'confirmPassword',
-      message: 'Las contraseñas no coinciden'
+      message: t('auth.validation.passwordsNotMatch')
     })
   }
 
@@ -367,7 +450,7 @@ const validateForm = (): FormError[] => {
   if (!formData.acceptTerms) {
     errors.push({
       field: 'acceptTerms',
-      message: 'Debes aceptar los términos y condiciones'
+      message: t('auth.validation.acceptTermsRequired')
     })
   }
 
@@ -592,5 +675,61 @@ const handleGoogleSignUp = async (): Promise<void> => {
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+/* Custom Terms Checkbox Styles */
+.terms-checkbox-container {
+  position: relative;
+}
+
+.terms-checkbox-container input[type='checkbox']:checked + label {
+  transform: scale(1.02);
+}
+
+.terms-checkbox-container label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.terms-checkbox-container label::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 6px;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.terms-checkbox-container input[type='checkbox']:checked + label::before {
+  background: linear-gradient(45deg, #10b981, #3b82f6);
+  opacity: 0.1;
+}
+
+.terms-checkbox-container:hover label::before {
+  background: rgba(59, 130, 246, 0.05);
+}
+
+/* Terms link animation */
+.terms-link-animation {
+  position: relative;
+  overflow: hidden;
+}
+
+.terms-link-animation::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #10b981, #3b82f6);
+  transition: width 0.3s ease;
+}
+
+.terms-link-animation:hover::after {
+  width: 100%;
 }
 </style>

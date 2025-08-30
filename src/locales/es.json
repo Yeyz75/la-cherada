@@ -176,7 +176,22 @@
     "lastNamePlaceholder": "Tu apellido",
     "displayNamePlaceholder": "Juan Pérez",
     "confirmPasswordPlaceholder": "Confirma tu contraseña",
-    "confirmLogout": "¿Estás seguro de que deseas cerrar sesión?"
+    "confirmLogout": "¿Estás seguro de que deseas cerrar sesión?",
+    "termsDescription": "Al registrarte, aceptas nuestras condiciones de uso y política de privacidad",
+    "validation": {
+      "required": "{field} es obligatorio",
+      "firstNameRequired": "El nombre es obligatorio",
+      "lastNameRequired": "El apellido es obligatorio",
+      "emailRequired": "El email es obligatorio",
+      "emailInvalid": "El email no es válido",
+      "passwordRequired": "La contraseña es obligatoria",
+      "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+      "firstNameMinLength": "El nombre debe tener al menos 2 caracteres",
+      "lastNameMinLength": "El apellido debe tener al menos 2 caracteres",
+      "confirmPasswordRequired": "La confirmación de contraseña es obligatoria",
+      "passwordsNotMatch": "Las contraseñas no coinciden",
+      "acceptTermsRequired": "Debes aceptar los términos y condiciones"
+    }
   },
   "howItWorks": {
     "badge": "Guía Completa",

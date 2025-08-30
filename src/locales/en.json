@@ -176,7 +176,22 @@
     "lastNamePlaceholder": "Your last name",
     "displayNamePlaceholder": "John Doe",
     "confirmPasswordPlaceholder": "Confirm your password",
-    "confirmLogout": "Are you sure you want to log out?"
+    "confirmLogout": "Are you sure you want to log out?",
+    "termsDescription": "By signing up, you agree to our terms of service and privacy policy",
+    "validation": {
+      "required": "{field} is required",
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Email is not valid",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "firstNameMinLength": "First name must be at least 2 characters",
+      "lastNameMinLength": "Last name must be at least 2 characters",
+      "confirmPasswordRequired": "Password confirmation is required",
+      "passwordsNotMatch": "Passwords do not match",
+      "acceptTermsRequired": "You must accept the terms and conditions"
+    }
   },
   "howItWorks": {
     "badge": "Complete Guide",

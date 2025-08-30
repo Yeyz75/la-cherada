@@ -35,7 +35,7 @@ export interface UIPreferences {
 export interface AppError {
   message: string
   code?: string
-  type: 'network' | 'validation' | 'auth' | 'unknown'
+  type: 'network' | 'validation' | 'auth' | 'profile' | 'upload' | 'unknown'
   timestamp: Date
 }
 

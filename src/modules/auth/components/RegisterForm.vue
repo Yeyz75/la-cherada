@@ -80,19 +80,34 @@
               </p>
             </div>
 
-            <!-- Campo Display Name -->
+            <!-- Campo First Name -->
             <BaseInput
-              v-model="formData.displayName"
+              v-model="formData.firstName"
               type="text"
-              :label="$t('auth.displayName')"
-              :placeholder="$t('auth.displayNamePlaceholder')"
+              :label="$t('auth.firstName')"
+              :placeholder="$t('auth.firstNamePlaceholder')"
               :error="
-                formErrors.displayName && formState.touched.displayName
-                  ? formErrors.displayName
+                formErrors.firstName && formState.touched.firstName
+                  ? formErrors.firstName
                   : ''
               "
               :required="true"
-              @blur="markFieldAsTouched('displayName')"
+              @blur="markFieldAsTouched('firstName')"
+            />
+
+            <!-- Campo Last Name -->
+            <BaseInput
+              v-model="formData.lastName"
+              type="text"
+              :label="$t('auth.lastName')"
+              :placeholder="$t('auth.lastNamePlaceholder')"
+              :error="
+                formErrors.lastName && formState.touched.lastName
+                  ? formErrors.lastName
+                  : ''
+              "
+              :required="true"
+              @blur="markFieldAsTouched('lastName')"
             />
 
             <!-- Campo Email -->
@@ -266,6 +281,8 @@ const { isLoading: googleLoading, withLoading } = useLoading()
 
 // Form data
 const formData = reactive<RegisterRequest>({
+  firstName: '',
+  lastName: '',
   displayName: '',
   email: '',
   password: '',
@@ -296,13 +313,23 @@ const formErrors = computed(() => {
 const validateForm = (): FormError[] => {
   const errors: FormError[] = []
 
-  // Display name validation
-  if (!formData.displayName.trim()) {
-    errors.push({ field: 'displayName', message: 'El nombre es obligatorio' })
-  } else if (formData.displayName.trim().length < 2) {
+  // First name validation
+  if (!formData.firstName.trim()) {
+    errors.push({ field: 'firstName', message: 'El nombre es obligatorio' })
+  } else if (formData.firstName.trim().length < 2) {
     errors.push({
-      field: 'displayName',
+      field: 'firstName',
       message: 'El nombre debe tener al menos 2 caracteres'
+    })
+  }
+
+  // Last name validation
+  if (!formData.lastName.trim()) {
+    errors.push({ field: 'lastName', message: 'El apellido es obligatorio' })
+  } else if (formData.lastName.trim().length < 2) {
+    errors.push({
+      field: 'lastName',
+      message: 'El apellido debe tener al menos 2 caracteres'
     })
   }
 
@@ -354,7 +381,8 @@ const isValidEmail = (email: string): boolean => {
 
 const isFormValid = computed(() => {
   return (
-    formData.displayName.trim() !== '' &&
+    formData.firstName.trim() !== '' &&
+    formData.lastName.trim() !== '' &&
     formData.email.trim() !== '' &&
     formData.password.trim() !== '' &&
     formData.confirmPassword.trim() !== '' &&
@@ -373,7 +401,8 @@ const markFieldAsTouched = (field: string): void => {
 const handleSubmit = async (): Promise<void> => {
   // Mark all fields as touched
   formState.touched = {
-    displayName: true,
+    firstName: true,
+    lastName: true,
     email: true,
     password: true,
     confirmPassword: true,
@@ -390,9 +419,15 @@ const handleSubmit = async (): Promise<void> => {
   formState.isLoading = true
 
   try {
+    // Generate displayName from firstName and lastName
+    formData.displayName =
+      `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim()
+
     await authStore.register(
       formData.email,
       formData.password,
+      formData.firstName,
+      formData.lastName,
       formData.displayName
     )
     // Redirect to dashboard or previous route

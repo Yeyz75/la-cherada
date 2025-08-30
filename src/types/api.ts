@@ -17,6 +17,37 @@ export interface BaseApiRequest {
  */
 export interface User {
   id: string
+  email: string
+  firstName: string
+  lastName: string
+  displayName: string
+  photoURL?: string
+  emailVerified: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+/**
+ * User profile interface for extended user information
+ */
+export interface UserProfile {
+  userId: string
+  firstName: string
+  lastName: string
+  displayName: string
+  photoURL?: string
+  bio?: string
+  preferences: UserPreferences
+  updatedAt: Date
+}
+
+/**
+ * User preferences interface
+ */
+export interface UserPreferences {
+  language: string
+  theme: 'light' | 'dark' | 'system'
+  notifications: boolean
 }
 
 /**
@@ -45,6 +76,8 @@ export interface RegisterRequest extends BaseApiRequest {
   email: string
   password: string
   confirmPassword: string
+  firstName: string
+  lastName: string
   displayName: string
   acceptTerms: boolean
 }
@@ -88,4 +121,54 @@ export interface AuthFormState {
   isLoading: boolean
   errors: FormError[]
   touched: Record<string, boolean>
+}
+
+/**
+ * Profile form data interface for editing user profile
+ */
+export interface ProfileFormData {
+  firstName: string
+  lastName: string
+  displayName: string
+  bio?: string
+  photoFile?: File
+}
+
+/**
+ * Profile error interface for profile-specific errors
+ */
+export interface ProfileError extends AppError {
+  type: 'profile' | 'upload' | 'validation'
+  field?: string
+  code?: string
+}
+
+/**
+ * Upload error interface for file upload errors
+ */
+export interface UploadError extends AppError {
+  type: 'upload'
+  fileSize?: number
+  fileType?: string
+  maxSize?: number
+}
+
+/**
+ * Profile validation rule interface
+ */
+export interface ProfileValidationRule {
+  required?: boolean
+  minLength?: number
+  maxLength?: number
+  pattern?: RegExp
+  customValidator?: (value: string) => boolean
+  message: string
+}
+
+/**
+ * Profile validation result interface
+ */
+export interface ProfileValidationResult {
+  isValid: boolean
+  errors: ProfileError[]
 }

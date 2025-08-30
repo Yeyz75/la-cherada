@@ -5,7 +5,7 @@
 
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { User } from '@/types/api'
+import type { User, UserProfile } from '@/types/api'
 import type { LoadingState, AppError } from '@/types/global'
 import type { AuthUser } from '@/types/firebase'
 import { authService } from '@/services/firebase'
@@ -14,6 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
   // State
   const user = ref<User | null>(null)
   const firebaseUser = ref<AuthUser | null>(null)
+  const userProfile = ref<UserProfile | null>(null)
   const loading = ref<LoadingState>({
     isLoading: false
   })
@@ -28,6 +29,7 @@ export const useAuthStore = defineStore('auth', () => {
   const hasError = computed(() => error.value !== null)
   const currentUser = computed(() => user.value)
   const currentFirebaseUser = computed(() => firebaseUser.value)
+  const currentUserProfile = computed(() => userProfile.value)
 
   // Actions - Helper functions
   const setLoading = (isLoadingState: boolean, message?: string): void => {
@@ -53,10 +55,28 @@ export const useAuthStore = defineStore('auth', () => {
     firebaseUser.value = fbUser
   }
 
+  const setUserProfile = (profile: UserProfile | null): void => {
+    userProfile.value = profile
+  }
+
   // Convert Firebase user to app user format
   const mapFirebaseUserToUser = (fbUser: AuthUser): User => {
+    // Extract first and last name from displayName if available
+    const displayName = fbUser.displayName ?? ''
+    const nameParts = displayName.split(' ')
+    const firstName = nameParts[0] ?? ''
+    const lastName = nameParts.slice(1).join(' ') || ''
+
     return {
-      id: fbUser.uid
+      id: fbUser.uid,
+      email: fbUser.email ?? '',
+      firstName,
+      lastName,
+      displayName,
+      ...(fbUser.photoURL && { photoURL: fbUser.photoURL }),
+      emailVerified: fbUser.emailVerified,
+      createdAt: new Date(), // This will be updated when we load from Firestore
+      updatedAt: new Date()
     }
   }
 
@@ -81,8 +101,7 @@ export const useAuthStore = defineStore('auth', () => {
         timestamp: new Date()
       }
       setError(error)
-      setUser(null)
-      setFirebaseUser(null)
+      clearUserData()
     } finally {
       setLoading(false)
     }
@@ -93,9 +112,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     try {
       await authService.signOut()
-      setUser(null)
-      setFirebaseUser(null)
-      clearError()
+      clearUserData()
     } catch (err) {
       const error: AppError = {
         message: err instanceof Error ? err.message : 'Error al cerrar sesión',
@@ -111,22 +128,36 @@ export const useAuthStore = defineStore('auth', () => {
   const register = async (
     email: string,
     password: string,
-    displayName: string
+    firstName: string,
+    lastName: string,
+    displayName?: string
   ): Promise<void> => {
     setLoading(true, 'Creando cuenta...')
     clearError()
 
     try {
+      const finalDisplayName = displayName ?? `${firstName} ${lastName}`.trim()
+
       const result = await authService.signUp({
         email,
         password,
-        displayName,
+        firstName,
+        lastName,
+        displayName: finalDisplayName,
         acceptTerms: true
       })
 
       if (result.success && result.data) {
         setFirebaseUser(result.data)
-        setUser(mapFirebaseUserToUser(result.data))
+        const mappedUser = mapFirebaseUserToUser(result.data)
+        // Override with the actual firstName and lastName provided
+        mappedUser.firstName = firstName
+        mappedUser.lastName = lastName
+        mappedUser.displayName = finalDisplayName
+        setUser(mappedUser)
+
+        // TODO: Create user profile in Firestore (will be implemented in later tasks)
+        // await createUserProfile(mappedUser)
       } else {
         throw new Error(result.error?.message ?? 'Error al crear cuenta')
       }
@@ -137,8 +168,7 @@ export const useAuthStore = defineStore('auth', () => {
         timestamp: new Date()
       }
       setError(error)
-      setUser(null)
-      setFirebaseUser(null)
+      clearUserData()
     } finally {
       setLoading(false)
     }
@@ -166,8 +196,7 @@ export const useAuthStore = defineStore('auth', () => {
         timestamp: new Date()
       }
       setError(error)
-      setUser(null)
-      setFirebaseUser(null)
+      clearUserData()
     } finally {
       setLoading(false)
     }
@@ -248,8 +277,7 @@ export const useAuthStore = defineStore('auth', () => {
         timestamp: new Date()
       }
       setError(error)
-      setUser(null)
-      setFirebaseUser(null)
+      clearUserData()
     } finally {
       setLoading(false)
     }
@@ -266,10 +294,77 @@ export const useAuthStore = defineStore('auth', () => {
         setFirebaseUser(fbUser)
         setUser(mapFirebaseUserToUser(fbUser))
       } else {
-        setUser(null)
-        setFirebaseUser(null)
+        clearUserData()
       }
     })
+  }
+
+  // Profile management methods
+  const updateUserProfile = async (updates: {
+    firstName?: string
+    lastName?: string
+    displayName?: string
+    photoURL?: string
+  }): Promise<void> => {
+    setLoading(true, 'Actualizando perfil...')
+    clearError()
+
+    try {
+      // Update Firebase Auth profile if displayName or photoURL changed
+      if (updates.displayName !== undefined || updates.photoURL !== undefined) {
+        const authUpdates: { displayName?: string; photoURL?: string } = {}
+        if (updates.displayName !== undefined) {
+          authUpdates.displayName = updates.displayName
+        }
+        if (updates.photoURL !== undefined) {
+          authUpdates.photoURL = updates.photoURL
+        }
+
+        const result = await authService.updateUserProfile(authUpdates)
+        if (result.success && result.data) {
+          setFirebaseUser(result.data)
+        }
+      }
+
+      // Update local user state
+      if (user.value) {
+        const updatedUser = { ...user.value }
+        if (updates.firstName !== undefined) {
+          updatedUser.firstName = updates.firstName
+        }
+        if (updates.lastName !== undefined) {
+          updatedUser.lastName = updates.lastName
+        }
+        if (updates.displayName !== undefined) {
+          updatedUser.displayName = updates.displayName
+        }
+        if (updates.photoURL !== undefined) {
+          updatedUser.photoURL = updates.photoURL
+        }
+        updatedUser.updatedAt = new Date()
+        setUser(updatedUser)
+      }
+
+      // TODO: Update Firestore user profile document (will be implemented in later tasks)
+      // await userService.updateUserProfile(user.value.id, updates)
+    } catch (err) {
+      const error: AppError = {
+        message:
+          err instanceof Error ? err.message : 'Error al actualizar perfil',
+        type: 'auth',
+        timestamp: new Date()
+      }
+      setError(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const clearUserData = (): void => {
+    setUser(null)
+    setFirebaseUser(null)
+    setUserProfile(null)
+    clearError()
   }
 
   // Cleanup auth listener
@@ -284,6 +379,7 @@ export const useAuthStore = defineStore('auth', () => {
     // State
     user,
     firebaseUser,
+    userProfile,
     loading,
     error,
 
@@ -293,20 +389,24 @@ export const useAuthStore = defineStore('auth', () => {
     hasError,
     currentUser,
     currentFirebaseUser,
+    currentUserProfile,
 
     // Actions
     setLoading,
     setError,
     clearError,
     setUser,
+    setUserProfile,
     login,
     logout,
     register,
     loginWithGoogle,
     resetPassword,
     updateProfile,
+    updateUserProfile,
     checkAuthStatus,
     initializeAuth,
+    clearUserData,
     cleanup
   }
 })

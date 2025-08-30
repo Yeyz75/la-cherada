@@ -41,6 +41,8 @@ export interface LoginCredentials {
 export interface RegisterData {
   email: string
   password: string
+  firstName: string
+  lastName: string
   displayName: string
   acceptTerms: boolean
 }
@@ -164,6 +166,40 @@ export interface ImageUploadOptions {
   format?: 'jpeg' | 'png' | 'webp'
   generateThumbnail?: boolean
   thumbnailSize?: number
+}
+
+// ==================== USER PROFILE TYPES ====================
+
+export interface UserProfileDocument extends FirestoreDocument {
+  userId: string
+  firstName: string
+  lastName: string
+  displayName: string
+  photoURL?: string
+  bio?: string
+  preferences: {
+    language: string
+    theme: 'light' | 'dark' | 'system'
+    notifications: boolean
+  }
+}
+
+export interface ProfileImageUploadOptions extends ImageUploadOptions {
+  userId: string
+  replaceExisting?: boolean
+}
+
+export interface ProfileUpdateData {
+  firstName?: string
+  lastName?: string
+  displayName?: string
+  bio?: string
+  photoURL?: string
+  preferences?: {
+    language?: string
+    theme?: 'light' | 'dark' | 'system'
+    notifications?: boolean
+  }
 }
 
 // ==================== UTILITY TYPES ====================

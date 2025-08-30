@@ -6,7 +6,11 @@
 import type {
   LoginRequest,
   RegisterRequest,
-  ForgotPasswordRequest
+  ForgotPasswordRequest,
+  ProfileFormData,
+  ProfileError,
+  ProfileValidationRule,
+  ProfileValidationResult
 } from '../../../types/api'
 
 /**
@@ -77,4 +81,37 @@ export interface FormFieldConfig {
 export interface ValidationResult {
   isValid: boolean
   errors: FormError[]
+}
+
+/**
+ * Profile form data interface
+ * Extends the base ProfileFormData with form-specific properties
+ */
+export interface ProfileFormDataExtended extends ProfileFormData {
+  timestamp?: Date
+}
+
+/**
+ * Profile form state interface for managing profile form UI state
+ */
+export interface ProfileFormState {
+  isLoading: boolean
+  errors: ProfileError[]
+  touched: Record<string, boolean>
+  uploadProgress?: number
+}
+
+/**
+ * Profile field validation rule interface
+ */
+export interface ProfileFieldValidationRule extends ProfileValidationRule {
+  field: string
+}
+
+/**
+ * Profile form field configuration interface
+ */
+export interface ProfileFormFieldConfig {
+  name: string
+  rules: ProfileFieldValidationRule[]
 }

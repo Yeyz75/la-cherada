@@ -144,6 +144,8 @@
     "joinCommunity": "Únete a nuestra comunidad",
     "resetPassword": "Restablecer contraseña",
     "recoverAccount": "Recupera tu cuenta",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
     "displayName": "Nombre completo",
     "confirmPassword": "Confirmar contraseña",
     "acceptTerms": "Acepto los",
@@ -165,6 +167,8 @@
     "forgotPasswordDescription": "Ingresa tu email y te enviaremos las instrucciones para restablecer tu contraseña",
     "emailPlaceholder": "Ingresa tu email",
     "passwordPlaceholder": "Tu contraseña",
+    "firstNamePlaceholder": "Tu nombre",
+    "lastNamePlaceholder": "Tu apellido",
     "displayNamePlaceholder": "Juan Pérez",
     "confirmPasswordPlaceholder": "Confirma tu contraseña"
   },

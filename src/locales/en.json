@@ -144,6 +144,8 @@
     "joinCommunity": "Join our community",
     "resetPassword": "Reset password",
     "recoverAccount": "Recover your account",
+    "firstName": "First name",
+    "lastName": "Last name",
     "displayName": "Full name",
     "confirmPassword": "Confirm password",
     "acceptTerms": "I accept the",
@@ -165,6 +167,8 @@
     "forgotPasswordDescription": "Enter your email and we'll send you instructions to reset your password",
     "emailPlaceholder": "your@email.com",
     "passwordPlaceholder": "Your password",
+    "firstNamePlaceholder": "Your first name",
+    "lastNamePlaceholder": "Your last name",
     "displayNamePlaceholder": "John Doe",
     "confirmPasswordPlaceholder": "Confirm your password"
   },

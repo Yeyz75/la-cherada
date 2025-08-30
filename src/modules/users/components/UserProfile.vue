@@ -68,12 +68,12 @@
             <!-- Edit Button -->
             <BaseButton
               v-if="showEditButton"
-              variant="primary"
+              variant="success"
               size="small"
               @click="toggleEditMode"
               :disabled="isLoading"
             >
-              <BaseIcon name="edit" class="w-4 h-4 mr-2" />
+              <BaseIcon name="pi-pencil" class="w-4 h-4 mr-2" />
               {{ $t('common.edit') }}
             </BaseButton>
           </div>
@@ -349,7 +349,7 @@ const avatarColor = computed(() => {
 
 const formatJoinDate = computed(() => {
   if (!authUser.value?.createdAt) {
-    return t('profile.unknown')
+    return t('dashboard.unknownDate')
   }
 
   // Handle both Timestamp and Date types
@@ -358,7 +358,7 @@ const formatJoinDate = computed(() => {
       ? authUser.value.createdAt
       : new Date(authUser.value.createdAt)
 
-  return formatDate(date, 'MMMM yyyy')
+  return formatDate(date, 'MMMM YYYY')
 })
 
 const isProfileComplete = computed(() => {

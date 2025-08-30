@@ -82,7 +82,7 @@
                 size="small"
                 @click="handleDashboard"
               >
-                <BaseIcon name="layout-dashboard" class="w-4 h-4" />
+                <BaseIcon name="cog" class="w-4 h-4" />
                 {{ t('dashboard.title') }}
               </BaseButton>
 
@@ -103,7 +103,7 @@
                 @click="handleLogout"
                 :loading="authStore.isLoading"
               >
-                <BaseIcon name="logout" class="w-4 h-4" />
+                <BaseIcon name="sign-out" class="w-4 h-4" />
                 {{ t('auth.logout') }}
               </BaseButton>
             </div>

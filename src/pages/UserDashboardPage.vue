@@ -99,7 +99,7 @@
                     {{ $t('dashboard.noActivityDescription') }}
                   </p>
                   <div class="mt-6">
-                    <BaseButton variant="primary" @click="navigateToExplore">
+                    <BaseButton variant="success" @click="navigateToExplore">
                       {{ $t('dashboard.startExploring') }}
                     </BaseButton>
                   </div>
@@ -241,7 +241,7 @@
                     class="w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center"
                   >
                     <BaseIcon
-                      name="activity"
+                      name="tag"
                       class="w-5 h-5 text-orange-600 dark:text-orange-400"
                     />
                   </div>
@@ -268,12 +268,12 @@
           >
             <div class="quick-actions space-y-3">
               <BaseButton
-                variant="primary"
+                variant="success"
                 size="small"
                 class="w-full justify-start"
                 @click="navigateToProfile"
               >
-                <BaseIcon name="edit" class="w-4 h-4" />
+                <BaseIcon name="user-edit" class="w-4 h-4" />
                 {{ $t('dashboard.editProfile') }}
               </BaseButton>
 
@@ -293,7 +293,7 @@
                 class="w-full justify-start"
                 @click="navigateToContact"
               >
-                <BaseIcon name="mail" class="w-4 h-4" />
+                <BaseIcon name="send" class="w-4 h-4" />
                 {{ $t('dashboard.contactSupport') }}
               </BaseButton>
             </div>
@@ -465,7 +465,7 @@ const getActivityIcon = (type: ActivityItem['type']): string => {
 }
 
 const formatActivityDate = (date: Date): string => {
-  return formatDate(date, 'MMM d, yyyy HH:mm')
+  return formatDate(date, 'MMM D, YYYY h:mmA')
 }
 
 const loadRecentActivity = async (): Promise<void> => {

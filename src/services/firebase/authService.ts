@@ -12,6 +12,8 @@ import {
   onAuthStateChanged,
   signInWithPopup,
   GoogleAuthProvider,
+  setPersistence,
+  browserLocalPersistence,
   type User as FirebaseUser,
   type UserCredential
 } from 'firebase/auth'
@@ -29,6 +31,22 @@ import { BaseFirebaseService } from './baseService'
 export class AuthService extends BaseFirebaseService {
   constructor() {
     super('AuthService')
+    this.initializePersistence()
+  }
+
+  /**
+   * Initialize authentication persistence
+   */
+  private async initializePersistence(): Promise<void> {
+    try {
+      const authInstance = initializeFirebase().auth
+      if (authInstance) {
+        await setPersistence(authInstance, browserLocalPersistence)
+      }
+    } catch (error) {
+      // Persistence might already be set or not supported
+      this.handleError(error, 'initializePersistence')
+    }
   }
 
   /**

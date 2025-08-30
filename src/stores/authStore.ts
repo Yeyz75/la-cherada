@@ -260,6 +260,11 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const checkAuthStatus = async (): Promise<void> => {
+    // Si ya hay un listener activo, no necesitamos verificar manualmente
+    if (authUnsubscribe.value) {
+      return
+    }
+
     setLoading(true, 'Verificando autenticación...')
 
     try {
@@ -290,9 +295,12 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Initialize auth state listener
   const initializeAuth = (): void => {
+    // Clear any existing subscription
     if (authUnsubscribe.value) {
       authUnsubscribe.value()
     }
+
+    setLoading(true, 'Verificando autenticación...')
 
     authUnsubscribe.value = authService.onAuthStateChanged(fbUser => {
       if (fbUser) {
@@ -301,6 +309,7 @@ export const useAuthStore = defineStore('auth', () => {
       } else {
         clearUserData()
       }
+      setLoading(false)
     })
   }
 

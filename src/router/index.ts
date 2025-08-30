@@ -169,9 +169,17 @@ router.beforeEach(async (to, from, next) => {
     document.title = to.meta.title
   }
 
-  // Wait for auth to initialize
-  if (authStore.loading.isLoading && !authStore.isAuthenticated) {
-    await authStore.checkAuthStatus()
+  // Wait for auth to initialize if it's still loading
+  if (authStore.loading.isLoading) {
+    // Wait for the authentication check to complete
+    await new Promise(resolve => {
+      const unwatch = authStore.$subscribe(() => {
+        if (!authStore.loading.isLoading) {
+          unwatch()
+          resolve(void 0)
+        }
+      })
+    })
   }
 
   next()

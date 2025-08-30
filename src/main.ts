@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import i18n from './i18n'
+import { useAuthStore } from '@/stores/authStore'
 
 // PrimeVue imports
 import PrimeVue from 'primevue/config'
@@ -109,5 +110,9 @@ app.use(router)
 
 // Configure i18n
 app.use(i18n)
+
+// Initialize authentication
+const authStore = useAuthStore()
+authStore.initializeAuth()
 
 app.mount('#app')

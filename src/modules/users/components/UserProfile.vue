@@ -14,18 +14,22 @@
         <div class="flex-shrink-0">
           <div
             v-if="userProfile?.photoURL && !imageError"
-            class="relative w-24 h-24 rounded-full overflow-hidden ring-4 ring-white dark:ring-gray-800 shadow-lg"
+            class="relative w-24 h-24 rounded-full overflow-hidden ring-4 ring-white dark:ring-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 group cursor-pointer"
           >
             <img
               :src="userProfile.photoURL"
               :alt="userDisplayName"
-              class="w-full h-full object-cover"
+              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
               @error="onImageError"
             />
+            <!-- Overlay sutil en hover -->
+            <div
+              class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 rounded-full"
+            ></div>
           </div>
           <div
             v-else
-            class="w-24 h-24 rounded-full flex items-center justify-center text-white text-xl font-bold ring-4 ring-white dark:ring-gray-800 shadow-lg"
+            class="w-24 h-24 rounded-full flex items-center justify-center text-white text-xl font-bold ring-4 ring-white dark:ring-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer"
             :style="{ backgroundColor: avatarColor }"
           >
             {{ userInitials }}
@@ -423,15 +427,44 @@ if (!userStore.currentProfile && authUser.value?.id) {
 
 @media (max-width: 640px) {
   .user-profile-card :deep(.card-content) {
-    @apply p-4;
+    @apply p-3;
   }
 
   .flex.items-start.space-x-6 {
-    @apply flex-col space-x-0 space-y-4 text-center;
+    @apply flex-col space-x-0 space-y-4 text-center items-center;
   }
 
   .grid.grid-cols-1.md\\:grid-cols-2 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
+    @apply gap-3;
+  }
+
+  .profile-detail-item {
+    @apply p-3;
+  }
+
+  /* Ajustar tamaño del avatar en móviles */
+  .w-24.h-24 {
+    @apply w-20 h-20;
+  }
+
+  /* Reducir tamaños de texto en móviles */
+  .text-3xl {
+    @apply text-2xl;
+  }
+
+  .text-lg {
+    @apply text-base;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-profile-card {
+    max-width: none;
+  }
+
+  .profile-edit-mode {
+    min-height: 300px;
   }
 }
 </style>

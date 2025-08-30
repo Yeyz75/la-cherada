@@ -146,16 +146,19 @@
       </div>
 
       <!-- Form Actions -->
-      <div class="form-actions flex flex-col sm:flex-row gap-3 pt-4">
+      <div
+        class="form-actions flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200 dark:border-gray-700"
+      >
         <BaseButton
           type="submit"
           :loading="formState.isLoading"
           :disabled="!isFormValid || formState.isLoading || !hasChanges"
           variant="primary"
-          class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+          size="large"
+          class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white font-medium shadow-lg hover:shadow-xl dark:shadow-blue-500/25 dark:hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105"
         >
           <template #icon>
-            <BaseIcon name="save" class="w-4 h-4" />
+            <BaseIcon name="save" class="w-5 h-5" />
           </template>
           {{ $t('profile.saveChanges') }}
         </BaseButton>
@@ -163,13 +166,13 @@
         <BaseButton
           type="button"
           variant="secondary"
-          :outlined="true"
+          size="large"
           :disabled="formState.isLoading"
-          class="flex-1 sm:flex-initial px-6 py-3 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl transition-all duration-200"
+          class="flex-1 sm:flex-initial bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 font-medium shadow-md hover:shadow-lg transition-all duration-300"
           @click="handleCancel"
         >
           <template #icon>
-            <BaseIcon name="x" class="w-4 h-4" />
+            <BaseIcon name="x" class="w-5 h-5" />
           </template>
           {{ $t('profile.cancel') }}
         </BaseButton>
@@ -661,9 +664,38 @@ defineExpose({
 /* Responsive design */
 @media (max-width: 640px) {
   .profile-form {
-    @apply p-4 rounded-lg;
+    @apply p-3 rounded-lg space-y-3;
   }
 
+  .form-actions {
+    @apply flex-col gap-3 pt-4;
+  }
+
+  .form-field {
+    @apply space-y-1;
+  }
+
+  /* Reducir padding en los headers del formulario */
+  .form-header {
+    @apply mb-4;
+  }
+
+  .form-header h2 {
+    @apply text-xl;
+  }
+
+  /* Ajustar botones en móviles */
+  .form-actions .flex-1 {
+    @apply w-full;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-form-container {
+    @apply px-2;
+  }
+
+  /* Botones stack verticalmente en tablet */
   .form-actions {
     @apply flex-col;
   }

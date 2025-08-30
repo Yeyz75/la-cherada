@@ -426,7 +426,7 @@ const memberSinceFormatted = computed(() => {
 
 // Methods
 const navigateToProfile = (): void => {
-  router.push({ name: 'UserProfile' })
+  router.push({ name: 'profile' })
 }
 
 const navigateToExplore = (): void => {

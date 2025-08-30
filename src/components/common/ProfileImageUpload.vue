@@ -114,7 +114,7 @@
         v-if="selectedFile && !uploadState.isLoading"
         type="button"
         variant="primary"
-        :disabled="disabled"
+        :disabled="!!disabled"
         @click="handleUpload"
       >
         <template #icon>
@@ -437,7 +437,7 @@ onUnmounted(cleanup)
 }
 
 .image-preview {
-  @apply relative w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg;
+  @apply relative w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-gray-600 shadow-xl ring-2 ring-gray-200 dark:ring-gray-700;
 }
 
 .image-preview.loading {
@@ -445,19 +445,19 @@ onUnmounted(cleanup)
 }
 
 .profile-image {
-  @apply w-full h-full object-cover;
+  @apply w-full h-full object-cover transition-transform duration-300 hover:scale-110;
 }
 
 .upload-overlay {
-  @apply absolute inset-0 bg-black/50 flex flex-col items-center justify-center text-white rounded-full;
+  @apply absolute inset-0 bg-black/60 flex flex-col items-center justify-center text-white rounded-full backdrop-blur-sm;
 }
 
 .upload-progress-text {
-  @apply text-xs mt-2 font-medium;
+  @apply text-xs mt-2 font-medium drop-shadow-sm;
 }
 
 .image-placeholder {
-  @apply w-32 h-32 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center;
+  @apply w-32 h-32 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center shadow-inner transition-colors duration-300 hover:from-gray-200 hover:to-gray-300 dark:hover:from-gray-600 dark:hover:to-gray-700;
 }
 
 .placeholder-text {

@@ -39,19 +39,19 @@ const props = withDefaults(defineProps<Props>(), {
 
 const cardClasses = computed((): string => {
   const baseClasses =
-    'bg-white rounded-lg border border-gray-200 transition-all duration-200 dark:bg-gray-800 dark:border-gray-700'
+    'bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 transition-all duration-300'
 
   // Shadow classes
   const shadowClasses = {
     none: '',
-    sm: 'shadow-sm dark:shadow-gray-900/20',
-    md: 'shadow-md dark:shadow-gray-900/20',
-    lg: 'shadow-lg dark:shadow-gray-900/20'
+    sm: 'shadow-sm hover:shadow-md dark:shadow-gray-900/30 dark:hover:shadow-gray-900/40',
+    md: 'shadow-md hover:shadow-lg dark:shadow-gray-900/30 dark:hover:shadow-gray-900/40',
+    lg: 'shadow-lg hover:shadow-xl dark:shadow-gray-900/40 dark:hover:shadow-gray-900/50'
   }
 
   // Hover effect
   const hoverClasses = props.hoverable
-    ? 'hover:shadow-lg hover:-translate-y-1 cursor-pointer dark:hover:shadow-gray-900/30'
+    ? 'hover:shadow-lg hover:-translate-y-1 hover:border-gray-300 dark:hover:border-gray-600 cursor-pointer dark:hover:shadow-gray-900/40 transform'
     : ''
 
   return `${baseClasses} ${shadowClasses[props.shadow]} ${hoverClasses}`.trim()

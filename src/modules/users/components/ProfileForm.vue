@@ -11,6 +11,49 @@
         </p>
       </div>
 
+      <!-- Profile Image Upload -->
+      <div class="profile-image-section mb-6">
+        <ProfileImageUpload
+          :current-image-url="userStore.currentProfile?.photoURL || ''"
+          :disabled="formState.isLoading || imageState.isLoading"
+          :auto-upload="false"
+          :show-actions="false"
+          @upload="handleImageUpload"
+          @remove="handleImageRemove"
+          @error="handleImageError"
+          @progress="handleImageProgress"
+        />
+
+        <!-- Image Upload Status -->
+        <div v-if="imageState.isLoading" class="image-status mt-3">
+          <div
+            class="flex items-center justify-center text-sm text-blue-600 dark:text-blue-400"
+          >
+            <BaseIcon name="loader" class="w-4 h-4 mr-2 animate-spin" />
+            Subiendo imagen... {{ imageState.progress }}%
+          </div>
+        </div>
+
+        <div v-if="imageState.error" class="image-status error mt-3">
+          <div class="flex items-center text-sm text-red-600 dark:text-red-400">
+            <BaseIcon name="alert-circle" class="w-4 h-4 mr-2" />
+            {{ imageState.error }}
+          </div>
+        </div>
+
+        <div
+          v-if="imageState.success && !imageState.isLoading"
+          class="image-status success mt-3"
+        >
+          <div
+            class="flex items-center text-sm text-green-600 dark:text-green-400"
+          >
+            <BaseIcon name="check-circle" class="w-4 h-4 mr-2" />
+            Imagen actualizada exitosamente
+          </div>
+        </div>
+      </div>
+
       <!-- First Name Field -->
       <BaseInput
         v-model="formData.firstName"
@@ -156,8 +199,14 @@ import { ref, computed, reactive, watch, onMounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useAuthStore } from '@/stores/authStore'
 import { useError } from '@/composables/useError'
+import { userService } from '@/modules/users/services/userService'
 import type { ProfileFormData, FormError } from '@/types/api'
-import { BaseInput, BaseButton, BaseIcon } from '@/components/common'
+import {
+  BaseInput,
+  BaseButton,
+  BaseIcon,
+  ProfileImageUpload
+} from '@/components/common'
 
 // Props
 interface Props {
@@ -198,6 +247,21 @@ const formState = reactive<ProfileFormState>({
   isLoading: false,
   errors: [],
   touched: {}
+})
+
+// Image upload state
+interface ImageUploadState {
+  isLoading: boolean
+  progress: number
+  error: string | null
+  success: boolean
+}
+
+const imageState = reactive<ImageUploadState>({
+  isLoading: false,
+  progress: 0,
+  error: null,
+  success: false
 })
 
 // Form data
@@ -328,6 +392,103 @@ const handleFieldChange = (): void => {
 
   // Emit change event
   emit('change', { ...formData })
+}
+
+// Image handling methods
+const handleImageUpload = async (file: File): Promise<void> => {
+  if (!authStore.currentUser?.id) {
+    handleError(new Error('Usuario no autenticado'))
+    return
+  }
+
+  try {
+    imageState.isLoading = true
+    imageState.error = null
+    imageState.progress = 0
+
+    // Upload image using userService
+    const result = await userService.uploadProfileImage(
+      authStore.currentUser.id,
+      file,
+      {
+        maxWidth: 400,
+        maxHeight: 400,
+        quality: 0.8,
+        format: 'jpeg'
+      },
+      progress => {
+        imageState.progress = Math.round(
+          (progress.bytesTransferred / progress.totalBytes) * 100
+        )
+      }
+    )
+
+    if (!result.success) {
+      throw new Error(result.error?.message || 'Error al subir imagen')
+    }
+
+    // Update user profile in store
+    await userStore.refreshProfile(authStore.currentUser.id)
+
+    imageState.success = true
+    emit('success')
+
+    // Clear success state after 3 seconds
+    setTimeout(() => {
+      imageState.success = false
+    }, 3000)
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'Error al subir imagen'
+    imageState.error = errorMessage
+    handleError(error)
+    emit('error', errorMessage)
+  } finally {
+    imageState.isLoading = false
+  }
+}
+
+const handleImageRemove = async (): Promise<void> => {
+  if (!authStore.currentUser?.id) {
+    handleError(new Error('Usuario no autenticado'))
+    return
+  }
+
+  try {
+    imageState.isLoading = true
+    imageState.error = null
+
+    // Delete image using userService
+    const result = await userService.deleteProfileImage(
+      authStore.currentUser.id
+    )
+
+    if (!result.success) {
+      throw new Error(result.error?.message || 'Error al eliminar imagen')
+    }
+
+    // Update user profile in store
+    await userStore.refreshProfile(authStore.currentUser.id)
+
+    emit('success')
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'Error al eliminar imagen'
+    imageState.error = errorMessage
+    handleError(error)
+    emit('error', errorMessage)
+  } finally {
+    imageState.isLoading = false
+  }
+}
+
+const handleImageError = (error: string): void => {
+  imageState.error = error
+  emit('error', error)
+}
+
+const handleImageProgress = (progress: number): void => {
+  imageState.progress = progress
 }
 
 const handleSubmit = async (): Promise<void> => {

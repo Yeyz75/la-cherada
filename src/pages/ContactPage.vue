@@ -199,7 +199,7 @@
                 <BaseButton
                   type="submit"
                   variant="primary"
-                  size="lg"
+                  size="large"
                   :disabled="isSubmitting"
                   class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                 >
@@ -411,9 +411,8 @@ const submitForm = async () => {
     }
 
     // TODO: Mostrar mensaje de éxito
-    console.log('Formulario enviado exitosamente')
   } catch (error) {
-    console.error('Error al enviar el formulario:', error)
+    // TODO: Mostrar mensaje de error
   } finally {
     isSubmitting.value = false
   }

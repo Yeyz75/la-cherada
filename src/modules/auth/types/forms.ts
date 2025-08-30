@@ -9,8 +9,7 @@ import type {
   ForgotPasswordRequest,
   ProfileFormData,
   ProfileError,
-  ProfileValidationRule,
-  ProfileValidationResult
+  ProfileValidationRule
 } from '../../../types/api'
 
 /**

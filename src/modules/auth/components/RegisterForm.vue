@@ -183,19 +183,26 @@
               @blur="markFieldAsTouched('confirmPassword')"
             />
 
-            <!-- Accept Terms - Diseño moderno -->
+            <!-- Accept Terms - Diseño mejorado y simétrico -->
             <div class="mb-4">
               <div
-                class="relative bg-gray-50/80 dark:bg-gray-700/40 backdrop-blur-sm rounded-xl p-4 border border-gray-200/60 dark:border-gray-600/40 hover:bg-gray-50 dark:hover:bg-gray-700/60 transition-all duration-200"
+                class="group relative bg-gradient-to-br from-gray-50/90 to-gray-100/50 dark:from-gray-700/60 dark:to-gray-800/40 backdrop-blur-sm rounded-2xl p-5 border border-gray-200/80 dark:border-gray-600/50 hover:shadow-lg hover:border-blue-300/60 dark:hover:border-blue-500/40 transition-all duration-300 ease-out"
                 :class="{
-                  '!border-red-300 dark:!border-red-500 !bg-red-50/50 dark:!bg-red-900/10':
-                    formErrors.acceptTerms && formState.touched.acceptTerms
+                  '!border-red-300 dark:!border-red-500 !bg-gradient-to-br !from-red-50/80 !to-red-100/40 dark:!from-red-900/20 dark:!to-red-800/10 shadow-red-100 dark:shadow-red-900/20':
+                    formErrors.acceptTerms && formState.touched.acceptTerms,
+                  'shadow-md hover:shadow-xl border-blue-200/60 dark:border-blue-600/40':
+                    formData.acceptTerms && !formErrors.acceptTerms
                 }"
               >
-                <div class="flex items-start space-x-3">
-                  <!-- Custom Checkbox -->
+                <!-- Decoración de fondo -->
+                <div
+                  class="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-green-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                ></div>
+
+                <div class="relative flex items-start space-x-4">
+                  <!-- Custom Checkbox mejorado -->
                   <div
-                    class="terms-checkbox-container relative flex-shrink-0 mt-0.5"
+                    class="terms-checkbox-container relative flex-shrink-0 mt-1"
                   >
                     <input
                       v-model="formData.acceptTerms"
@@ -206,59 +213,82 @@
                     />
                     <label
                       for="acceptTerms"
-                      class="relative flex items-center justify-center w-5 h-5 bg-white dark:bg-gray-600 border-2 border-gray-300 dark:border-gray-500 rounded-md cursor-pointer transition-all duration-200 peer-checked:bg-gradient-to-r peer-checked:from-green-500 peer-checked:to-blue-500 peer-checked:border-transparent hover:border-blue-400 dark:hover:border-blue-500"
+                      class="relative flex items-center justify-center w-6 h-6 bg-white dark:bg-gray-600 border-2 border-gray-300 dark:border-gray-500 rounded-lg cursor-pointer transition-all duration-300 ease-out transform hover:scale-105 active:scale-95 peer-checked:bg-gradient-to-r peer-checked:from-green-500 peer-checked:to-blue-500 peer-checked:border-transparent peer-checked:shadow-lg hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md"
                       :class="{
-                        '!border-red-400 dark:!border-red-500':
+                        '!border-red-400 dark:!border-red-500 shadow-red-200 dark:shadow-red-800':
                           formErrors.acceptTerms &&
-                          formState.touched.acceptTerms
+                          formState.touched.acceptTerms,
+                        'ring-4 ring-blue-500/20 dark:ring-blue-400/20':
+                          formData.acceptTerms && !formErrors.acceptTerms
                       }"
                     >
-                      <!-- Checkmark Icon -->
+                      <!-- Checkmark Icon con animación -->
                       <BaseIcon
                         name="check"
-                        class="w-3 h-3 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-200"
+                        class="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-all duration-200 transform peer-checked:scale-100 scale-75"
                       />
+
+                      <!-- Efecto de ripple -->
+                      <div
+                        class="absolute inset-0 rounded-lg opacity-0 peer-checked:animate-ping peer-checked:opacity-75 bg-gradient-to-r from-green-500/30 to-blue-500/30"
+                      ></div>
                     </label>
                   </div>
 
-                  <!-- Terms Text -->
-                  <div class="flex-1">
+                  <!-- Terms Text mejorado -->
+                  <div class="flex-1 min-w-0">
                     <label
                       for="acceptTerms"
-                      class="block text-sm text-gray-700 dark:text-gray-200 leading-relaxed cursor-pointer"
+                      class="block text-sm text-gray-700 dark:text-gray-200 leading-relaxed cursor-pointer select-none"
                     >
                       <span class="font-medium">{{
                         $t('auth.acceptTerms')
                       }}</span>
                       <router-link
                         to="/terms"
-                        class="terms-link-animation inline-flex items-center ml-1 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-semibold transition-colors duration-200"
+                        class="terms-link-animation inline-flex items-center ml-1 px-2 py-0.5 text-blue-600 hover:text-white dark:text-blue-400 dark:hover:text-white font-semibold rounded-lg hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-600 transition-all duration-200 transform hover:scale-105 active:scale-95"
                         target="_blank"
+                        @click.stop
                       >
                         {{ $t('auth.termsAndConditions') }}
                         <BaseIcon
                           name="external-link"
-                          class="w-3 h-3 ml-1 opacity-70"
+                          class="w-3 h-3 ml-1 opacity-70 group-hover:opacity-100 transition-opacity duration-200"
                         />
                       </router-link>
-                      <span class="text-red-500 ml-1 font-medium">*</span>
+                      <span class="text-red-500 ml-1 font-bold text-base">
+                        *
+                      </span>
                     </label>
 
-                    <!-- Descripción adicional -->
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    <!-- Descripción adicional mejorada -->
+                    <p
+                      class="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed"
+                    >
                       {{ $t('auth.termsDescription') }}
                     </p>
+
+                    <!-- Indicador visual de estado -->
+                    <div
+                      v-if="formData.acceptTerms && !formErrors.acceptTerms"
+                      class="flex items-center mt-2 space-x-2 text-green-600 dark:text-green-400"
+                    >
+                      <BaseIcon name="check-circle" class="w-3 h-3" />
+                      <span class="text-xs font-medium">
+                        Términos aceptados
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <!-- Error message -->
+                <!-- Error message mejorado -->
                 <div
                   v-if="formErrors.acceptTerms && formState.touched.acceptTerms"
-                  class="mt-2 flex items-center space-x-2"
+                  class="mt-3 flex items-center space-x-2 p-2 bg-red-50/80 dark:bg-red-900/20 rounded-lg border border-red-200/50 dark:border-red-800/30"
                 >
                   <BaseIcon
                     name="alert-circle"
-                    class="w-4 h-4 text-red-500 flex-shrink-0"
+                    class="w-4 h-4 text-red-500 flex-shrink-0 animate-pulse"
                   />
                   <p class="text-sm text-red-600 dark:text-red-400 font-medium">
                     {{ formErrors.acceptTerms }}

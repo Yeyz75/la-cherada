@@ -48,43 +48,99 @@
     @apply dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-400;
   }
 
-  .btn-secondary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:ring-blue-500;
-    @apply dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400;
+  /* Animaciones mejoradas para formularios */
+  .form-field-enhanced {
+    @apply transition-all duration-300 ease-out;
   }
 
-  .btn-outline {
-    @apply border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:ring-green-500;
-    @apply dark:border-green-400 dark:text-green-400 dark:hover:bg-green-500 dark:hover:text-white dark:focus:ring-green-400;
+  .form-field-enhanced:hover {
+    @apply transform scale-[1.02];
   }
 
-  /* Cards */
-  .card {
-    @apply bg-white rounded-xl shadow-soft border border-gray-100;
-    @apply dark:bg-gray-800 dark:border-gray-700;
+  .form-field-enhanced:focus-within {
+    @apply transform scale-105 shadow-lg;
   }
 
-  .card-hover {
-    @apply card hover:shadow-medium transition-shadow duration-300;
-    @apply dark:hover:shadow-gray-900/20;
+  /* Efectos para checkboxes personalizados */
+  .checkbox-ripple {
+    @apply relative overflow-hidden;
   }
 
-  /* Inputs */
-  .input-base {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200;
-    @apply dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-400 dark:focus:border-blue-400;
+  .checkbox-ripple::after {
+    content: '';
+    @apply absolute inset-0 rounded-md opacity-0 transition-opacity duration-300;
+    background: radial-gradient(
+      circle,
+      rgba(59, 130, 246, 0.3) 0%,
+      transparent 70%
+    );
   }
 
-  .input-error {
-    @apply input-base border-red-500 focus:ring-red-500 focus:border-red-500;
-    @apply dark:border-red-400 dark:focus:ring-red-400 dark:focus:border-red-400;
+  .checkbox-ripple:hover::after {
+    @apply opacity-100;
+    animation: ripple 0.6s ease-out;
   }
 
-  /* Texto */
-  .text-gradient {
-    @apply bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent;
-    @apply dark:from-green-400 dark:to-blue-400;
+  /* Enlaces mejorados */
+  .link-enhanced {
+    @apply relative inline-flex items-center transition-all duration-300 ease-out;
   }
+
+  .link-enhanced::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-300;
+  }
+
+  .link-enhanced:hover::after {
+    @apply w-full;
+  }
+
+  /* Efectos de glassmorphism */
+  .glass-effect {
+    @apply backdrop-blur-lg bg-white/80 dark:bg-gray-800/80 border border-white/20 dark:border-gray-700/20;
+  }
+
+  .glass-effect-hover {
+    @apply hover:bg-white/90 dark:hover:bg-gray-800/90 hover:border-white/30 dark:hover:border-gray-700/30;
+  }
+}
+
+.btn-secondary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:ring-blue-500;
+  @apply dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400;
+}
+
+.btn-outline {
+  @apply border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 focus:ring-green-500;
+  @apply dark:border-green-400 dark:text-green-400 dark:hover:bg-green-500 dark:hover:text-white dark:focus:ring-green-400;
+}
+
+/* Cards */
+.card {
+  @apply bg-white rounded-xl shadow-soft border border-gray-100;
+  @apply dark:bg-gray-800 dark:border-gray-700;
+}
+
+.card-hover {
+  @apply card hover:shadow-medium transition-shadow duration-300;
+  @apply dark:hover:shadow-gray-900/20;
+}
+
+/* Inputs */
+.input-base {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200;
+  @apply dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-400 dark:focus:border-blue-400;
+}
+
+.input-error {
+  @apply input-base border-red-500 focus:ring-red-500 focus:border-red-500;
+  @apply dark:border-red-400 dark:focus:ring-red-400 dark:focus:border-red-400;
+}
+
+/* Texto */
+.text-gradient {
+  @apply bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent;
+  @apply dark:from-green-400 dark:to-blue-400;
 }
 
 /* Utilidades personalizadas */
@@ -123,5 +179,100 @@
 
   .text-responsive-lg {
     @apply text-xl sm:text-2xl lg:text-3xl;
+  }
+}
+
+/* Animaciones personalizadas */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes bounce-subtle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-2px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(59, 130, 246, 0.8),
+      0 0 30px rgba(59, 130, 246, 0.5);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Utilidades personalizadas */
+@layer utilities {
+  .animate-bounce-subtle {
+    animation: bounce-subtle 1s ease-in-out;
+  }
+
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .shadow-soft {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .shadow-strong {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .backdrop-blur-subtle {
+    backdrop-filter: blur(8px);
   }
 }

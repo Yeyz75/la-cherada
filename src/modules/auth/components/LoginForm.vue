@@ -134,20 +134,47 @@
               @blur="markFieldAsTouched('password')"
             />
 
-            <!-- Remember Me & Forgot Password -->
-            <div class="form-options flex justify-between items-center mb-6">
-              <BaseCheckbox
-                v-model="formData.rememberMe"
-                :label="$t('auth.rememberMe')"
-                :binary="true"
-              />
+            <!-- Remember Me & Forgot Password - Diseño mejorado -->
+            <div
+              class="form-options flex justify-between items-start mb-6 space-y-2 sm:space-y-0 sm:flex-row flex-col"
+            >
+              <!-- Remember Me mejorado -->
+              <div class="flex items-center">
+                <BaseCheckbox
+                  v-model="formData.rememberMe"
+                  :label="$t('auth.rememberMe')"
+                  :binary="true"
+                  class="remember-me-enhanced"
+                />
+              </div>
 
-              <router-link
-                to="/forgot-password"
-                class="forgot-password-link text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors font-medium"
-              >
-                {{ $t('auth.forgotPassword') }}
-              </router-link>
+              <!-- Forgot Password mejorado -->
+              <div class="relative group">
+                <router-link
+                  to="/forgot-password"
+                  class="forgot-password-link-enhanced inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20 hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-600 hover:text-white dark:hover:text-white rounded-xl border border-blue-200/50 dark:border-blue-700/50 hover:border-transparent hover:shadow-lg transition-all duration-300 transform hover:scale-105 active:scale-95"
+                >
+                  <BaseIcon
+                    name="key"
+                    class="w-4 h-4 mr-2 opacity-70 group-hover:opacity-100 transition-opacity duration-200"
+                  />
+                  {{ $t('auth.forgotPassword') }}
+                  <BaseIcon
+                    name="arrow-right"
+                    class="w-3 h-3 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200"
+                  />
+                </router-link>
+
+                <!-- Tooltip decorativo -->
+                <div
+                  class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10"
+                >
+                  Recuperar acceso
+                  <div
+                    class="absolute top-full left-1/2 transform -translate-x-1/2 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800 dark:border-t-gray-200"
+                  ></div>
+                </div>
+              </div>
             </div>
 
             <!-- Submit Button -->

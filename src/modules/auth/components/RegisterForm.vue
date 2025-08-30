@@ -1,162 +1,238 @@
 <template>
-  <div class="max-w-md mx-auto">
-    <form
-      @submit.prevent="handleSubmit"
-      class="register-form bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20 dark:border-gray-700/20"
+  <div class="auth-container max-w-6xl mx-auto">
+    <div
+      class="auth-wrapper bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/20 overflow-hidden"
     >
-      <!-- Título del formulario -->
-      <div class="text-center mb-8">
+      <div class="grid lg:grid-cols-5 min-h-[700px]">
+        <!-- Panel izquierdo - Información visual -->
         <div
-          class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl mb-4 shadow-lg"
+          class="lg:col-span-2 bg-gradient-to-br from-green-600 via-blue-600 to-purple-700 p-8 lg:p-12 flex flex-col justify-center relative overflow-hidden"
         >
-          <BaseIcon name="user-plus" class="w-8 h-8 text-white" />
+          <!-- Decoración de fondo -->
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-green-500/20 to-purple-600/20"
+          ></div>
+          <div
+            class="absolute top-4 right-4 w-32 h-32 bg-white/10 rounded-full blur-2xl"
+          ></div>
+          <div
+            class="absolute bottom-8 left-8 w-24 h-24 bg-green-400/20 rounded-full blur-xl"
+          ></div>
+
+          <div class="relative z-10">
+            <!-- Icono principal -->
+            <div class="mb-8">
+              <div
+                class="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl shadow-lg"
+              >
+                <BaseIcon name="user-plus" class="w-10 h-10 text-white" />
+              </div>
+            </div>
+
+            <!-- Contenido -->
+            <h1
+              class="text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight"
+            >
+              Únete a nosotros
+            </h1>
+            <p class="text-green-100 text-lg mb-8 leading-relaxed">
+              Crea tu cuenta y descubre todas las posibilidades que tenemos para
+              ti. ¡Es rápido y gratuito!
+            </p>
+
+            <!-- Features -->
+            <div class="space-y-4">
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-white rounded-full"></div>
+                <span class="text-green-100">Registro rápido y seguro</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-white rounded-full"></div>
+                <span class="text-green-100">Acceso a todas las funciones</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-white rounded-full"></div>
+                <span class="text-green-100">Soporte 24/7</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-2 h-2 bg-white rounded-full"></div>
+                <span class="text-green-100"
+                  >Sin compromisos ni costos ocultos</span
+                >
+              </div>
+            </div>
+          </div>
         </div>
-        <h2
-          class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent"
-        >
-          {{ $t('auth.signUp') }}
-        </h2>
-        <p class="text-gray-600 dark:text-gray-300 mt-2">
-          {{ $t('auth.createAccount') }}
-        </p>
-      </div>
-      <!-- Campo Display Name -->
-      <BaseInput
-        v-model="formData.displayName"
-        type="text"
-        :label="$t('auth.displayName')"
-        :placeholder="$t('auth.displayNamePlaceholder')"
-        :error="
-          formErrors.displayName && formState.touched.displayName
-            ? formErrors.displayName
-            : ''
-        "
-        :required="true"
-        @blur="markFieldAsTouched('displayName')"
-      />
 
-      <!-- Campo Email -->
-      <BaseInput
-        v-model="formData.email"
-        type="email"
-        :label="$t('auth.email')"
-        :placeholder="$t('auth.emailPlaceholder')"
-        :error="
-          formErrors.email && formState.touched.email ? formErrors.email : ''
-        "
-        :required="true"
-        @blur="markFieldAsTouched('email')"
-      />
-
-      <!-- Campo Password -->
-      <BasePasswordInput
-        v-model="formData.password"
-        :label="$t('auth.password')"
-        :placeholder="$t('auth.passwordPlaceholder')"
-        :error="
-          formErrors.password && formState.touched.password
-            ? formErrors.password
-            : ''
-        "
-        :required="true"
-        :feedback="true"
-        :strength-meter="true"
-        :toggle-mask="true"
-        @blur="markFieldAsTouched('password')"
-      />
-
-      <!-- Campo Confirm Password -->
-      <BasePasswordInput
-        v-model="formData.confirmPassword"
-        :label="$t('auth.confirmPassword')"
-        :placeholder="$t('auth.confirmPasswordPlaceholder')"
-        :error="
-          formErrors.confirmPassword && formState.touched.confirmPassword
-            ? formErrors.confirmPassword
-            : ''
-        "
-        :required="true"
-        :feedback="false"
-        :toggle-mask="true"
-        @blur="markFieldAsTouched('confirmPassword')"
-      />
-
-      <!-- Accept Terms -->
-      <div class="mb-6">
-        <BaseCheckbox
-          v-model="formData.acceptTerms"
-          :binary="true"
-          :error="
-            formErrors.acceptTerms && formState.touched.acceptTerms
-              ? formErrors.acceptTerms
-              : ''
-          "
-          :required="true"
-          @change="markFieldAsTouched('acceptTerms')"
-        />
-        <label class="ml-2 text-sm text-gray-700 dark:text-gray-300">
-          {{ $t('auth.acceptTerms') }}
-          <router-link
-            to="/terms"
-            class="terms-link text-blue-600 hover:text-blue-800"
-            target="_blank"
+        <!-- Panel derecho - Formulario -->
+        <div class="lg:col-span-3 p-8 lg:p-12 flex flex-col justify-center">
+          <form
+            @submit.prevent="handleSubmit"
+            class="register-form max-w-md mx-auto w-full space-y-5"
           >
-            {{ $t('auth.termsAndConditions') }}
-          </router-link>
-          <span class="required text-red-500 ml-1">*</span>
-        </label>
+            <!-- Header del formulario -->
+            <div class="mb-6">
+              <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                {{ $t('auth.signUp') }}
+              </h2>
+              <p class="text-gray-600 dark:text-gray-400">
+                {{ $t('auth.createAccount') }}
+              </p>
+            </div>
+
+            <!-- Campo Display Name -->
+            <BaseInput
+              v-model="formData.displayName"
+              type="text"
+              :label="$t('auth.displayName')"
+              :placeholder="$t('auth.displayNamePlaceholder')"
+              :error="
+                formErrors.displayName && formState.touched.displayName
+                  ? formErrors.displayName
+                  : ''
+              "
+              :required="true"
+              @blur="markFieldAsTouched('displayName')"
+            />
+
+            <!-- Campo Email -->
+            <BaseInput
+              v-model="formData.email"
+              type="email"
+              :label="$t('auth.email')"
+              :placeholder="$t('auth.emailPlaceholder')"
+              :error="
+                formErrors.email && formState.touched.email
+                  ? formErrors.email
+                  : ''
+              "
+              :required="true"
+              @blur="markFieldAsTouched('email')"
+            />
+
+            <!-- Campo Password -->
+            <BasePasswordInput
+              v-model="formData.password"
+              :label="$t('auth.password')"
+              :placeholder="$t('auth.passwordPlaceholder')"
+              :error="
+                formErrors.password && formState.touched.password
+                  ? formErrors.password
+                  : ''
+              "
+              :required="true"
+              :feedback="true"
+              :strength-meter="true"
+              :toggle-mask="true"
+              @blur="markFieldAsTouched('password')"
+            />
+
+            <!-- Campo Confirm Password -->
+            <BasePasswordInput
+              v-model="formData.confirmPassword"
+              :label="$t('auth.confirmPassword')"
+              :placeholder="$t('auth.confirmPasswordPlaceholder')"
+              :error="
+                formErrors.confirmPassword && formState.touched.confirmPassword
+                  ? formErrors.confirmPassword
+                  : ''
+              "
+              :required="true"
+              :feedback="false"
+              :toggle-mask="true"
+              @blur="markFieldAsTouched('confirmPassword')"
+            />
+
+            <!-- Accept Terms -->
+            <div class="mb-6">
+              <BaseCheckbox
+                v-model="formData.acceptTerms"
+                :binary="true"
+                :error="
+                  formErrors.acceptTerms && formState.touched.acceptTerms
+                    ? formErrors.acceptTerms
+                    : ''
+                "
+                :required="true"
+                @change="markFieldAsTouched('acceptTerms')"
+              />
+              <label class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                {{ $t('auth.acceptTerms') }}
+                <router-link
+                  to="/terms"
+                  class="terms-link text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                  target="_blank"
+                >
+                  {{ $t('auth.termsAndConditions') }}
+                </router-link>
+                <span class="required text-red-500 ml-1">*</span>
+              </label>
+            </div>
+
+            <!-- Submit Button -->
+            <BaseButton
+              type="submit"
+              :loading="formState.isLoading"
+              :disabled="!isFormValid || formState.isLoading"
+              variant="primary"
+              class="w-full mb-6 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 px-6 py-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+            >
+              <template #icon>
+                <BaseIcon name="user-plus" class="w-4 h-4" />
+              </template>
+              {{ $t('auth.createAccount') }}
+            </BaseButton>
+
+            <!-- Divider -->
+            <div class="divider flex items-center mb-6">
+              <div
+                class="flex-1 border-t border-gray-300/60 dark:border-gray-600/60"
+              ></div>
+              <span
+                class="px-6 text-sm text-gray-500 dark:text-gray-400 font-medium bg-white/60 dark:bg-gray-800/60 rounded-full"
+              >
+                {{ $t('auth.orContinueWith') }}
+              </span>
+              <div
+                class="flex-1 border-t border-gray-300/60 dark:border-gray-600/60"
+              ></div>
+            </div>
+
+            <!-- Google Sign Up -->
+            <BaseButton
+              :loading="googleLoading"
+              :disabled="googleLoading"
+              variant="secondary"
+              :outlined="true"
+              class="w-full mb-6 !bg-white dark:!bg-gray-700 !text-gray-700 dark:!text-gray-200 !border-gray-300 dark:!border-gray-600 hover:!bg-gray-50 dark:hover:!bg-gray-600 hover:!border-gray-400 dark:hover:!border-gray-500 focus:!ring-2 focus:!ring-blue-500 focus:!ring-offset-2 shadow-sm hover:shadow-md transition-all duration-200 font-medium !py-3"
+              @click="handleGoogleSignUp"
+            >
+              <template #icon>
+                <BaseIcon
+                  name="google"
+                  class="w-5 h-5 text-red-500"
+                  v-if="!googleLoading"
+                />
+              </template>
+              {{ $t('auth.continueWithGoogle') }}
+            </BaseButton>
+
+            <!-- Sign In Link -->
+            <div class="signin-link text-center">
+              <span class="text-gray-600 dark:text-gray-400">{{
+                $t('auth.alreadyHaveAccount')
+              }}</span>
+              <router-link
+                to="/login"
+                class="link ml-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors"
+              >
+                {{ $t('auth.signIn') }}
+              </router-link>
+            </div>
+          </form>
+        </div>
       </div>
-
-      <!-- Submit Button -->
-      <BaseButton
-        type="submit"
-        :loading="formState.isLoading"
-        :disabled="!isFormValid || formState.isLoading"
-        variant="primary"
-        class="w-full register-btn mb-4"
-      >
-        <template #icon>
-          <BaseIcon name="user-plus" class="w-4 h-4" />
-        </template>
-        {{ $t('auth.createAccount') }}
-      </BaseButton>
-
-      <!-- Divider -->
-      <div class="divider flex items-center mb-4">
-        <div class="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
-        <span class="px-4 text-sm text-gray-500 dark:text-gray-400">
-          {{ $t('auth.orContinueWith') }}
-        </span>
-        <div class="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
-      </div>
-
-      <!-- Google Sign Up -->
-      <BaseButton
-        :loading="googleLoading"
-        :disabled="googleLoading"
-        variant="secondary"
-        :outlined="true"
-        class="w-full mb-4 !bg-white !text-gray-700 !border-gray-300 hover:!bg-gray-50 hover:!border-gray-400 focus:!ring-2 focus:!ring-blue-500 focus:!ring-offset-2 shadow-sm hover:shadow-md transition-all duration-200 font-medium !py-3"
-        @click="handleGoogleSignUp"
-      >
-        <template #icon>
-          <BaseIcon
-            name="google"
-            class="w-5 h-5 text-red-500"
-            v-if="!googleLoading"
-          />
-        </template>
-        {{ $t('auth.continueWithGoogle') }}
-      </BaseButton>
-
-      <!-- Sign In Link -->
-      <div class="signin-link">
-        <span>{{ $t('auth.alreadyHaveAccount') }}</span>
-        <router-link to="/login" class="link">
-          {{ $t('auth.signIn') }}
-        </router-link>
-      </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -337,83 +413,90 @@ const handleGoogleSignUp = async (): Promise<void> => {
 </script>
 
 <style scoped>
+.auth-container {
+  @apply w-full;
+}
+
+.auth-wrapper {
+  @apply relative;
+}
+
 .register-form {
   @apply space-y-5;
 }
 
-.form-group {
-  @apply space-y-2;
-}
-
-.form-label {
-  @apply block text-sm font-semibold text-slate-700 dark:text-slate-200;
-}
-
-.required {
-  @apply text-red-600 dark:text-red-400;
-}
-
-.checkbox-wrapper {
-  @apply flex items-start space-x-3;
-}
-
-.checkbox-label {
-  @apply text-sm text-slate-600 dark:text-slate-300 cursor-pointer leading-relaxed;
-}
-
-.terms-link {
-  @apply text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline transition-colors mx-1 font-medium;
-}
-
-.register-btn {
-  @apply mt-6 bg-blue-600 hover:bg-blue-700 border-blue-600 hover:border-blue-700 focus:ring-blue-500;
-}
-
 .divider {
-  @apply relative text-center my-6;
-}
-
-.divider::before {
-  @apply absolute inset-0 flex items-center;
-  content: '';
-}
-
-.divider::before::after {
-  @apply flex-1 border-t border-slate-300 dark:border-slate-600;
-  content: '';
-}
-
-.divider span {
-  @apply bg-white dark:bg-slate-800 px-4 text-sm text-slate-500 dark:text-slate-400 font-medium;
+  @apply relative text-center;
 }
 
 .signin-link {
-  @apply text-center text-sm text-slate-600 dark:text-slate-300 mt-6;
+  @apply text-center text-sm;
 }
 
-.signin-link .link {
-  @apply text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-semibold ml-1 transition-colors;
+.terms-link {
+  @apply font-medium transition-colors duration-200;
 }
 
-/* Override PrimeVue styles for better dark mode support */
+/* Responsive design */
+@media (max-width: 1024px) {
+  .auth-wrapper {
+    @apply rounded-2xl;
+  }
+
+  .auth-wrapper .grid {
+    @apply grid-cols-1;
+  }
+
+  .auth-wrapper .lg\:col-span-2 {
+    @apply min-h-[350px] p-6;
+  }
+
+  .auth-wrapper .lg\:col-span-3 {
+    @apply p-6;
+  }
+
+  .auth-wrapper h1 {
+    @apply text-3xl;
+  }
+
+  .register-form {
+    @apply max-w-sm;
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-wrapper .lg\:col-span-2 {
+    @apply min-h-[300px] p-4;
+  }
+
+  .auth-wrapper .lg\:col-span-3 {
+    @apply p-4;
+  }
+
+  .register-form {
+    @apply space-y-4;
+  }
+}
+
+/* Override PrimeVue styles */
 :deep(.p-inputtext) {
-  @apply bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100;
+  @apply bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg transition-all duration-200;
 }
 
 :deep(.p-inputtext:focus) {
-  @apply border-blue-500 dark:border-blue-400 ring-2 ring-blue-500/20 dark:ring-blue-400/20;
+  @apply border-blue-500 dark:border-blue-400 ring-2 ring-blue-500/20 dark:ring-blue-400/20 shadow-sm;
 }
 
 :deep(.p-password .p-inputtext) {
-  @apply bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100;
+  @apply bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100;
 }
 
 :deep(.p-button) {
-  @apply font-semibold;
+  @apply font-semibold transition-all duration-200;
 }
 
 :deep(.p-checkbox .p-checkbox-box) {
-  @apply bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600;
+  @apply bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded transition-all duration-200;
 }
 
 :deep(.p-checkbox .p-checkbox-box.p-highlight) {
@@ -424,18 +507,52 @@ const handleGoogleSignUp = async (): Promise<void> => {
   @apply text-red-600 dark:text-red-400 font-medium;
 }
 
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .checkbox-wrapper {
-    @apply items-start;
-  }
+/* Animation for the left panel elements */
+.auth-wrapper .lg\:col-span-2 h1,
+.auth-wrapper .lg\:col-span-2 p,
+.auth-wrapper .lg\:col-span-2 .space-y-4 {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
 
-  .checkbox-label {
-    @apply text-xs leading-relaxed;
-  }
+.auth-wrapper .lg\:col-span-2 .inline-flex {
+  animation: fadeInScale 0.6s ease-out forwards;
+}
 
-  .register-form {
-    @apply space-y-4;
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Form animation */
+.register-form {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 </style>

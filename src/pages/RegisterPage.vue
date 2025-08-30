@@ -6,23 +6,21 @@
       <!-- Fondo animado -->
       <AnimatedBackground />
 
-      <!-- Contenido principal -->
-      <div class="relative z-10 w-full max-w-md px-4">
-        <!-- Botón de volver mejorado -->
-        <div class="mb-6 flex justify-start">
-          <button
-            @click="() => $router.push('/')"
-            class="group inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-white dark:hover:bg-gray-800 hover:text-gray-800 dark:hover:text-gray-100 transition-all duration-200 shadow-sm hover:shadow-md"
-          >
-            <BaseIcon
-              name="arrow-left"
-              class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-200"
-            />
-            {{ $t('common.back') }}
-          </button>
-        </div>
+      <!-- Botón de volver flotante -->
+      <div class="fixed top-6 left-6 z-20">
+        <button
+          @click="() => $router.push('/')"
+          class="group inline-flex items-center justify-center w-12 h-12 bg-white/90 dark:bg-gray-800/90 backdrop-blur-lg rounded-2xl border border-white/20 dark:border-gray-700/20 hover:bg-white dark:hover:bg-gray-800 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+        >
+          <BaseIcon
+            name="arrow-left"
+            class="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-100 group-hover:-translate-x-0.5 transition-all duration-200"
+          />
+        </button>
+      </div>
 
-        <!-- Formulario de registro -->
+      <!-- Contenido principal -->
+      <div class="relative z-10 w-full px-4">
         <RegisterForm />
       </div>
     </div>
@@ -35,7 +33,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '../stores/authStore'
 import { AuthLayout } from '../layouts'
 import { RegisterForm } from '../modules/auth'
-import { AnimatedBackground } from '../components/common'
+import { AnimatedBackground, BaseIcon } from '../components/common'
 
 const router = useRouter()
 const authStore = useAuthStore()

@@ -348,6 +348,22 @@
       ]
     }
   },
+  "profile": {
+    "editProfile": "Editar Perfil",
+    "updateYourInformation": "Actualiza tu información personal",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "displayName": "Nombre para mostrar",
+    "bio": "Biografía",
+    "optional": "opcional",
+    "firstNamePlaceholder": "Ingresa tu nombre",
+    "lastNamePlaceholder": "Ingresa tu apellido",
+    "displayNamePlaceholder": "Nombre que verán otros usuarios",
+    "bioPlaceholder": "Cuéntanos un poco sobre ti...",
+    "saveChanges": "Guardar Cambios",
+    "cancel": "Cancelar",
+    "profileUpdatedSuccessfully": "Perfil actualizado exitosamente"
+  },
   "meta": {
     "homeTitle": "LaCherada - Comparte, Presta, Conecta",
     "notFoundTitle": "Página no encontrada - LaCherada",

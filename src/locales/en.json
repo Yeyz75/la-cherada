@@ -348,6 +348,22 @@
       ]
     }
   },
+  "profile": {
+    "editProfile": "Edit Profile",
+    "updateYourInformation": "Update your personal information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "displayName": "Display Name",
+    "bio": "Bio",
+    "optional": "optional",
+    "firstNamePlaceholder": "Enter your first name",
+    "lastNamePlaceholder": "Enter your last name",
+    "displayNamePlaceholder": "Name that other users will see",
+    "bioPlaceholder": "Tell us a little about yourself...",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "profileUpdatedSuccessfully": "Profile updated successfully"
+  },
   "meta": {
     "homeTitle": "LaCherada - Share, Lend, Connect",
     "notFoundTitle": "Page not found - LaCherada",

@@ -6,15 +6,23 @@
 import { BaseFirebaseService } from '@/services/firebase/baseService'
 import { firestoreService } from '@/services/firebase/firestoreService'
 import { StorageService } from '@/services/firebase/storageService'
-import { compressImage, generateUniqueFilename } from '@/utils'
+import {
+  compressImage,
+  generateUniqueFilename,
+  createProfileError,
+  createUploadError,
+  extractErrorInfo,
+  logError
+} from '@/utils'
 import type {
   ServiceResponse,
   UserProfileDocument,
   ProfileUpdateData,
   CreateData,
-  StorageUploadProgress
+  StorageUploadProgress,
+  FirebaseError
 } from '@/types/firebase'
-import type { UserProfile, UploadError } from '@/types/api'
+import type { UserProfile } from '@/types/api'
 import type { ImageCompressionOptions } from '@/utils'
 
 export class UserService extends BaseFirebaseService {
@@ -27,6 +35,20 @@ export class UserService extends BaseFirebaseService {
   }
 
   /**
+   * Convert custom error to FirebaseError format for compatibility
+   */
+  private toFirebaseError(error: {
+    message: string
+    code?: string
+  }): FirebaseError {
+    return {
+      code: error.code ?? 'unknown-error',
+      message: error.message,
+      name: 'UserServiceError'
+    }
+  }
+
+  /**
    * Create a new user profile in Firestore
    */
   async createUserProfile(
@@ -36,15 +58,36 @@ export class UserService extends BaseFirebaseService {
     try {
       this.validateRequired({ userId }, ['userId'])
 
+      // Validate profile data
+      if (!profileData.firstName?.trim()) {
+        const error = createProfileError(
+          'validation/required-field',
+          'El nombre es obligatorio',
+          'firstName'
+        )
+        logError('UserService.createUserProfile', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
+      }
+
+      if (!profileData.lastName?.trim()) {
+        const error = createProfileError(
+          'validation/required-field',
+          'El apellido es obligatorio',
+          'lastName'
+        )
+        logError('UserService.createUserProfile', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
+      }
+
       const userProfileData: CreateData<UserProfileDocument> = {
         userId,
-        firstName: profileData.firstName ?? '',
-        lastName: profileData.lastName ?? '',
+        firstName: profileData.firstName.trim(),
+        lastName: profileData.lastName.trim(),
         displayName:
-          profileData.displayName ??
-          `${profileData.firstName ?? ''} ${profileData.lastName ?? ''}`.trim(),
+          profileData.displayName?.trim() ??
+          `${profileData.firstName.trim()} ${profileData.lastName.trim()}`.trim(),
         ...(profileData.photoURL && { photoURL: profileData.photoURL }),
-        ...(profileData.bio && { bio: profileData.bio }),
+        ...(profileData.bio?.trim() && { bio: profileData.bio.trim() }),
         preferences: {
           language: profileData.preferences?.language ?? 'es',
           theme: profileData.preferences?.theme ?? 'system',
@@ -63,14 +106,17 @@ export class UserService extends BaseFirebaseService {
         return this.createSuccessResponse(userProfile)
       }
 
-      return this.createErrorResponse({
-        code: 'create-profile-failed',
-        message: result.error ?? 'Failed to create user profile',
-        name: 'UserServiceError'
-      })
+      const error = createProfileError(
+        'profile/create-failed',
+        result.error ?? 'No se pudo crear el perfil de usuario'
+      )
+      logError('UserService.createUserProfile', error)
+      return this.createErrorResponse(this.toFirebaseError(error))
     } catch (error) {
-      const firebaseError = this.handleError(error, 'createUserProfile')
-      return this.createErrorResponse(firebaseError)
+      const { code, message } = extractErrorInfo(error)
+      const profileError = createProfileError(`profile/${code}`, message)
+      logError('UserService.createUserProfile', error)
+      return this.createErrorResponse(this.toFirebaseError(profileError))
     }
   }
 
@@ -91,14 +137,17 @@ export class UserService extends BaseFirebaseService {
         return this.createSuccessResponse(userProfile)
       }
 
-      return this.createErrorResponse({
-        code: 'profile-not-found',
-        message: 'User profile not found',
-        name: 'UserServiceError'
-      })
+      const error = createProfileError(
+        'profile/not-found',
+        'Perfil de usuario no encontrado'
+      )
+      logError('UserService.getUserProfile', error)
+      return this.createErrorResponse(this.toFirebaseError(error))
     } catch (error) {
-      const firebaseError = this.handleError(error, 'getUserProfile')
-      return this.createErrorResponse(firebaseError)
+      const { code, message } = extractErrorInfo(error)
+      const profileError = createProfileError(`profile/${code}`, message)
+      logError('UserService.getUserProfile', error)
+      return this.createErrorResponse(this.toFirebaseError(profileError))
     }
   }
 
@@ -112,19 +161,40 @@ export class UserService extends BaseFirebaseService {
     try {
       this.validateRequired({ userId }, ['userId'])
 
+      // Validate update data
+      if (updates.firstName !== undefined && !updates.firstName.trim()) {
+        const error = createProfileError(
+          'validation/required-field',
+          'El nombre es obligatorio',
+          'firstName'
+        )
+        logError('UserService.updateUserProfile', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
+      }
+
+      if (updates.lastName !== undefined && !updates.lastName.trim()) {
+        const error = createProfileError(
+          'validation/required-field',
+          'El apellido es obligatorio',
+          'lastName'
+        )
+        logError('UserService.updateUserProfile', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
+      }
+
       // Prepare update data
       const updateData: ProfileUpdateData = {}
 
       if (updates.firstName !== undefined) {
-        updateData.firstName = updates.firstName
+        updateData.firstName = updates.firstName.trim()
       }
 
       if (updates.lastName !== undefined) {
-        updateData.lastName = updates.lastName
+        updateData.lastName = updates.lastName.trim()
       }
 
       if (updates.displayName !== undefined) {
-        updateData.displayName = updates.displayName
+        updateData.displayName = updates.displayName.trim()
       } else if (
         updates.firstName !== undefined ||
         updates.lastName !== undefined
@@ -132,14 +202,16 @@ export class UserService extends BaseFirebaseService {
         // Auto-generate displayName if firstName or lastName changed
         const currentProfile = await this.getUserProfile(userId)
         if (currentProfile.success && currentProfile.data) {
-          const firstName = updates.firstName ?? currentProfile.data.firstName
-          const lastName = updates.lastName ?? currentProfile.data.lastName
+          const firstName =
+            updates.firstName?.trim() ?? currentProfile.data.firstName
+          const lastName =
+            updates.lastName?.trim() ?? currentProfile.data.lastName
           updateData.displayName = `${firstName} ${lastName}`.trim()
         }
       }
 
       if (updates.bio !== undefined) {
-        updateData.bio = updates.bio
+        updateData.bio = updates.bio.trim()
       }
 
       if (updates.photoURL !== undefined) {
@@ -171,14 +243,17 @@ export class UserService extends BaseFirebaseService {
         return this.createSuccessResponse(userProfile)
       }
 
-      return this.createErrorResponse({
-        code: 'update-profile-failed',
-        message: result.error ?? 'Failed to update user profile',
-        name: 'UserServiceError'
-      })
+      const error = createProfileError(
+        'profile/update-failed',
+        result.error ?? 'No se pudo actualizar el perfil'
+      )
+      logError('UserService.updateUserProfile', error)
+      return this.createErrorResponse(this.toFirebaseError(error))
     } catch (error) {
-      const firebaseError = this.handleError(error, 'updateUserProfile')
-      return this.createErrorResponse(firebaseError)
+      const { code, message } = extractErrorInfo(error)
+      const profileError = createProfileError(`profile/${code}`, message)
+      logError('UserService.updateUserProfile', error)
+      return this.createErrorResponse(this.toFirebaseError(profileError))
     }
   }
 
@@ -208,14 +283,17 @@ export class UserService extends BaseFirebaseService {
         return this.createSuccessResponse()
       }
 
-      return this.createErrorResponse({
-        code: 'delete-profile-failed',
-        message: result.error ?? 'Failed to delete user profile',
-        name: 'UserServiceError'
-      })
+      const error = createProfileError(
+        'profile/delete-failed',
+        result.error ?? 'No se pudo eliminar el perfil de usuario'
+      )
+      logError('UserService.deleteUserProfile', error)
+      return this.createErrorResponse(this.toFirebaseError(error))
     } catch (error) {
-      const firebaseError = this.handleError(error, 'deleteUserProfile')
-      return this.createErrorResponse(firebaseError)
+      const { code, message } = extractErrorInfo(error)
+      const profileError = createProfileError(`profile/${code}`, message)
+      logError('UserService.deleteUserProfile', error)
+      return this.createErrorResponse(this.toFirebaseError(profileError))
     }
   }
 
@@ -237,11 +315,12 @@ export class UserService extends BaseFirebaseService {
       this.validateRequired({ userId }, ['userId'])
 
       if (!imageFile) {
-        return this.createErrorResponse({
-          code: 'no-file-provided',
-          message: 'No image file provided',
-          name: 'UserServiceError'
-        })
+        const error = createUploadError(
+          'upload/no-file-provided',
+          'No se proporcionó ningún archivo de imagen'
+        )
+        logError('UserService.uploadProfileImage', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
       }
 
       // Validate file type
@@ -252,43 +331,37 @@ export class UserService extends BaseFirebaseService {
         'image/webp'
       ]
       if (!allowedTypes.includes(imageFile.type)) {
-        const error: UploadError = {
-          message:
-            'Tipo de archivo no soportado. Solo se permiten JPG, PNG y WebP',
-          type: 'upload',
-          fileType: imageFile.type,
-          timestamp: new Date()
-        }
-        return this.createErrorResponse({
-          code: 'invalid-file-type',
-          message: error.message,
-          name: 'UserServiceError'
-        })
+        const error = createUploadError(
+          'upload/invalid-file-type',
+          undefined,
+          imageFile.size,
+          imageFile.type
+        )
+        logError('UserService.uploadProfileImage', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
       }
 
       // Validate file size (5MB max)
       const maxSize = 5 * 1024 * 1024 // 5MB
       if (imageFile.size > maxSize) {
-        const error: UploadError = {
-          message: 'El archivo es demasiado grande. Tamaño máximo: 5MB',
-          type: 'upload',
-          fileSize: imageFile.size,
-          maxSize,
-          timestamp: new Date()
-        }
-        return this.createErrorResponse({
-          code: 'file-too-large',
-          message: error.message,
-          name: 'UserServiceError'
-        })
+        const error = createUploadError(
+          'upload/file-too-large',
+          undefined,
+          imageFile.size,
+          imageFile.type,
+          maxSize
+        )
+        logError('UserService.uploadProfileImage', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
       }
 
       // Compress image before upload
       let processedFile = imageFile
       try {
         processedFile = await compressImage(imageFile, compressionOptions)
-      } catch {
-        // If compression fails, use original file
+      } catch (compressionError) {
+        logError('UserService.uploadProfileImage.compression', compressionError)
+        // Continue with original file instead of failing
         processedFile = imageFile
       }
 
@@ -305,8 +378,9 @@ export class UserService extends BaseFirebaseService {
             currentProfile.data.photoURL
           )
         }
-      } catch {
-        // Ignore errors when deleting old image
+      } catch (deleteError) {
+        // Log but don't fail upload for cleanup errors
+        logError('UserService.uploadProfileImage.cleanup', deleteError)
       }
 
       // Upload new image with progress tracking
@@ -325,14 +399,14 @@ export class UserService extends BaseFirebaseService {
       )
 
       if (!uploadResult.success || !uploadResult.data?.url) {
-        return this.createErrorResponse({
-          code: 'upload-failed',
-          message:
-            typeof uploadResult.error === 'string'
-              ? uploadResult.error
-              : 'Failed to upload image',
-          name: 'UserServiceError'
-        })
+        const error = createUploadError(
+          'upload/upload-failed',
+          typeof uploadResult.error === 'string'
+            ? uploadResult.error
+            : 'Error al subir la imagen'
+        )
+        logError('UserService.uploadProfileImage', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
       }
 
       // Update user profile with new photo URL
@@ -344,21 +418,24 @@ export class UserService extends BaseFirebaseService {
         // If profile update fails, cleanup uploaded image
         try {
           await this.storageService.deleteFile(storagePath)
-        } catch {
-          // Ignore cleanup errors
+        } catch (cleanupError) {
+          logError('UserService.uploadProfileImage.rollback', cleanupError)
         }
 
-        return this.createErrorResponse({
-          code: 'profile-update-failed',
-          message: 'Failed to update profile with new image URL',
-          name: 'UserServiceError'
-        })
+        const error = createProfileError(
+          'profile/update-failed',
+          'No se pudo actualizar el perfil con la nueva imagen'
+        )
+        logError('UserService.uploadProfileImage', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
       }
 
       return this.createSuccessResponse({ photoURL: uploadResult.data.url })
     } catch (error) {
-      const firebaseError = this.handleError(error, 'uploadProfileImage')
-      return this.createErrorResponse(firebaseError)
+      const { code, message } = extractErrorInfo(error)
+      const uploadError = createUploadError(`upload/${code}`, message)
+      logError('UserService.uploadProfileImage', error)
+      return this.createErrorResponse(this.toFirebaseError(uploadError))
     }
   }
 
@@ -371,7 +448,16 @@ export class UserService extends BaseFirebaseService {
 
       // Get current profile to obtain photo URL
       const currentProfile = await this.getUserProfile(userId)
-      if (!currentProfile.success || !currentProfile.data?.photoURL) {
+      if (!currentProfile.success) {
+        const error = createProfileError(
+          'profile/not-found',
+          'No se pudo encontrar el perfil de usuario'
+        )
+        logError('UserService.deleteProfileImage', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
+      }
+
+      if (!currentProfile.data?.photoURL) {
         return this.createSuccessResponse() // No image to delete
       }
 
@@ -382,11 +468,12 @@ export class UserService extends BaseFirebaseService {
       )
 
       if (!deleteResult) {
-        return this.createErrorResponse({
-          code: 'delete-image-failed',
-          message: 'Failed to delete image from storage',
-          name: 'UserServiceError'
-        })
+        const error = createUploadError(
+          'upload/delete-failed',
+          'No se pudo eliminar la imagen del almacenamiento'
+        )
+        logError('UserService.deleteProfileImage', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
       }
 
       // Update user profile to remove photo URL
@@ -395,17 +482,20 @@ export class UserService extends BaseFirebaseService {
       })
 
       if (!updateResult.success) {
-        return this.createErrorResponse({
-          code: 'profile-update-failed',
-          message: 'Failed to update profile after image deletion',
-          name: 'UserServiceError'
-        })
+        const error = createProfileError(
+          'profile/update-failed',
+          'No se pudo actualizar el perfil después de eliminar la imagen'
+        )
+        logError('UserService.deleteProfileImage', error)
+        return this.createErrorResponse(this.toFirebaseError(error))
       }
 
       return this.createSuccessResponse()
     } catch (error) {
-      const firebaseError = this.handleError(error, 'deleteProfileImage')
-      return this.createErrorResponse(firebaseError)
+      const { code, message } = extractErrorInfo(error)
+      const profileError = createProfileError(`profile/${code}`, message)
+      logError('UserService.deleteProfileImage', error)
+      return this.createErrorResponse(this.toFirebaseError(profileError))
     }
   }
 

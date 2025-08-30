@@ -132,6 +132,7 @@ export interface ProfileFormData {
   displayName: string
   bio?: string
   photoFile?: File
+  [key: string]: unknown
 }
 
 /**

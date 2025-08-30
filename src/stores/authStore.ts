@@ -92,6 +92,9 @@ export const useAuthStore = defineStore('auth', () => {
       if (result.success && result.data) {
         setFirebaseUser(result.data)
         setUser(mapFirebaseUserToUser(result.data))
+
+        // Initialize profile if it doesn't exist
+        await initializeUserProfileIfNeeded(result.data)
       } else {
         throw new Error(result.error?.message ?? 'Error al iniciar sesión')
       }
@@ -157,8 +160,8 @@ export const useAuthStore = defineStore('auth', () => {
         mappedUser.displayName = finalDisplayName
         setUser(mappedUser)
 
-        // TODO: Create user profile in Firestore (will be implemented in later tasks)
-        // await createUserProfile(mappedUser)
+        // Create user profile in Firestore
+        await createUserProfileFromAuth(mappedUser)
       } else {
         throw new Error(result.error?.message ?? 'Error al crear cuenta')
       }
@@ -188,7 +191,7 @@ export const useAuthStore = defineStore('auth', () => {
         setUser(mappedUser)
 
         // Initialize user profile in Firestore if it doesn't exist
-        await initializeUserProfileFromGoogle(result.data)
+        await initializeUserProfileIfNeeded(result.data)
       } else {
         throw new Error(
           result.error?.message ?? 'Error al iniciar sesión con Google'
@@ -302,10 +305,12 @@ export const useAuthStore = defineStore('auth', () => {
 
     setLoading(true, 'Verificando autenticación...')
 
-    authUnsubscribe.value = authService.onAuthStateChanged(fbUser => {
+    authUnsubscribe.value = authService.onAuthStateChanged(async fbUser => {
       if (fbUser) {
         setFirebaseUser(fbUser)
         setUser(mapFirebaseUserToUser(fbUser))
+        // Initialize profile for existing users without it
+        await initializeUserProfileIfNeeded(fbUser)
       } else {
         clearUserData()
       }
@@ -381,32 +386,75 @@ export const useAuthStore = defineStore('auth', () => {
     clearError()
   }
 
-  // Helper function to initialize user profile after Google login
-  const initializeUserProfileFromGoogle = async (
-    googleUser: AuthUser
+  // Helper function to create user profile after registration
+  const createUserProfileFromAuth = async (user: User): Promise<void> => {
+    try {
+      const profileData = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        displayName: user.displayName,
+        ...(user.photoURL && { photoURL: user.photoURL })
+      }
+
+      const result = await userService.createUserProfile(user.id, profileData)
+
+      if (result.success && result.data) {
+        setUserProfile(result.data)
+      } else {
+        throw new Error(
+          result.error?.message ?? 'Failed to create user profile'
+        )
+      }
+    } catch (err) {
+      const error: AppError = {
+        message: err instanceof Error ? err.message : 'Error creating profile',
+        type: 'auth',
+        timestamp: new Date()
+      }
+      setError(error)
+      throw err // Re-throw to handle in calling function
+    }
+  }
+
+  // Helper function to initialize profile if needed (for login and auth state changes)
+  const initializeUserProfileIfNeeded = async (
+    authUser: AuthUser
   ): Promise<void> => {
     try {
       // Check if profile already exists
-      const existsResult = await userService.profileExists(googleUser.uid)
+      const existingProfile = await userService.getUserProfile(authUser.uid)
 
-      if (!existsResult) {
-        // Extract first and last name from displayName
-        const displayName = googleUser.displayName ?? ''
+      if (existingProfile.success && existingProfile.data) {
+        // Profile exists, set it in state
+        setUserProfile(existingProfile.data)
+      } else {
+        // Profile doesn't exist, initialize it with auth data
+        const displayName = authUser.displayName ?? ''
         const nameParts = displayName.split(' ')
         const firstName = nameParts[0] ?? ''
-        const lastName = nameParts.slice(1).join(' ') || ''
+        const lastName = nameParts.slice(1).join(' ') ?? ''
 
-        // Initialize profile with Google data
-        await userService.initializeUserProfile(
-          googleUser.uid,
-          googleUser.email ?? '',
+        // Use email as fallback for displayName if empty
+        const finalDisplayName = displayName || (authUser.email ?? 'Usuario')
+
+        const profileData = {
           firstName,
-          lastName
+          lastName,
+          displayName: finalDisplayName,
+          ...(authUser.photoURL && { photoURL: authUser.photoURL })
+        }
+
+        const createResult = await userService.createUserProfile(
+          authUser.uid,
+          profileData
         )
+
+        if (createResult.success && createResult.data) {
+          setUserProfile(createResult.data)
+        }
       }
-    } catch (error) {
-      // Don't throw error as this is not critical for auth flow
-      // Log will be handled by service layer
+    } catch (err) {
+      // Log error but don't break the authentication flow
     }
   }
 
@@ -450,6 +498,8 @@ export const useAuthStore = defineStore('auth', () => {
     checkAuthStatus,
     initializeAuth,
     clearUserData,
-    cleanup
+    cleanup,
+    createUserProfileFromAuth,
+    initializeUserProfileIfNeeded
   }
 })

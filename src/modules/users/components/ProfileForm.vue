@@ -56,50 +56,57 @@
 
       <!-- First Name Field -->
       <BaseInput
-        v-model="formData.firstName"
+        v-model="(formData as ProfileFormData).firstName"
         type="text"
         :label="$t('profile.firstName')"
         :placeholder="$t('profile.firstNamePlaceholder')"
         :error="
-          formErrors.firstName && formState.touched.firstName
-            ? formErrors.firstName
+          shouldShowError('firstName')
+            ? getFieldError('firstName')?.message || ''
             : ''
         "
         :required="true"
-        @blur="markFieldAsTouched('firstName')"
-        @input="handleFieldChange"
+        :disabled="isFormLoading || imageState.isLoading"
+        @blur="handleFieldBlur('firstName')"
+        @input="
+          (value: string) => handleEnhancedFieldChange('firstName', value)
+        "
       />
 
       <!-- Last Name Field -->
       <BaseInput
-        v-model="formData.lastName"
+        v-model="(formData as ProfileFormData).lastName"
         type="text"
         :label="$t('profile.lastName')"
         :placeholder="$t('profile.lastNamePlaceholder')"
         :error="
-          formErrors.lastName && formState.touched.lastName
-            ? formErrors.lastName
+          shouldShowError('lastName')
+            ? getFieldError('lastName')?.message || ''
             : ''
         "
         :required="true"
-        @blur="markFieldAsTouched('lastName')"
-        @input="handleFieldChange"
+        :disabled="isFormLoading || imageState.isLoading"
+        @blur="handleFieldBlur('lastName')"
+        @input="(value: string) => handleEnhancedFieldChange('lastName', value)"
       />
 
       <!-- Display Name Field -->
       <BaseInput
-        v-model="formData.displayName"
+        v-model="(formData as ProfileFormData).displayName"
         type="text"
         :label="$t('profile.displayName')"
         :placeholder="$t('profile.displayNamePlaceholder')"
         :error="
-          formErrors.displayName && formState.touched.displayName
-            ? formErrors.displayName
+          shouldShowError('displayName')
+            ? getFieldError('displayName')?.message || ''
             : ''
         "
         :required="true"
-        @blur="markFieldAsTouched('displayName')"
-        @input="handleFieldChange"
+        :disabled="isFormLoading || imageState.isLoading"
+        @blur="handleFieldBlur('displayName')"
+        @input="
+          (value: string) => handleEnhancedFieldChange('displayName', value)
+        "
       />
 
       <!-- Bio Field -->
@@ -115,32 +122,35 @@
         </label>
         <textarea
           id="bio"
-          :value="formData.bio ?? ''"
+          :value="(formData as ProfileFormData).bio ?? ''"
           :placeholder="$t('profile.bioPlaceholder')"
           rows="4"
           maxlength="500"
           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-none"
           :class="{
             'border-red-500 focus:ring-red-500 focus:border-red-500':
-              formErrors.bio && formState.touched.bio
+              shouldShowError('bio')
           }"
-          @blur="markFieldAsTouched('bio')"
+          :disabled="isFormLoading || imageState.isLoading"
+          @blur="handleFieldBlur('bio')"
           @input="
             event => {
-              formData.bio = (event.target as HTMLTextAreaElement).value
-              handleFieldChange()
+              const value = (event.target as HTMLTextAreaElement).value
+              const currentData = formData as ProfileFormData
+              currentData.bio = value
+              handleEnhancedFieldChange('bio', value)
             }
           "
         ></textarea>
         <div class="flex justify-between items-center mt-1">
           <span
-            v-if="formErrors.bio && formState.touched.bio"
+            v-if="shouldShowError('bio')"
             class="text-sm text-red-600 dark:text-red-400"
           >
-            {{ formErrors.bio }}
+            {{ getFieldError('bio')?.message }}
           </span>
           <span class="text-xs text-gray-500 dark:text-gray-400 ml-auto">
-            {{ (formData?.bio ?? '').length }}/500
+            {{ ((formData as ProfileFormData)?.bio ?? '').length }}/500
           </span>
         </div>
       </div>
@@ -151,8 +161,10 @@
       >
         <BaseButton
           type="submit"
-          :loading="formState.isLoading"
-          :disabled="!isFormValid || formState.isLoading || !hasChanges"
+          :loading="isFormLoading || isValidating"
+          :disabled="
+            !isFormValid || isFormLoading || !hasChanges || isValidating
+          "
           variant="primary"
           size="large"
           class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white font-medium shadow-lg hover:shadow-xl dark:shadow-blue-500/25 dark:hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105"
@@ -167,7 +179,7 @@
           type="button"
           variant="secondary"
           size="large"
-          :disabled="formState.isLoading"
+          :disabled="isFormLoading || isValidating"
           class="flex-1 sm:flex-initial bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 font-medium shadow-md hover:shadow-lg transition-all duration-300"
           @click="handleCancel"
         >
@@ -198,12 +210,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, watch, onMounted } from 'vue'
+import { ref, computed, reactive, watch, onMounted, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { useAuthStore } from '@/stores/authStore'
 import { useError } from '@/composables/useError'
+import {
+  useFormValidation,
+  validationRules,
+  sanitizers
+} from '@/composables/useFormValidation'
 import { userService } from '@/modules/users/services/userService'
 import type { ProfileFormData, FormError } from '@/types/api'
+import {
+  sanitizeProfileData,
+  validateInputLength,
+  INPUT_CONSTRAINTS
+} from '@/utils/sanitizationUtils'
 import {
   BaseInput,
   BaseButton,
@@ -239,18 +261,81 @@ const userStore = useUserStore()
 const authStore = useAuthStore()
 const { handleError } = useError()
 
-// Form state
-interface ProfileFormState {
-  isLoading: boolean
-  errors: FormError[]
-  touched: Record<string, boolean>
+// Enhanced form validation setup
+const initialFormData: ProfileFormData = {
+  firstName: '',
+  lastName: '',
+  displayName: '',
+  bio: ''
 }
 
-const formState = reactive<ProfileFormState>({
-  isLoading: false,
-  errors: [],
-  touched: {}
-})
+const fieldConfigs = {
+  firstName: {
+    required: true,
+    rules: [
+      validationRules.required('El nombre es obligatorio'),
+      validationRules.profileField('firstName')
+    ],
+    sanitizer: sanitizers.text,
+    validateOnChange: true,
+    debounceMs: 300
+  },
+  lastName: {
+    required: true,
+    rules: [
+      validationRules.required('El apellido es obligatorio'),
+      validationRules.profileField('lastName')
+    ],
+    sanitizer: sanitizers.text,
+    validateOnChange: true,
+    debounceMs: 300
+  },
+  displayName: {
+    required: true,
+    rules: [
+      validationRules.required('El nombre a mostrar es obligatorio'),
+      validationRules.profileField('displayName')
+    ],
+    sanitizer: sanitizers.text,
+    validateOnChange: true,
+    debounceMs: 300
+  },
+  bio: {
+    required: false,
+    rules: [validationRules.profileField('bio')],
+    sanitizer: sanitizers.text,
+    validateOnChange: true,
+    debounceMs: 500
+  }
+}
+
+const {
+  formData,
+  validationState,
+  isFormValid,
+  hasErrors,
+  isFormDirty,
+  isValidating,
+  handleFieldChange,
+  handleFieldBlur,
+  validateForm,
+  resetForm: resetValidationForm,
+  touchAllFields,
+  getSanitizedData,
+  getFieldError,
+  shouldShowError
+} = useFormValidation<ProfileFormData>(initialFormData, fieldConfigs)
+
+// Form state for template access
+const formState = computed(() => ({
+  isLoading: isFormLoading.value,
+  isValid: isFormValid.value,
+  hasErrors: hasErrors.value,
+  isValidating: isValidating.value
+}))
+
+// Form loading state
+const isFormLoading = ref(false)
 
 // Image upload state
 interface ImageUploadState {
@@ -267,14 +352,6 @@ const imageState = reactive<ImageUploadState>({
   success: false
 })
 
-// Form data
-const formData = reactive<ProfileFormData>({
-  firstName: '',
-  lastName: '',
-  displayName: '',
-  bio: ''
-})
-
 // Original data for change detection
 const originalData = ref<ProfileFormData>({
   firstName: '',
@@ -284,117 +361,39 @@ const originalData = ref<ProfileFormData>({
 })
 
 // Computed properties
-const formErrors = computed(() => {
-  const errors: Record<string, string> = {}
-  formState.errors.forEach((error: FormError) => {
-    errors[error.field] = error.message
-  })
-  return errors
-})
-
-const isFormValid = computed(() => {
-  return (
-    formData.firstName.trim() !== '' &&
-    formData.lastName.trim() !== '' &&
-    formData.displayName.trim() !== '' &&
-    formState.errors.length === 0
-  )
-})
-
 const hasChanges = computed(() => {
+  const data = formData as ProfileFormData
   return (
-    formData.firstName !== originalData.value.firstName ||
-    formData.lastName !== originalData.value.lastName ||
-    formData.displayName !== originalData.value.displayName ||
-    formData.bio !== originalData.value.bio
+    data.firstName !== originalData.value.firstName ||
+    data.lastName !== originalData.value.lastName ||
+    data.displayName !== originalData.value.displayName ||
+    data.bio !== originalData.value.bio
   )
 })
 
-// Validation functions
-const validateForm = (): FormError[] => {
-  const errors: FormError[] = []
-
-  // First name validation
-  if (!formData.firstName.trim()) {
-    errors.push({ field: 'firstName', message: 'El nombre es obligatorio' })
-  } else if (formData.firstName.trim().length < 2) {
-    errors.push({
-      field: 'firstName',
-      message: 'El nombre debe tener al menos 2 caracteres'
-    })
-  } else if (formData.firstName.trim().length > 50) {
-    errors.push({
-      field: 'firstName',
-      message: 'El nombre no puede exceder 50 caracteres'
-    })
-  }
-
-  // Last name validation
-  if (!formData.lastName.trim()) {
-    errors.push({ field: 'lastName', message: 'El apellido es obligatorio' })
-  } else if (formData.lastName.trim().length < 2) {
-    errors.push({
-      field: 'lastName',
-      message: 'El apellido debe tener al menos 2 caracteres'
-    })
-  } else if (formData.lastName.trim().length > 50) {
-    errors.push({
-      field: 'lastName',
-      message: 'El apellido no puede exceder 50 caracteres'
-    })
-  }
-
-  // Display name validation
-  if (!formData.displayName.trim()) {
-    errors.push({
-      field: 'displayName',
-      message: 'El nombre para mostrar es obligatorio'
-    })
-  } else if (formData.displayName.trim().length < 2) {
-    errors.push({
-      field: 'displayName',
-      message: 'El nombre para mostrar debe tener al menos 2 caracteres'
-    })
-  } else if (formData.displayName.trim().length > 100) {
-    errors.push({
-      field: 'displayName',
-      message: 'El nombre para mostrar no puede exceder 100 caracteres'
-    })
-  }
-
-  // Bio validation (optional field)
-  if (formData.bio && formData.bio.length > 500) {
-    errors.push({
-      field: 'bio',
-      message: 'La biografía no puede exceder 500 caracteres'
-    })
-  }
-
-  return errors
-}
-
-// Form methods
-const markFieldAsTouched = (field: string): void => {
-  formState.touched[field] = true
-  formState.errors = validateForm()
-}
-
-const handleFieldChange = (): void => {
-  // Real-time validation
-  formState.errors = validateForm()
+// Enhanced field change handler with auto-generation of displayName
+const handleEnhancedFieldChange = (
+  fieldName: keyof ProfileFormData,
+  value: string
+): void => {
+  // Handle the validation
+  handleFieldChange(fieldName, value)
 
   // Auto-generate displayName if it matches the pattern "firstName lastName"
-  const expectedDisplayName =
-    `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim()
-  if (
-    formData.displayName === originalData.value.displayName ||
-    formData.displayName === expectedDisplayName
-  ) {
-    formData.displayName = expectedDisplayName
+  if (fieldName === 'firstName' || fieldName === 'lastName') {
+    const currentData = formData as ProfileFormData
+    const expectedDisplayName =
+      `${(currentData.firstName ?? '').trim()} ${(currentData.lastName ?? '').trim()}`.trim()
+    if (
+      currentData.displayName === originalData.value.displayName ||
+      currentData.displayName === expectedDisplayName
+    ) {
+      currentData.displayName = expectedDisplayName
+    }
   }
 
   // Emit change event
-  emit('change', { ...formData })
+  emit('change', formData as ProfileFormData)
 }
 
 // Image handling methods
@@ -496,17 +495,15 @@ const handleImageProgress = (progress: number): void => {
 
 const handleSubmit = async (): Promise<void> => {
   // Mark all fields as touched
-  formState.touched = {
-    firstName: true,
-    lastName: true,
-    displayName: true,
-    bio: true
-  }
+  touchAllFields()
 
   // Validate form
-  formState.errors = validateForm()
+  const errors = await validateForm()
+  const hasValidationErrors = Object.values(errors).some(
+    error => error !== null
+  )
 
-  if (formState.errors.length > 0) {
+  if (hasValidationErrors) {
     return
   }
 
@@ -515,15 +512,24 @@ const handleSubmit = async (): Promise<void> => {
     return
   }
 
-  formState.isLoading = true
+  isFormLoading.value = true
 
   try {
-    await userStore.updateProfileFromForm(authStore.currentUser.id, formData)
+    // Get sanitized form data
+    const sanitizedData = getSanitizedData() as ProfileFormData
+
+    await userStore.updateProfileFromForm(
+      authStore.currentUser.id,
+      sanitizedData
+    )
 
     // Update original data to reflect saved state
-    originalData.value = { ...formData }
+    originalData.value = { ...sanitizedData }
 
-    emit('submit', { ...formData })
+    // Update form data with sanitized values
+    Object.assign(formData, sanitizedData)
+
+    emit('submit', sanitizedData)
     emit('success')
   } catch (error: unknown) {
     const errorMessage =
@@ -531,7 +537,7 @@ const handleSubmit = async (): Promise<void> => {
     handleError(error)
     emit('error', errorMessage)
   } finally {
-    formState.isLoading = false
+    isFormLoading.value = false
   }
 }
 
@@ -539,9 +545,8 @@ const handleCancel = (): void => {
   // Reset form to original data
   Object.assign(formData, originalData.value)
 
-  // Clear touched state and errors
-  formState.touched = {}
-  formState.errors = []
+  // Reset validation state
+  resetValidationForm()
 
   emit('cancel')
 }
@@ -552,14 +557,15 @@ const initializeForm = (): void => {
   const initialData = props.initialData || currentProfile
 
   if (initialData) {
-    formData.firstName = initialData.firstName || ''
-    formData.lastName = initialData.lastName || ''
-    formData.displayName = initialData.displayName || ''
-    formData.bio = initialData.bio || ''
+    const currentData = formData as ProfileFormData
+    currentData.firstName = initialData.firstName || ''
+    currentData.lastName = initialData.lastName || ''
+    currentData.displayName = initialData.displayName || ''
+    currentData.bio = initialData.bio || ''
   }
 
   // Store original data for change detection
-  originalData.value = { ...formData }
+  originalData.value = { ...(formData as ProfileFormData) }
 }
 
 // Auto-save functionality
@@ -579,14 +585,19 @@ const handleAutoSave = (): void => {
   }, 2000) // Auto-save after 2 seconds of inactivity
 }
 
+// Cleanup function
+const cleanup = (): void => {
+  if (autoSaveTimeout) {
+    clearTimeout(autoSaveTimeout)
+  }
+}
+
 // Watchers
 watch(
-  () => [
-    formData.firstName,
-    formData.lastName,
-    formData.displayName,
-    formData.bio
-  ],
+  () => {
+    const data = formData as ProfileFormData
+    return [data.firstName, data.lastName, data.displayName, data.bio]
+  },
   () => {
     if (props.autoSave) {
       handleAutoSave()
@@ -610,13 +621,19 @@ onMounted(() => {
   initializeForm()
 })
 
+onUnmounted(() => {
+  cleanup()
+})
+
 // Expose methods for parent components
 defineExpose({
   validateForm,
   resetForm: handleCancel,
   submitForm: handleSubmit,
   hasChanges,
-  isValid: isFormValid
+  isValid: isFormValid,
+  formData,
+  validationState
 })
 </script>
 

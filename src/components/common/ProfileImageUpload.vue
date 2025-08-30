@@ -154,6 +154,7 @@ import {
   MAX_FILE_SIZE,
   SUPPORTED_IMAGE_TYPES
 } from '@/utils'
+import { validateFileUpload } from '@/utils/sanitizationUtils'
 import type { ValidationResult } from '@/utils'
 
 // Props
@@ -247,6 +248,17 @@ const setError = (error: string): void => {
 }
 
 const validateFileInput = async (file: File): Promise<ValidationResult> => {
+  // Use the new sanitization utility for file validation
+  const sanitizationResult = validateFileUpload(file)
+
+  if (!sanitizationResult.isValid) {
+    return {
+      isValid: false,
+      message: sanitizationResult.message ?? 'Archivo no válido'
+    }
+  }
+
+  // Additional validation using the existing file utils
   return await validateFile(file, {
     ...props.validationOptions,
     maxSize: props.maxSize

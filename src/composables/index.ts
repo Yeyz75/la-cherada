@@ -9,6 +9,12 @@ export * from './useError'
 // Loading state composable
 export * from './useLoading'
 
+// Lazy PrimeVue components
+export * from './useLazyPrimeVue'
+
+// Lazy Firebase services
+export * from './useFirebaseLazy'
+
 // Async operation composable (combines loading and error)
 export * from './useAsyncOperation'
 

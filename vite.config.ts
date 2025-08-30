@@ -11,50 +11,59 @@ export default defineConfig({
     }
   },
   build: {
+    target: 'esnext',
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['vue', 'vue-router', 'pinia'],
-          i18n: ['vue-i18n'],
-          utils: ['dayjs'],
-          'primevue-forms': [
+          // Core Vue ecosystem
+          'vue-vendor': ['vue', 'vue-router', 'pinia'],
+          
+          // Firebase (largest dependency)
+          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/storage', 'firebase/analytics'],
+          
+          // Internationalization
+          'i18n-vendor': ['vue-i18n'],
+          
+          // Date utilities  
+          'date-vendor': ['dayjs'],
+          
+          // PrimeVue core
+          'primevue-core': ['primevue/config', 'primevue/toastservice', 'primevue/confirmationservice'],
+          
+          // Essential PrimeVue components
+          'primevue-essentials': [
             'primevue/button',
-            'primevue/inputtext',
+            'primevue/inputtext', 
             'primevue/password',
-            'primevue/dropdown',
-            'primevue/calendar'
+            'primevue/toast',
+            'primevue/confirmdialog',
+            'primevue/progressspinner'
           ],
-          'primevue-data': [
+          
+          // Extended PrimeVue components (loaded dynamically)
+          'primevue-extended': [
+            'primevue/dropdown',
+            'primevue/calendar',
             'primevue/datatable',
             'primevue/column',
             'primevue/card',
             'primevue/avatar',
             'primevue/badge',
             'primevue/chip',
-            'primevue/tag'
-          ],
-          'primevue-feedback': [
+            'primevue/tag',
             'primevue/dialog',
-            'primevue/toast',
-            'primevue/confirmdialog',
-            'primevue/progressspinner'
-          ],
-          'primevue-navigation': [
             'primevue/menu',
-            'primevue/menubar'
-          ],
-          'primevue-layout': [
+            'primevue/menubar',
             'primevue/divider',
             'primevue/image'
-          ],
-          'primevue-icons': [
-            'primeicons/primeicons.css'
           ]
         }
       }
     },
     sourcemap: true,
-    minify: 'esbuild'
+    minify: 'esbuild',
+    cssMinify: true
   },
   server: {
     port: 3000,

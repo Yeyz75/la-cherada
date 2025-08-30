@@ -9,29 +9,15 @@ import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
 import ConfirmationService from 'primevue/confirmationservice'
 
-// PrimeVue components - commonly used ones registered globally
+// Solo los componentes más críticos registrados globalmente
 import Button from 'primevue/button'
-import Card from 'primevue/card'
 import InputText from 'primevue/inputtext'
 import Password from 'primevue/password'
-import Dropdown from 'primevue/dropdown'
-import Calendar from 'primevue/calendar'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
-import Dialog from 'primevue/dialog'
 import Toast from 'primevue/toast'
 import ConfirmDialog from 'primevue/confirmdialog'
 import ProgressSpinner from 'primevue/progressspinner'
-import Menu from 'primevue/menu'
-import Menubar from 'primevue/menubar'
-import Avatar from 'primevue/avatar'
-import Badge from 'primevue/badge'
-import Chip from 'primevue/chip'
-import Tag from 'primevue/tag'
-import Divider from 'primevue/divider'
-import Image from 'primevue/image'
 
-// PrimeVue CSS - using styled mode with custom theme
+// PrimeVue CSS
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css'
 
@@ -44,7 +30,7 @@ const app = createApp(App)
 // Custom components - registrar globalmente
 import { BaseIcon } from '@/components/common'
 
-// Configure PrimeVue with unstyled mode for better TailwindCSS integration
+// Configure PrimeVue
 app.use(PrimeVue, {
   unstyled: false,
   ripple: false,
@@ -100,31 +86,17 @@ app.use(PrimeVue, {
   }
 })
 
-// Configure PrimeVue services
+// Services
 app.use(ToastService)
 app.use(ConfirmationService)
 
-// Register commonly used PrimeVue components globally
+// Register critical components globally
 app.component('PButton', Button)
-app.component('PCard', Card)
 app.component('PInputText', InputText)
 app.component('PPassword', Password)
-app.component('PDropdown', Dropdown)
-app.component('PCalendar', Calendar)
-app.component('PDataTable', DataTable)
-app.component('PColumn', Column)
-app.component('PDialog', Dialog)
 app.component('PToast', Toast)
 app.component('PConfirmDialog', ConfirmDialog)
 app.component('PProgressSpinner', ProgressSpinner)
-app.component('PMenu', Menu)
-app.component('PMenubar', Menubar)
-app.component('PAvatar', Avatar)
-app.component('PBadge', Badge)
-app.component('PChip', Chip)
-app.component('PTag', Tag)
-app.component('PDivider', Divider)
-app.component('PImage', Image)
 
 // Register custom components globally
 app.component('BaseIcon', BaseIcon)

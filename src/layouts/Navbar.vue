@@ -81,7 +81,6 @@
                 variant="secondary"
                 size="small"
                 @click="handleDashboard"
-                class="flex items-center gap-2"
               >
                 <BaseIcon name="layout-dashboard" class="w-4 h-4" />
                 {{ t('dashboard.title') }}
@@ -92,7 +91,6 @@
                 variant="secondary"
                 size="small"
                 @click="handleProfile"
-                class="flex items-center gap-2"
               >
                 <BaseIcon name="user" class="w-4 h-4" />
                 {{ t('profile.title') }}
@@ -103,7 +101,6 @@
                 variant="danger"
                 size="small"
                 @click="handleLogout"
-                class="flex items-center gap-2"
                 :loading="authStore.isLoading"
               >
                 <BaseIcon name="logout" class="w-4 h-4" />

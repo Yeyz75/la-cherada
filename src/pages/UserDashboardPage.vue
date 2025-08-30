@@ -25,7 +25,7 @@
                   size="small"
                   @click="navigateToProfile"
                 >
-                  <BaseIcon name="user" class="w-4 h-4 mr-2" />
+                  <BaseIcon name="user" class="w-4 h-4" />
                   {{ $t('dashboard.editProfile') }}
                 </BaseButton>
 
@@ -34,7 +34,7 @@
                   size="small"
                   @click="navigateToExplore"
                 >
-                  <BaseIcon name="search" class="w-4 h-4 mr-2" />
+                  <BaseIcon name="search" class="w-4 h-4" />
                   {{ $t('dashboard.explore') }}
                 </BaseButton>
               </div>
@@ -269,28 +269,31 @@
             <div class="quick-actions space-y-3">
               <BaseButton
                 variant="primary"
+                size="small"
                 class="w-full justify-start"
                 @click="navigateToProfile"
               >
-                <BaseIcon name="edit" class="w-4 h-4 mr-3" />
+                <BaseIcon name="edit" class="w-4 h-4" />
                 {{ $t('dashboard.editProfile') }}
               </BaseButton>
 
               <BaseButton
                 variant="secondary"
+                size="small"
                 class="w-full justify-start"
                 @click="navigateToExplore"
               >
-                <BaseIcon name="search" class="w-4 h-4 mr-3" />
+                <BaseIcon name="search" class="w-4 h-4" />
                 {{ $t('dashboard.exploreItems') }}
               </BaseButton>
 
               <BaseButton
                 variant="info"
+                size="small"
                 class="w-full justify-start"
                 @click="navigateToContact"
               >
-                <BaseIcon name="mail" class="w-4 h-4 mr-3" />
+                <BaseIcon name="mail" class="w-4 h-4" />
                 {{ $t('dashboard.contactSupport') }}
               </BaseButton>
             </div>
@@ -610,5 +613,12 @@ onMounted(async () => {
     align-items: flex-start;
     gap: 1rem;
   }
+}
+
+/* Quick actions buttons styling */
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 </style>

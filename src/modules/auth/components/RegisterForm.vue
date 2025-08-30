@@ -3,10 +3,10 @@
     <div
       class="auth-wrapper bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/20 overflow-hidden"
     >
-      <div class="grid lg:grid-cols-5 min-h-[700px]">
+      <div class="grid lg:grid-cols-5 h-[700px]">
         <!-- Panel izquierdo - Información visual -->
         <div
-          class="lg:col-span-2 bg-gradient-to-br from-green-600 via-blue-600 to-purple-700 p-8 lg:p-12 flex flex-col justify-center relative overflow-hidden"
+          class="lg:col-span-2 bg-gradient-to-br from-green-600 via-blue-600 to-purple-700 p-6 lg:p-8 flex flex-col justify-center relative overflow-hidden"
         >
           <!-- Decoración de fondo -->
           <div
@@ -21,27 +21,27 @@
 
           <div class="relative z-10">
             <!-- Icono principal -->
-            <div class="mb-8">
+            <div class="mb-4">
               <div
-                class="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl shadow-lg"
+                class="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl shadow-lg"
               >
-                <BaseIcon name="user-plus" class="w-10 h-10 text-white" />
+                <BaseIcon name="user-plus" class="w-8 h-8 text-white" />
               </div>
             </div>
 
             <!-- Contenido -->
             <h1
-              class="text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight"
+              class="text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight"
             >
               Únete a nosotros
             </h1>
-            <p class="text-green-100 text-lg mb-8 leading-relaxed">
+            <p class="text-green-100 text-sm mb-4 leading-relaxed">
               Crea tu cuenta y descubre todas las posibilidades que tenemos para
               ti. ¡Es rápido y gratuito!
             </p>
 
             <!-- Features -->
-            <div class="space-y-4">
+            <div class="space-y-2">
               <div class="flex items-center space-x-3">
                 <div class="w-2 h-2 bg-white rounded-full"></div>
                 <span class="text-green-100">Registro rápido y seguro</span>
@@ -65,17 +65,17 @@
         </div>
 
         <!-- Panel derecho - Formulario -->
-        <div class="lg:col-span-3 p-8 lg:p-12 flex flex-col justify-center">
+        <div class="lg:col-span-3 p-6 lg:p-8 flex flex-col justify-center">
           <form
             @submit.prevent="handleSubmit"
-            class="register-form max-w-md mx-auto w-full space-y-5"
+            class="register-form max-w-md mx-auto w-full space-y-2"
           >
             <!-- Header del formulario -->
-            <div class="mb-6">
-              <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <div class="mb-3">
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                 {{ $t('auth.signUp') }}
               </h2>
-              <p class="text-gray-600 dark:text-gray-400">
+              <p class="text-sm text-gray-600 dark:text-gray-400">
                 {{ $t('auth.createAccount') }}
               </p>
             </div>
@@ -144,29 +144,33 @@
             />
 
             <!-- Accept Terms -->
-            <div class="mb-6">
-              <BaseCheckbox
-                v-model="formData.acceptTerms"
-                :binary="true"
-                :error="
-                  formErrors.acceptTerms && formState.touched.acceptTerms
-                    ? formErrors.acceptTerms
-                    : ''
-                "
-                :required="true"
-                @change="markFieldAsTouched('acceptTerms')"
-              />
-              <label class="ml-2 text-sm text-gray-700 dark:text-gray-300">
-                {{ $t('auth.acceptTerms') }}
-                <router-link
-                  to="/terms"
-                  class="terms-link text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
-                  target="_blank"
+            <div class="mb-2">
+              <div class="flex items-start space-x-2">
+                <BaseCheckbox
+                  v-model="formData.acceptTerms"
+                  :binary="true"
+                  :error="
+                    formErrors.acceptTerms && formState.touched.acceptTerms
+                      ? formErrors.acceptTerms
+                      : ''
+                  "
+                  :required="true"
+                  @change="markFieldAsTouched('acceptTerms')"
+                />
+                <label
+                  class="text-xs text-gray-700 dark:text-gray-300 leading-tight flex-1"
                 >
-                  {{ $t('auth.termsAndConditions') }}
-                </router-link>
-                <span class="required text-red-500 ml-1">*</span>
-              </label>
+                  {{ $t('auth.acceptTerms') }}
+                  <router-link
+                    to="/terms"
+                    class="terms-link text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                    target="_blank"
+                  >
+                    {{ $t('auth.termsAndConditions') }}
+                  </router-link>
+                  <span class="required text-red-500 ml-1">*</span>
+                </label>
+              </div>
             </div>
 
             <!-- Submit Button -->
@@ -175,7 +179,7 @@
               :loading="formState.isLoading"
               :disabled="!isFormValid || formState.isLoading"
               variant="primary"
-              class="w-full mb-6 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 px-6 py-4 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+              class="w-full mb-2 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 px-4 py-3 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <template #icon>
                 <BaseIcon name="user-plus" class="w-4 h-4" />
@@ -184,7 +188,7 @@
             </BaseButton>
 
             <!-- Divider -->
-            <div class="divider flex items-center mb-6">
+            <div class="divider flex items-center mb-2">
               <div
                 class="flex-1 border-t border-gray-300/60 dark:border-gray-600/60"
               ></div>
@@ -204,7 +208,7 @@
               :disabled="googleLoading"
               variant="secondary"
               :outlined="true"
-              class="w-full mb-6 !bg-white dark:!bg-gray-700 !text-gray-700 dark:!text-gray-200 !border-gray-300 dark:!border-gray-600 hover:!bg-gray-50 dark:hover:!bg-gray-600 hover:!border-gray-400 dark:hover:!border-gray-500 focus:!ring-2 focus:!ring-blue-500 focus:!ring-offset-2 shadow-sm hover:shadow-md transition-all duration-200 font-medium !py-3"
+              class="w-full mb-2 !bg-white dark:!bg-gray-700 !text-gray-700 dark:!text-gray-200 !border-gray-300 dark:!border-gray-600 hover:!bg-gray-50 dark:hover:!bg-gray-600 hover:!border-gray-400 dark:hover:!border-gray-500 focus:!ring-2 focus:!ring-blue-500 focus:!ring-offset-2 shadow-sm hover:shadow-md transition-all duration-200 font-medium !py-2"
               @click="handleGoogleSignUp"
             >
               <template #icon>
@@ -422,7 +426,7 @@ const handleGoogleSignUp = async (): Promise<void> => {
 }
 
 .register-form {
-  @apply space-y-5;
+  @apply space-y-2;
 }
 
 .divider {
@@ -444,13 +448,12 @@ const handleGoogleSignUp = async (): Promise<void> => {
   }
 
   .auth-wrapper .grid {
-    @apply grid-cols-1;
+    @apply grid-cols-1 h-auto;
   }
 
   .auth-wrapper .lg\:col-span-2 {
-    @apply min-h-[350px] p-6;
+    @apply h-[350px] p-6;
   }
-
   .auth-wrapper .lg\:col-span-3 {
     @apply p-6;
   }
@@ -466,7 +469,7 @@ const handleGoogleSignUp = async (): Promise<void> => {
 
 @media (max-width: 640px) {
   .auth-wrapper .lg\:col-span-2 {
-    @apply min-h-[300px] p-4;
+    @apply h-[300px] p-4;
   }
 
   .auth-wrapper .lg\:col-span-3 {
@@ -474,7 +477,7 @@ const handleGoogleSignUp = async (): Promise<void> => {
   }
 
   .register-form {
-    @apply space-y-4;
+    @apply space-y-1;
   }
 }
 

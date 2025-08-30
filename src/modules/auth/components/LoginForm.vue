@@ -3,10 +3,12 @@
     <div
       class="auth-wrapper bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/20 overflow-hidden"
     >
-      <div class="grid lg:grid-cols-5 min-h-[700px]">
-        <!-- Panel izquierdo - Información visual -->
+      <div class="grid lg:grid-cols-5 h-[700px]">
+        <!-- Panel izquierdo - Informac.login-form {
+  @apply space-y-3;
+} visual -->
         <div
-          class="lg:col-span-2 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 p-8 lg:p-12 flex flex-col justify-center relative overflow-hidden"
+          class="lg:col-span-2 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 p-6 lg:p-8 flex flex-col justify-center relative overflow-hidden"
         >
           <!-- Decoración de fondo -->
           <div
@@ -21,27 +23,27 @@
 
           <div class="relative z-10">
             <!-- Icono principal -->
-            <div class="mb-8">
+            <div class="mb-4">
               <div
-                class="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl shadow-lg"
+                class="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl shadow-lg"
               >
-                <BaseIcon name="user" class="w-10 h-10 text-white" />
+                <BaseIcon name="user" class="w-8 h-8 text-white" />
               </div>
             </div>
 
             <!-- Contenido -->
             <h1
-              class="text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight"
+              class="text-2xl lg:text-3xl font-bold text-white mb-2 leading-tight"
             >
               {{ $t('auth.welcomeBack') }}
             </h1>
-            <p class="text-blue-100 text-lg mb-8 leading-relaxed">
+            <p class="text-blue-100 text-sm mb-4 leading-relaxed">
               Accede a tu cuenta y continúa donde lo dejaste. Tu experiencia
               personalizada te está esperando.
             </p>
 
             <!-- Features -->
-            <div class="space-y-4">
+            <div class="space-y-2">
               <div class="flex items-center space-x-3">
                 <div class="w-2 h-2 bg-white rounded-full"></div>
                 <span class="text-blue-100">Acceso seguro y cifrado</span>
@@ -61,17 +63,17 @@
         </div>
 
         <!-- Panel derecho - Formulario -->
-        <div class="lg:col-span-3 p-8 lg:p-12 flex flex-col justify-center">
+        <div class="lg:col-span-3 p-6 lg:p-8 flex flex-col justify-center">
           <form
             @submit.prevent="handleSubmit"
-            class="login-form max-w-md mx-auto w-full space-y-6"
+            class="login-form max-w-md mx-auto w-full space-y-3"
           >
             <!-- Header del formulario -->
-            <div class="mb-8">
-              <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <div class="mb-4">
+              <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-1">
                 {{ $t('auth.signIn') }}
               </h2>
-              <p class="text-gray-600 dark:text-gray-400">
+              <p class="text-sm text-gray-600 dark:text-gray-400">
                 Ingresa tus datos para acceder
               </p>
             </div>
@@ -355,13 +357,12 @@ const handleGoogleSignIn = async (): Promise<void> => {
   }
 
   .auth-wrapper .grid {
-    @apply grid-cols-1;
+    @apply grid-cols-1 h-auto;
   }
 
   .auth-wrapper .lg\:col-span-2 {
-    @apply min-h-[350px] p-6;
+    @apply h-[350px] p-6;
   }
-
   .auth-wrapper .lg\:col-span-3 {
     @apply p-6;
   }
@@ -377,7 +378,7 @@ const handleGoogleSignIn = async (): Promise<void> => {
 
 @media (max-width: 640px) {
   .auth-wrapper .lg\:col-span-2 {
-    @apply min-h-[300px] p-4;
+    @apply h-[300px] p-4;
   }
 
   .auth-wrapper .lg\:col-span-3 {
@@ -385,7 +386,7 @@ const handleGoogleSignIn = async (): Promise<void> => {
   }
 
   .login-form {
-    @apply space-y-4;
+    @apply space-y-2;
   }
 
   .form-options {

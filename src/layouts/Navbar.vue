@@ -40,9 +40,10 @@
           <ThemeToggle />
 
           <BaseButton
-            :text="true"
+            variant="primary"
+            size="large"
             @click="handleLogin"
-            class="px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 dark:text-gray-300 dark:hover:text-blue-400 dark:hover:bg-blue-900/20 transition-all duration-200 font-medium rounded-lg flex items-center gap-2"
+            class="bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 px-6 py-2 flex items-center gap-2"
           >
             <svg
               class="w-4 h-4"

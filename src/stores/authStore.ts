@@ -9,6 +9,7 @@ import type { User, UserProfile } from '@/types/api'
 import type { LoadingState, AppError } from '@/types/global'
 import type { AuthUser } from '@/types/firebase'
 import { authService } from '@/services/firebase'
+import { userService } from '@/modules/users/services/userService'
 
 export const useAuthStore = defineStore('auth', () => {
   // State
@@ -183,7 +184,11 @@ export const useAuthStore = defineStore('auth', () => {
 
       if (result.success && result.data) {
         setFirebaseUser(result.data)
-        setUser(mapFirebaseUserToUser(result.data))
+        const mappedUser = mapFirebaseUserToUser(result.data)
+        setUser(mappedUser)
+
+        // Initialize user profile in Firestore if it doesn't exist
+        await initializeUserProfileFromGoogle(result.data)
       } else {
         throw new Error(
           result.error?.message ?? 'Error al iniciar sesión con Google'
@@ -365,6 +370,35 @@ export const useAuthStore = defineStore('auth', () => {
     setFirebaseUser(null)
     setUserProfile(null)
     clearError()
+  }
+
+  // Helper function to initialize user profile after Google login
+  const initializeUserProfileFromGoogle = async (
+    googleUser: AuthUser
+  ): Promise<void> => {
+    try {
+      // Check if profile already exists
+      const existsResult = await userService.profileExists(googleUser.uid)
+
+      if (!existsResult) {
+        // Extract first and last name from displayName
+        const displayName = googleUser.displayName ?? ''
+        const nameParts = displayName.split(' ')
+        const firstName = nameParts[0] ?? ''
+        const lastName = nameParts.slice(1).join(' ') || ''
+
+        // Initialize profile with Google data
+        await userService.initializeUserProfile(
+          googleUser.uid,
+          googleUser.email ?? '',
+          firstName,
+          lastName
+        )
+      }
+    } catch (error) {
+      // Don't throw error as this is not critical for auth flow
+      // Log will be handled by service layer
+    }
   }
 
   // Cleanup auth listener

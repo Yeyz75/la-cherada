@@ -130,7 +130,8 @@
     "language": "Idioma",
     "changePassword": "Cambiar contraseña",
     "account": "Cuenta",
-    "preferences": "Preferencias"
+    "preferences": "Preferencias",
+    "characters": "caracteres"
   },
   "auth": {
     "login": "Iniciar sesión",
@@ -389,6 +390,18 @@
     "lastName": "Apellido",
     "displayName": "Nombre para mostrar",
     "bio": "Biografía",
+    "notProvided": "No proporcionado",
+    "noName": "Sin nombre",
+    "noEmail": "Sin correo",
+    "userProfile": "Perfil de usuario",
+    "accountStatus": "Estado de la cuenta",
+    "active": "Activo",
+    "pending": "Pendiente",
+    "emailVerified": "Correo verificado",
+    "incompleteProfile": "Perfil incompleto",
+    "completeProfileDescription": "Completa tu información de perfil para mejorar tu experiencia en la comunidad.",
+    "completeNow": "Completar ahora",
+    "anonymousUser": "Usuario anónimo",
     "optional": "opcional",
     "firstNamePlaceholder": "Ingresa tu nombre",
     "lastNamePlaceholder": "Ingresa tu apellido",
@@ -447,6 +460,10 @@
     "quickStats": "Estadísticas rápidas",
     "profileComplete": "Perfil completo",
     "memberSince": "Miembro desde",
+    "reputation": "Reputación",
+    "newMember": "Miembro nuevo",
+    "totalActivity": "Actividad total",
+    "interactions": "interacciones",
     "quickActions": "Acciones rápidas",
     "exploreItems": "Explorar artículos",
     "contactSupport": "Contactar soporte",
@@ -454,6 +471,22 @@
     "darkMode": "Modo oscuro",
     "language": "Idioma",
     "unknown": "Desconocido"
+  },
+  "wizard": {
+    "welcome": "¡Bienvenido a LaCherada!",
+    "completeProfileMessage": "Completa tu perfil para comenzar a conectar con la comunidad",
+    "displayNameNote": "Este es el nombre que verán otros usuarios",
+    "completeProfile": "Completar perfil",
+    "skipForNow": "Omitir por ahora",
+    "completeProfileLater": "Puedes completar tu perfil más tarde desde la configuración"
+  },
+  "validation": {
+    "firstNameRequired": "El nombre es obligatorio",
+    "firstNameMinLength": "El nombre debe tener al menos 2 caracteres",
+    "firstNameMaxLength": "El nombre no puede tener más de 50 caracteres",
+    "lastNameRequired": "El apellido es obligatorio",
+    "lastNameMinLength": "El apellido debe tener al menos 2 caracteres",
+    "lastNameMaxLength": "El apellido no puede tener más de 50 caracteres"
   },
   "meta": {
     "homeTitle": "LaCherada - Comparte, Presta, Conecta",

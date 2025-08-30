@@ -91,9 +91,16 @@
           >
             {{ $t('profile.firstName') }}
           </label>
-          <p class="text-gray-900 dark:text-white">
-            {{ userProfile?.firstName || $t('profile.notProvided') }}
-          </p>
+          <div class="flex items-center justify-between">
+            <p class="text-gray-900 dark:text-white">
+              {{ userProfile?.firstName || $t('profile.notProvided') }}
+            </p>
+            <BaseIcon
+              v-if="!userProfile?.firstName"
+              name="exclamation-circle"
+              class="w-4 h-4 text-amber-500"
+            />
+          </div>
         </div>
 
         <div class="profile-detail-item">
@@ -102,9 +109,16 @@
           >
             {{ $t('profile.lastName') }}
           </label>
-          <p class="text-gray-900 dark:text-white">
-            {{ userProfile?.lastName || $t('profile.notProvided') }}
-          </p>
+          <div class="flex items-center justify-between">
+            <p class="text-gray-900 dark:text-white">
+              {{ userProfile?.lastName || $t('profile.notProvided') }}
+            </p>
+            <BaseIcon
+              v-if="!userProfile?.lastName"
+              name="exclamation-circle"
+              class="w-4 h-4 text-amber-500"
+            />
+          </div>
         </div>
 
         <div class="profile-detail-item">
@@ -138,6 +152,40 @@
                   : $t('profile.pending')
               }}
             </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Completion Alert -->
+      <div v-if="!isProfileComplete" class="mt-6">
+        <div
+          class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4"
+        >
+          <div class="flex items-start">
+            <BaseIcon
+              name="exclamation-triangle"
+              class="w-5 h-5 text-amber-500 mt-0.5 mr-3"
+            />
+            <div class="flex-1">
+              <h3
+                class="text-sm font-medium text-amber-800 dark:text-amber-200"
+              >
+                {{ $t('profile.incompleteProfile') }}
+              </h3>
+              <p class="text-sm text-amber-700 dark:text-amber-300 mt-1">
+                {{ $t('profile.completeProfileDescription') }}
+              </p>
+              <div class="mt-3">
+                <BaseButton
+                  variant="warning"
+                  size="small"
+                  @click="toggleEditMode"
+                >
+                  <BaseIcon name="edit" class="w-4 h-4 mr-2" />
+                  {{ $t('profile.completeNow') }}
+                </BaseButton>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -307,6 +355,15 @@ const formatJoinDate = computed(() => {
       : new Date(authUser.value.createdAt)
 
   return formatDate(date, 'MMMM yyyy')
+})
+
+const isProfileComplete = computed(() => {
+  if (!userProfile.value) {
+    return false
+  }
+
+  const profile = userProfile.value
+  return !!(profile.firstName && profile.lastName && profile.displayName)
 })
 
 // Methods

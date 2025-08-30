@@ -151,45 +151,110 @@
                 <div class="flex items-center justify-between">
                   <div class="flex items-center space-x-3">
                     <div
-                      class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center"
+                      class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center"
                     >
                       <BaseIcon
                         name="check-circle"
-                        class="w-4 h-4 text-green-600 dark:text-green-400"
+                        class="w-5 h-5 text-green-600 dark:text-green-400"
                       />
                     </div>
-                    <span class="text-sm text-gray-600 dark:text-gray-400">
-                      {{ $t('dashboard.profileComplete') }}
-                    </span>
+                    <div>
+                      <span class="text-sm text-gray-600 dark:text-gray-400">
+                        {{ $t('dashboard.profileComplete') }}
+                      </span>
+                      <div class="flex items-center mt-1">
+                        <div
+                          class="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-2"
+                        >
+                          <div
+                            class="h-2 rounded-full transition-all duration-300"
+                            :class="
+                              profileCompletionPercentage >= 80
+                                ? 'bg-green-500'
+                                : profileCompletionPercentage >= 50
+                                  ? 'bg-yellow-500'
+                                  : 'bg-red-500'
+                            "
+                            :style="`width: ${profileCompletionPercentage}%`"
+                          ></div>
+                        </div>
+                        <span
+                          class="text-xs font-medium text-gray-500 dark:text-gray-400 ml-2"
+                        >
+                          {{ profileCompletionPercentage }}%
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <span
-                    class="text-sm font-semibold text-gray-900 dark:text-white"
-                  >
-                    {{ profileCompletionPercentage }}%
-                  </span>
                 </div>
               </div>
 
               <div class="stat-item">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center space-x-3">
-                    <div
-                      class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center"
-                    >
-                      <BaseIcon
-                        name="calendar"
-                        class="w-4 h-4 text-blue-600 dark:text-blue-400"
-                      />
-                    </div>
+                <div class="flex items-center space-x-3">
+                  <div
+                    class="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center"
+                  >
+                    <BaseIcon
+                      name="calendar"
+                      class="w-5 h-5 text-blue-600 dark:text-blue-400"
+                    />
+                  </div>
+                  <div>
                     <span class="text-sm text-gray-600 dark:text-gray-400">
                       {{ $t('dashboard.memberSince') }}
                     </span>
+                    <p
+                      class="text-sm font-semibold text-gray-900 dark:text-white"
+                    >
+                      {{ memberSinceFormatted }}
+                    </p>
                   </div>
-                  <span
-                    class="text-sm font-semibold text-gray-900 dark:text-white"
+                </div>
+              </div>
+
+              <div class="stat-item">
+                <div class="flex items-center space-x-3">
+                  <div
+                    class="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center"
                   >
-                    {{ memberSinceFormatted }}
-                  </span>
+                    <BaseIcon
+                      name="star"
+                      class="w-5 h-5 text-purple-600 dark:text-purple-400"
+                    />
+                  </div>
+                  <div>
+                    <span class="text-sm text-gray-600 dark:text-gray-400">
+                      {{ $t('dashboard.reputation') }}
+                    </span>
+                    <p
+                      class="text-sm font-semibold text-gray-900 dark:text-white"
+                    >
+                      {{ $t('dashboard.newMember') }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stat-item">
+                <div class="flex items-center space-x-3">
+                  <div
+                    class="w-10 h-10 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center"
+                  >
+                    <BaseIcon
+                      name="activity"
+                      class="w-5 h-5 text-orange-600 dark:text-orange-400"
+                    />
+                  </div>
+                  <div>
+                    <span class="text-sm text-gray-600 dark:text-gray-400">
+                      {{ $t('dashboard.totalActivity') }}
+                    </span>
+                    <p
+                      class="text-sm font-semibold text-gray-900 dark:text-white"
+                    >
+                      0 {{ $t('dashboard.interactions') }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -260,6 +325,14 @@
         </div>
       </div>
     </div>
+
+    <!-- Profile Completion Wizard -->
+    <ProfileCompletionWizard
+      :show="showProfileWizard"
+      @complete="handleWizardComplete"
+      @skip="handleWizardSkip"
+      @close="handleWizardClose"
+    />
   </div>
 </template>
 
@@ -280,6 +353,7 @@ import BaseLoader from '@/components/common/BaseLoader.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 import UserProfile from '@/modules/users/components/UserProfile.vue'
+import { ProfileCompletionWizard } from '@/components/ui'
 
 // Types
 interface ActivityItem {
@@ -298,6 +372,7 @@ const userStore = useUserStore()
 // State
 const recentActivities = ref<ActivityItem[]>([])
 const isLoadingActivity = ref(false)
+const showProfileWizard = ref(false)
 
 // Computed
 const currentUser = computed(() => authStore.user)
@@ -401,6 +476,42 @@ const loadRecentActivity = async (): Promise<void> => {
   }
 }
 
+// Wizard handlers
+const handleWizardComplete = (formData: ProfileFormData): void => {
+  showProfileWizard.value = false
+  // Profile update is handled by the wizard component
+  // Could show a success message here
+}
+
+const handleWizardSkip = (): void => {
+  showProfileWizard.value = false
+  // User chose to skip profile completion
+  // Could save this preference to not show again soon
+}
+
+const handleWizardClose = (): void => {
+  showProfileWizard.value = false
+}
+
+// Check if we should show the profile wizard
+const checkProfileCompleteness = (): void => {
+  // Show wizard if user has basic auth info but incomplete profile
+  const hasAuthInfo = currentUser.value?.email && authStore.isAuthenticated
+  const hasIncompleteProfile =
+    !userProfile.value?.firstName || !userProfile.value?.lastName
+
+  if (
+    hasAuthInfo &&
+    hasIncompleteProfile &&
+    profileCompletionPercentage.value < 60
+  ) {
+    // Delay to avoid jarring experience
+    setTimeout(() => {
+      showProfileWizard.value = true
+    }, 1500)
+  }
+}
+
 // Lifecycle
 onMounted(async () => {
   // Load user profile if not already loaded
@@ -410,6 +521,9 @@ onMounted(async () => {
 
   // Load recent activity
   await loadRecentActivity()
+
+  // Check if we should show profile completion wizard
+  checkProfileCompleteness()
 })
 </script>
 

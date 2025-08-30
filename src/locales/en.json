@@ -130,7 +130,8 @@
     "language": "Language",
     "changePassword": "Change Password",
     "account": "Account",
-    "preferences": "Preferences"
+    "preferences": "Preferences",
+    "characters": "characters"
   },
   "auth": {
     "login": "Login",
@@ -389,6 +390,18 @@
     "lastName": "Last Name",
     "displayName": "Display Name",
     "bio": "Bio",
+    "notProvided": "Not provided",
+    "noName": "No name",
+    "noEmail": "No email", 
+    "userProfile": "User profile",
+    "accountStatus": "Account status",
+    "active": "Active",
+    "pending": "Pending",
+    "emailVerified": "Email verified",
+    "incompleteProfile": "Incomplete profile",
+    "completeProfileDescription": "Complete your profile information to improve your community experience.",
+    "completeNow": "Complete now",
+    "anonymousUser": "Anonymous user",
     "optional": "optional",
     "firstNamePlaceholder": "Enter your first name",
     "lastNamePlaceholder": "Enter your last name",
@@ -447,6 +460,10 @@
     "quickStats": "Quick stats",
     "profileComplete": "Profile complete",
     "memberSince": "Member since",
+    "reputation": "Reputation",
+    "newMember": "New member",
+    "totalActivity": "Total activity",
+    "interactions": "interactions",
     "quickActions": "Quick actions",
     "exploreItems": "Explore items",
     "contactSupport": "Contact support",
@@ -454,6 +471,22 @@
     "darkMode": "Dark mode",
     "language": "Language",
     "unknown": "Unknown"
+  },
+  "wizard": {
+    "welcome": "Welcome to LaCherada!",
+    "completeProfileMessage": "Complete your profile to start connecting with the community",
+    "displayNameNote": "This is the name that other users will see",
+    "completeProfile": "Complete profile",
+    "skipForNow": "Skip for now",
+    "completeProfileLater": "You can complete your profile later from settings"
+  },
+  "validation": {
+    "firstNameRequired": "First name is required",
+    "firstNameMinLength": "First name must be at least 2 characters",
+    "firstNameMaxLength": "First name cannot be more than 50 characters",
+    "lastNameRequired": "Last name is required",
+    "lastNameMinLength": "Last name must be at least 2 characters",
+    "lastNameMaxLength": "Last name cannot be more than 50 characters"
   },
   "meta": {
     "homeTitle": "LaCherada - Share, Lend, Connect",

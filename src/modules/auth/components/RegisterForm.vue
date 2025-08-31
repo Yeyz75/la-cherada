@@ -183,6 +183,22 @@
               @blur="markFieldAsTouched('confirmPassword')"
             />
 
+            <!-- Location Selector - Optional -->
+            <div class="mb-4">
+              <LocationSelector
+                :v-model="formData.location ?? undefined"
+                title="¿Desde dónde publicas principalmente?"
+                description="Esto nos ayuda a mostrarte productos relevantes de tu zona"
+                :required="false"
+                :show-skip-option="true"
+                skip-text="Omitir por ahora"
+                skip-help-text="Podrás configurarlo después en tu perfil"
+                :show-auto-detect="false"
+                @skip="onLocationSkip"
+                @change="onLocationChange"
+              />
+            </div>
+
             <!-- Accept Terms - Diseño mejorado y simétrico -->
             <div class="mb-4">
               <div
@@ -368,8 +384,10 @@ import {
   BasePasswordInput,
   BaseButton,
   BaseCheckbox,
-  BaseIcon
+  BaseIcon,
+  LocationSelector
 } from '../../../components/common'
+import type { UserLocation, LocationSelection } from '../../../types/location'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -386,6 +404,7 @@ const formData = reactive<RegisterRequest>({
   password: '',
   confirmPassword: '',
   acceptTerms: false,
+  location: null,
   timestamp: new Date()
 })
 
@@ -511,6 +530,29 @@ const markFieldAsTouched = (field: string): void => {
   formState.errors = validateForm()
 }
 
+// Location handling methods
+const onLocationSkip = (): void => {
+  formData.location = null
+}
+
+const onLocationChange = (selection: LocationSelection): void => {
+  if (selection.isSkipped) {
+    formData.location = null
+  } else if (
+    selection.isValid &&
+    selection.selectedDepartment &&
+    selection.selectedMunicipality
+  ) {
+    formData.location = {
+      departmentId: selection.selectedDepartment.id,
+      municipalityId: selection.selectedMunicipality.id,
+      isConfigured: true,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  }
+}
+
 const handleSubmit = async (): Promise<void> => {
   // Mark all fields as touched
   formState.touched = {
@@ -544,7 +586,7 @@ const handleSubmit = async (): Promise<void> => {
       formData.displayName
     )
     // Redirect to dashboard or previous route
-    router.push('/dashboard')
+    await router.push('/dashboard')
   } catch (error: unknown) {
     handleError(error)
   } finally {
@@ -556,7 +598,7 @@ const handleGoogleSignUp = async (): Promise<void> => {
   await withLoading(async () => {
     try {
       await authStore.loginWithGoogle()
-      router.push('/dashboard')
+      await router.push('/dashboard')
     } catch (error: unknown) {
       handleError(error)
     }

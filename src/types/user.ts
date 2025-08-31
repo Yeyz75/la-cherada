@@ -5,6 +5,7 @@
 
 import type { User, UserProfile, UserPreferences } from './api'
 import type { LoadingState, AppError } from './global'
+import type { UserLocation } from './location'
 import type { Timestamp } from 'firebase/firestore'
 
 /**
@@ -19,6 +20,7 @@ export interface UserDocument {
   photoURL?: string
   emailVerified: boolean
   preferences: UserPreferences
+  location?: UserLocation
   createdAt: Timestamp
   updatedAt: Timestamp
 }
@@ -42,6 +44,7 @@ export interface UserProfileUpdateData {
   displayName?: string
   bio?: string
   photoURL?: string
+  location?: UserLocation
   preferences?: Partial<UserPreferences>
 }
 
@@ -55,6 +58,7 @@ export interface UserProfileCreateData {
   displayName: string
   bio?: string
   photoURL?: string
+  location?: UserLocation
   preferences: UserPreferences
 }
 

@@ -5,6 +5,7 @@
 
 import type { User as FirebaseUser } from 'firebase/auth'
 import type { Timestamp, DocumentSnapshot } from 'firebase/firestore'
+import type { UserLocation } from './location'
 
 // ==================== CONFIGURATION TYPES ====================
 
@@ -177,6 +178,7 @@ export interface UserProfileDocument extends FirestoreDocument {
   displayName: string
   photoURL?: string
   bio?: string
+  location?: UserLocation
   preferences: {
     language: string
     theme: 'light' | 'dark' | 'system'
@@ -195,6 +197,7 @@ export interface ProfileUpdateData {
   displayName?: string
   bio?: string
   photoURL?: string
+  location?: UserLocation
   preferences?: {
     language?: string
     theme?: 'light' | 'dark' | 'system'

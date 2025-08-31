@@ -78,6 +78,21 @@
             />
           </ModernCard>
         </div>
+
+        <!-- Location Settings Section -->
+        <div class="location-section">
+          <ModernCard
+            variant="solid"
+            :hover-effect="false"
+            class="overflow-hidden"
+          >
+            <LocationSettings
+              :model-value="userStore.currentProfile?.location || null"
+              @saved="handleLocationSaved"
+              @error="handleLocationError"
+            />
+          </ModernCard>
+        </div>
       </div>
     </div>
   </div>
@@ -85,7 +100,12 @@
 
 <script setup lang="ts">
 import { reactive, onMounted, computed } from 'vue'
-import { BaseIcon, ModernCard, BaseButton } from '@/components/common'
+import {
+  BaseIcon,
+  ModernCard,
+  BaseButton,
+  LocationSettings
+} from '@/components/common'
 import { UserProfileDisplay, ProfileEditForm } from '@/modules/users/components'
 import { useUserStore } from '@/stores/userStore'
 import { useAuthStore } from '@/stores/authStore'
@@ -188,6 +208,15 @@ const retryLoad = async (): Promise<void> => {
   } finally {
     pageState.isLoading = false
   }
+}
+
+const handleLocationSaved = (): void => {
+  // Location was saved successfully, no additional action needed
+  // The userStore will be updated by the LocationSettings component
+}
+
+const handleLocationError = (error: string): void => {
+  pageState.error = error
 }
 
 // Lifecycle

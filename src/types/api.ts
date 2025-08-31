@@ -4,6 +4,7 @@
  */
 
 import type { LoadingState, AppError } from './global'
+import type { UserLocation } from './location'
 
 /**
  * Base interface for all API requests
@@ -37,6 +38,7 @@ export interface UserProfile {
   displayName: string
   photoURL?: string
   bio?: string
+  location?: UserLocation
   preferences: UserPreferences
   updatedAt: Date
 }
@@ -80,6 +82,7 @@ export interface RegisterRequest extends BaseApiRequest {
   lastName: string
   displayName: string
   acceptTerms: boolean
+  location?: UserLocation | null
 }
 
 /**

@@ -230,6 +230,10 @@ export class UserService extends BaseFirebaseService {
         }
       }
 
+      if (updates.location !== undefined) {
+        updateData.location = updates.location
+      }
+
       const result = await firestoreService.update<UserProfileDocument>(
         this.COLLECTION_NAME,
         {
@@ -593,7 +597,7 @@ export class UserService extends BaseFirebaseService {
    * Convert UserProfileDocument to UserProfile
    */
   private convertToUserProfile(doc: UserProfileDocument): UserProfile {
-    return {
+    const profile: UserProfile = {
       userId: doc.userId,
       firstName: doc.firstName,
       lastName: doc.lastName,
@@ -610,6 +614,12 @@ export class UserService extends BaseFirebaseService {
           ? doc.updatedAt
           : new Date(doc.updatedAt.seconds * 1000)
     }
+
+    if (doc.location) {
+      profile.location = doc.location
+    }
+
+    return profile
   }
 
   /**

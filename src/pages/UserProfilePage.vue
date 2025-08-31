@@ -56,21 +56,7 @@
             :hover-effect="false"
             class="overflow-hidden"
           >
-            <UserProfileDisplay />
-            <div
-              class="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700"
-            >
-              <BaseButton
-                variant="primary"
-                size="large"
-                @click="startEditing"
-                :disabled="pageState.isLoading"
-                class="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              >
-                <BaseIcon name="edit" class="w-5 h-5 mr-2" />
-                Editar Perfil
-              </BaseButton>
-            </div>
+            <UserProfileDisplay @edit-profile="startEditing" />
           </ModernCard>
         </div>
 

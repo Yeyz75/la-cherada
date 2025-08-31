@@ -196,7 +196,7 @@
           variant="secondary"
           size="large"
           :disabled="isFormLoading || isValidating"
-          class="w-full sm:w-auto sm:flex-initial bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 font-medium shadow-md hover:shadow-lg transition-all duration-300"
+          class="w-full sm:w-32 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 font-medium shadow-md hover:shadow-lg transition-all duration-300"
           @click="handleCancel"
         >
           <template #icon>
@@ -213,7 +213,7 @@
           "
           variant="primary"
           size="large"
-          class="w-full sm:flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white font-medium shadow-lg hover:shadow-xl dark:shadow-blue-500/25 dark:hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105"
+          class="w-full sm:flex-1 sm:min-w-48 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white font-medium shadow-lg hover:shadow-xl dark:shadow-blue-500/25 dark:hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105"
         >
           <template #icon>
             <BaseIcon name="save" class="w-5 h-5" />
@@ -684,27 +684,51 @@ defineExpose({
 
 <style scoped>
 .profile-edit-form-container {
-  @apply w-full max-w-2xl mx-auto;
+  width: 100%;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .profile-edit-form {
-  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6;
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgb(229 231 235);
+  padding: 1.5rem;
+}
+
+.dark .profile-edit-form {
+  background-color: rgb(31 41 55);
+  border-color: rgb(55 65 81);
 }
 
 .form-header {
-  @apply border-b border-gray-200 dark:border-gray-700 pb-4;
+  border-bottom: 1px solid rgb(229 231 235);
+  padding-bottom: 1rem;
+}
+
+.dark .form-header {
+  border-bottom-color: rgb(55 65 81);
 }
 
 .form-field {
-  @apply space-y-2;
+  margin-bottom: 1.5rem;
 }
 
 .form-actions {
-  @apply border-t border-gray-200 dark:border-gray-700 pt-4;
+  border-top: 1px solid rgb(229 231 235);
+  padding-top: 1rem;
+}
+
+.dark .form-actions {
+  border-top-color: rgb(55 65 81);
 }
 
 .success-message {
-  @apply animate-fade-in;
+  animation: fade-in 0.3s ease-out forwards;
 }
 
 /* Animations */
@@ -726,86 +750,105 @@ defineExpose({
 /* Responsive design */
 @media (max-width: 640px) {
   .profile-edit-form {
-    @apply p-4 rounded-xl space-y-4;
+    padding: 1rem;
+    border-radius: 0.75rem;
     margin: 0;
   }
 
   .profile-edit-form-container {
-    @apply px-2;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .form-actions {
-    @apply flex-col-reverse gap-3 pt-4;
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+    padding-top: 1rem;
   }
 
   .form-field {
-    @apply space-y-2;
+    margin-bottom: 1rem;
   }
 
   /* Reducir padding en los headers del formulario */
   .form-header {
-    @apply mb-4 pb-3;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
   }
 
   .form-header h2 {
-    @apply text-xl;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 
   .form-header p {
-    @apply text-xs;
+    font-size: 0.75rem;
+    line-height: 1rem;
   }
 
   /* Ajustar inputs en móviles */
   .form-field input,
   .form-field textarea {
-    @apply text-base py-3 px-4 rounded-xl;
     font-size: 16px; /* Prevent zoom on iOS */
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
   }
 
   /* Ajustar botones en móviles */
   .form-actions button {
-    @apply w-full py-3 text-base font-semibold;
+    width: 100%;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 600;
   }
 
   /* Mejorar espaciado de labels */
   .form-field label {
-    @apply text-sm font-medium mb-2;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
   }
 
   /* Ajustar imagen de perfil en móviles */
   .profile-image-section {
-    @apply text-center;
+    text-align: center;
   }
 }
 
 @media (max-width: 768px) {
   .profile-edit-form-container {
-    @apply px-3;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
 
   /* Botones stack verticalmente en tablet */
   .form-actions {
-    @apply flex-col-reverse gap-3;
+    flex-direction: column-reverse;
+    gap: 0.75rem;
   }
 
   .form-field input,
   .form-field textarea {
-    @apply py-3;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
   }
 }
 
 /* Large screen optimizations */
 @media (min-width: 1024px) {
   .profile-edit-form {
-    @apply p-8 space-y-8;
+    padding: 2rem;
   }
 
   .form-header {
-    @apply mb-6;
+    margin-bottom: 1.5rem;
   }
 
   .form-actions {
-    @apply pt-8;
+    padding-top: 2rem;
   }
 }
 

@@ -38,8 +38,7 @@
         <!-- Dropdown arrow -->
         <BaseIcon
           name="chevron-down"
-          class="w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform duration-200"
-          :class="{ 'rotate-180': isOpen }"
+          :class="`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`"
         />
       </div>
     </button>

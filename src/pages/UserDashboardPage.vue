@@ -53,7 +53,7 @@
             </div>
 
             <!-- User Profile Component -->
-            <UserProfileDisplay />
+            <UserProfileDisplay @edit-profile="navigateToProfile" />
           </section>
 
           <!-- Recent Activity Section -->
@@ -413,11 +413,15 @@ const memberSinceFormatted = computed(() => {
 
 // Methods
 const navigateToExplore = (): void => {
-  void router.push({ name: 'Explore' })
+  void router.push({ name: 'explore' })
 }
 
 const navigateToContact = (): void => {
-  void router.push({ name: 'Contact' })
+  void router.push({ name: 'contact' })
+}
+
+const navigateToProfile = (): void => {
+  void router.push({ name: 'profile' })
 }
 
 const getActivityIcon = (type: ActivityItem['type']): string => {

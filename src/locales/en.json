@@ -472,5 +472,19 @@
     "loginTitle": "Login - LaCherada",
     "registerTitle": "Sign Up - LaCherada",
     "forgotPasswordTitle": "Reset Password - LaCherada"
+  },
+  "location": {
+    "selectLocation": "Select your location",
+    "selectLocationDescription": "Help us show you relevant content for your area",
+    "department": "Department",
+    "municipality": "Municipality", 
+    "selectDepartment": "Select a department",
+    "selectMunicipality": "Select a municipality",
+    "selectDepartmentFirst": "First select a department",
+    "skip": "Skip",
+    "configure": "Configure",
+    "selectedLocation": "Selected location",
+    "skippedTitle": "Location skipped",
+    "skippedDescription": "You can configure your location later in your profile"
   }
 }

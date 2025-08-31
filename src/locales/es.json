@@ -472,5 +472,19 @@
     "loginTitle": "Iniciar Sesión - LaCherada",
     "registerTitle": "Crear Cuenta - LaCherada",
     "forgotPasswordTitle": "Restablecer Contraseña - LaCherada"
+  },
+  "location": {
+    "selectLocation": "Selecciona tu ubicación",
+    "selectLocationDescription": "Ayúdanos a mostrarte contenido relevante para tu área",
+    "department": "Departamento",
+    "municipality": "Municipio",
+    "selectDepartment": "Selecciona un departamento",
+    "selectMunicipality": "Selecciona un municipio",
+    "selectDepartmentFirst": "Primero selecciona un departamento",
+    "skip": "Omitir",
+    "configure": "Configurar",
+    "selectedLocation": "Ubicación seleccionada",
+    "skippedTitle": "Ubicación omitida",
+    "skippedDescription": "Puedes configurar tu ubicación más tarde en tu perfil"
   }
 }

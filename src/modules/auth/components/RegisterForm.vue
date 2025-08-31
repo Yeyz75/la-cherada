@@ -585,8 +585,8 @@ const handleSubmit = async (): Promise<void> => {
       formData.lastName,
       formData.displayName
     )
-    // Redirect to dashboard or previous route
-    await router.push('/dashboard')
+    // Redirect to home page after registration
+    await router.push('/')
   } catch (error: unknown) {
     handleError(error)
   } finally {
@@ -598,7 +598,7 @@ const handleGoogleSignUp = async (): Promise<void> => {
   await withLoading(async () => {
     try {
       await authStore.loginWithGoogle()
-      await router.push('/dashboard')
+      await router.push('/')
     } catch (error: unknown) {
       handleError(error)
     }

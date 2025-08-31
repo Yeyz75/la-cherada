@@ -9,7 +9,7 @@ import type { User, UserProfile } from '@/types/api'
 import type { LoadingState, AppError } from '@/types/global'
 import type { AuthUser } from '@/types/firebase'
 import { authService } from '@/services/firebase'
-import { userService } from '@/modules/users/services/userService'
+import { userService } from '@/services/firebase/userService'
 
 export const useAuthStore = defineStore('auth', () => {
   // State
@@ -305,12 +305,15 @@ export const useAuthStore = defineStore('auth', () => {
 
     setLoading(true, 'Verificando autenticación...')
 
-    authUnsubscribe.value = authService.onAuthStateChanged(async fbUser => {
+    authUnsubscribe.value = authService.onAuthStateChanged(fbUser => {
       if (fbUser) {
         setFirebaseUser(fbUser)
         setUser(mapFirebaseUserToUser(fbUser))
         // Initialize profile for existing users without it
-        await initializeUserProfileIfNeeded(fbUser)
+        initializeUserProfileIfNeeded(fbUser).catch(() => {
+          // Silently handle profile initialization errors
+          // to avoid breaking the auth flow
+        })
       } else {
         clearUserData()
       }

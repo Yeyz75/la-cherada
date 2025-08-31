@@ -176,3 +176,27 @@ export interface ProfileValidationResult {
   isValid: boolean
   errors: ProfileError[]
 }
+
+/**
+ * Base service response interface
+ */
+export interface ServiceResponse<T = unknown> {
+  success: boolean
+  data?: T
+  error?: {
+    code: string
+    message: string
+    type: string
+    timestamp: string
+  }
+}
+
+/**
+ * User profile service response
+ */
+export type UserProfileResponse = ServiceResponse<UserProfile>
+
+/**
+ * Delete profile response (no data returned on success)
+ */
+export type DeleteProfileResponse = ServiceResponse<void>

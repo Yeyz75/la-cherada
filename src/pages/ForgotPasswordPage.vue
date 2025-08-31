@@ -27,9 +27,9 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 // Redirect if already authenticated
-onMounted(() => {
+onMounted(async () => {
   if (authStore.isAuthenticated) {
-    router.replace('/dashboard')
+    await router.replace('/')
   }
 })
 </script>

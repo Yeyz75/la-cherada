@@ -7,7 +7,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import type { UserProfile, ProfileFormData, ProfileError } from '@/types/api'
 import type { LoadingState, AppError } from '@/types/global'
-import { userService } from '@/modules/users/services/userService'
+import { userService } from '@/services/firebase/userService'
 
 export const useUserStore = defineStore('user', () => {
   // State
@@ -190,8 +190,7 @@ export const useUserStore = defineStore('user', () => {
       const result = await userService.initializeUserProfile(
         userId,
         email,
-        firstName,
-        lastName
+        `${firstName} ${lastName}`.trim()
       )
 
       if (result.success && result.data) {

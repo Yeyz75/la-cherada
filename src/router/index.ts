@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-import { requireAuth, requireGuest } from './guards'
+import { requireGuest } from './guards'
 import { useAuthStore } from '@/stores/authStore'
 import i18n from '@/i18n'
 
@@ -13,21 +13,6 @@ const ContactPage = () => import('@/pages/ContactPage.vue')
 const LoginPage = () => import('@/pages/LoginPage.vue')
 const RegisterPage = () => import('@/pages/RegisterPage.vue')
 const ForgotPasswordPage = () => import('@/pages/ForgotPasswordPage.vue')
-
-// Protected pages
-const UserProfilePage = () => import('@/pages/UserProfilePage.vue')
-
-// Dashboard components
-const DashboardLayout = () =>
-  import('@/components/dashboard/DashboardLayout.vue')
-const ProfileSection = () =>
-  import('@/components/dashboard/sections/ProfileSection.vue')
-const StatsSection = () =>
-  import('@/components/dashboard/sections/StatsSection.vue')
-const ActivitySection = () =>
-  import('@/components/dashboard/sections/ActivitySection.vue')
-const SettingsSection = () =>
-  import('@/components/dashboard/sections/SettingsSection.vue')
 
 // Define routes with TypeScript typing
 const routes: RouteRecordRaw[] = [
@@ -117,64 +102,6 @@ const routes: RouteRecordRaw[] = [
       //   meta: { requiresAuth: false }
       // }
     ]
-  },
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: DashboardLayout,
-    beforeEnter: requireAuth,
-    children: [
-      {
-        path: '',
-        redirect: '/dashboard/profile'
-      },
-      {
-        path: 'profile',
-        name: 'dashboard-profile',
-        component: ProfileSection,
-        meta: {
-          requiresAuth: true,
-          titleKey: 'meta.dashboardProfileTitle'
-        }
-      },
-      {
-        path: 'stats',
-        name: 'dashboard-stats',
-        component: StatsSection,
-        meta: {
-          requiresAuth: true,
-          titleKey: 'meta.dashboardStatsTitle'
-        }
-      },
-      {
-        path: 'activity',
-        name: 'dashboard-activity',
-        component: ActivitySection,
-        meta: {
-          requiresAuth: true,
-          titleKey: 'meta.dashboardActivityTitle'
-        }
-      },
-      {
-        path: 'settings',
-        name: 'dashboard-settings',
-        component: SettingsSection,
-        meta: {
-          requiresAuth: true,
-          titleKey: 'meta.dashboardSettingsTitle'
-        }
-      }
-    ]
-  },
-  {
-    path: '/profile',
-    name: 'profile',
-    component: UserProfilePage,
-    beforeEnter: requireAuth,
-    meta: {
-      requiresAuth: true,
-      titleKey: 'meta.profileTitle'
-    }
   },
   // Catch-all route for 404 pages
   {

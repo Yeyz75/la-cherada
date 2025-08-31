@@ -136,7 +136,6 @@
   "userMenu": {
     "toggleMenu": "Toggle user menu",
     "profile": "My Profile",
-    "dashboard": "Dashboard",
     "logout": "Logout",
     "loggingOut": "Logging out...",
     "user": "User"
@@ -429,7 +428,6 @@
     "accountSettings": "Account settings",
     "privacy": "Privacy",
     "notifications": "Notifications",
-    "dashboard": "Dashboard",
     "stats": "Statistics",
     "items": {
       "count": "Items",
@@ -448,40 +446,6 @@
     "addNewItem": "Add new item",
     "viewMyItems": "View my items",
     "browseItems": "Browse items"
-  },
-  "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Welcome",
-    "subtitle": "Manage your profile and community activity",
-    "editProfile": "Edit profile",
-    "explore": "Explore",
-    "myItems": "My items",
-    "myRequests": "My requests",
-    "messages": "Messages",
-    "settings": "Settings",
-    "yourProfile": "Your profile",
-    "unknownDate":"Unknown date",
-    "profileSubtitle": "Keep your information up to date",
-    "editProfileHint": "To edit your profile, use the user menu in the top navigation bar",
-    "recentActivity": "Recent activity",
-    "activitySubtitle": "See your latest actions on the platform",
-    "noActivity": "No recent activity",
-    "noActivityDescription": "You haven't performed any actions recently. Start exploring items!",
-    "startExploring": "Start exploring",
-    "quickStats": "Quick stats",
-    "profileComplete": "Profile complete",
-    "memberSince": "Member since",
-    "reputation": "Reputation",
-    "newMember": "New member",
-    "totalActivity": "Total activity",
-    "interactions": "interactions",
-    "quickActions": "Quick actions",
-    "exploreItems": "Explore items",
-    "contactSupport": "Contact support",
-    "preferences": "Preferences",
-    "darkMode": "Dark mode",
-    "language": "Language",
-    "unknown": "Unknown"
   },
   "wizard": {
     "welcome": "Welcome to LaCherada!",
@@ -507,8 +471,6 @@
     "contactTitle": "Contact - LaCherada",
     "loginTitle": "Login - LaCherada",
     "registerTitle": "Sign Up - LaCherada",
-    "forgotPasswordTitle": "Reset Password - LaCherada",
-    "dashboardTitle": "Dashboard - LaCherada",
-    "profileTitle": "My Profile - LaCherada"
+    "forgotPasswordTitle": "Reset Password - LaCherada"
   }
 }

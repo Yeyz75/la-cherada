@@ -136,7 +136,6 @@
   "userMenu": {
     "toggleMenu": "Abrir menú de usuario",
     "profile": "Mi Perfil",
-    "dashboard": "Panel",
     "logout": "Cerrar Sesión",
     "loggingOut": "Cerrando sesión...",
     "user": "Usuario"
@@ -429,7 +428,6 @@
     "accountSettings": "Configuración de la cuenta",
     "privacy": "Privacidad",
     "notifications": "Notificaciones",
-    "dashboard": "Panel de control",
     "stats": "Estadísticas",
     "items": {
       "count": "Artículos",
@@ -448,166 +446,6 @@
     "addNewItem": "Agregar nuevo artículo",
     "viewMyItems": "Ver mis artículos",
     "browseItems": "Explorar artículos"
-  },
-  "dashboard": {
-    "title": "Panel de control",
-    "welcome": "Bienvenido",
-    "subtitle": "Gestiona tu perfil y actividad en la comunidad",
-    "editProfile": "Editar perfil",
-    "explore": "Explorar",
-    "myItems": "Mis artículos",
-    "myRequests": "Mis solicitudes",
-    "messages": "Mensajes",
-    "yourProfile": "Tu perfil",
-    "unknownDate": "Fecha desconocida",
-    "profileSubtitle": "Mantén tu información actualizada",
-    "editProfileHint": "Para editar tu perfil, usa el menú de usuario en la barra de navegación superior",
-    "recentActivity": "Actividad reciente",
-    "activitySubtitle": "Ve tus últimas acciones en la plataforma",
-    "noActivity": "Sin actividad reciente",
-    "noActivityDescription": "No has realizado ninguna acción recientemente. ¡Empieza explorando artículos!",
-    "startExploring": "Comenzar a explorar",
-    "quickStats": "Estadísticas rápidas",
-    "profileComplete": "Perfil completo",
-    "memberSince": "Miembro desde",
-    "reputation": "Reputación",
-    "newMember": "Miembro nuevo",
-    "totalActivity": "Actividad total",
-    "interactions": "interacciones",
-    "quickActions": "Acciones rápidas",
-    "exploreItems": "Explorar artículos",
-    "contactSupport": "Contactar soporte",
-    "preferences": "Preferencias",
-    "darkMode": "Modo oscuro",
-    "language": "Idioma",
-    "unknown": "Desconocido",
-    "sections": {
-      "profile": {
-        "name": "Perfil",
-        "title": "Mi Perfil",
-        "subtitle": "Gestiona tu información personal y configuraciones de perfil"
-      },
-      "stats": {
-        "name": "Estadísticas",
-        "title": "Estadísticas",
-        "subtitle": "Ve tus métricas de actividad y progreso en la plataforma"
-      },
-      "activity": {
-        "name": "Actividad",
-        "title": "Actividad Reciente",
-        "subtitle": "Historial de tus acciones y interacciones en la plataforma"
-      },
-      "settings": {
-        "name": "Configuración",
-        "title": "Configuración",
-        "subtitle": "Personaliza tu experiencia y gestiona tu cuenta"
-      }
-    },
-    "sidebar": {
-      "version": "Versión"
-    },
-    "profile": {
-      "edit": "Editar perfil",
-      "incompleteTitle": "Perfil incompleto",
-      "incompleteMessage": "Completa tu perfil para tener una mejor experiencia en la plataforma",
-      "completeProfile": "Completar perfil",
-      "quickSettings": "Configuración rápida",
-      "visibility": "Perfil público",
-      "visibilityDescription": "Permite que otros usuarios vean tu perfil",
-      "emailNotifications": "Notificaciones por email",
-      "emailNotificationsDescription": "Recibe notificaciones sobre actividad importante",
-      "autoLocation": "Ubicación automática",
-      "autoLocationDescription": "Actualizar ubicación automáticamente"
-    },
-    "stats": {
-      "profileCompletion": "Completitud del perfil",
-      "memberSince": "Miembro desde",
-      "daysAgo": "días atrás",
-      "accountStatus": "Estado de la cuenta",
-      "verified": "Verificado",
-      "pending": "Pendiente",
-      "activityOverview": "Resumen de actividad",
-      "itemsPosted": "Artículos publicados",
-      "messagesSent": "Mensajes enviados",
-      "searchesPerformed": "Búsquedas realizadas",
-      "connections": "Conexiones",
-      "thisWeek": "Esta semana",
-      "thisMonth": "Este mes",
-      "logins": "Sesiones",
-      "timeSpent": "Tiempo usado",
-      "interactions": "Interacciones",
-      "avgDaily": "Promedio diario",
-      "totalSessions": "Sesiones totales",
-      "achievements": "Logros",
-      "unknown": "Desconocido"
-    },
-    "activity": {
-      "all": "Todas",
-      "today": "Hoy",
-      "thisWeek": "Esta semana",
-      "thisMonth": "Este mes",
-      "noActivity": "Sin actividad",
-      "noActivityDescription": "No has realizado ninguna actividad recientemente",
-      "startExploring": "Comenzar a explorar",
-      "loadMore": "Cargar más",
-      "loading": "Cargando...",
-      "types": {
-        "profile_update": "Actualización",
-        "login": "Sesión",
-        "registration": "Registro",
-        "password_change": "Contraseña",
-        "search": "Búsqueda",
-        "message": "Mensaje"
-      }
-    },
-    "settings": {
-      "account": {
-        "title": "Configuración de cuenta",
-        "actions": "Acciones de cuenta"
-      },
-      "privacy": {
-        "title": "Configuración de privacidad"
-      },
-      "communication": {
-        "title": "Configuración de comunicación"
-      },
-      "theme": "Tema",
-      "themeDescription": "Cambiar entre modo claro y oscuro",
-      "language": "Idioma",
-      "languageDescription": "Seleccionar idioma de la interfaz",
-      "pushNotifications": "Notificaciones push",
-      "pushNotificationsDescription": "Recibir notificaciones en tiempo real",
-      "autoLocation": "Ubicación automática",
-      "autoLocationDescription": "Actualizar ubicación automáticamente",
-      "publicProfile": "Perfil público",
-      "publicProfileDescription": "Permitir que otros usuarios vean tu perfil",
-      "showStats": "Mostrar estadísticas",
-      "showStatsDescription": "Mostrar estadísticas públicamente",
-      "publicActivity": "Actividad pública",
-      "publicActivityDescription": "Mostrar tu actividad a otros usuarios",
-      "emailNotifications": "Notificaciones por email",
-      "emailNotificationsDescription": "Recibir notificaciones por correo electrónico",
-      "marketingEmails": "Emails de marketing",
-      "marketingEmailsDescription": "Recibir ofertas y novedades por email",
-      "smsNotifications": "Notificaciones SMS",
-      "smsNotificationsDescription": "Recibir notificaciones por mensaje de texto",
-      "exportData": "Exportar datos",
-      "exportDataDescription": "Descargar una copia de tus datos",
-      "export": "Exportar",
-      "exporting": "Exportando...",
-      "exportSuccess": "Datos exportados exitosamente",
-      "exportError": "Error al exportar los datos",
-      "deleteAccount": "Eliminar cuenta",
-      "deleteAccountDescription": "Eliminar permanentemente tu cuenta",
-      "delete": "Eliminar",
-      "confirmDelete": "Confirmar eliminación",
-      "deleteWarning": "¿Estás seguro?",
-      "deleteWarningDescription": "Esta acción no se puede deshacer. Todos tus datos se eliminarán permanentemente.",
-      "confirmDeleteButton": "Sí, eliminar cuenta",
-      "deleting": "Eliminando...",
-      "deleteSuccess": "Cuenta eliminada exitosamente",
-      "deleteError": "Error al eliminar la cuenta"
-    }
   },
   "wizard": {
     "welcome": "¡Bienvenido a LaCherada!",
@@ -633,12 +471,6 @@
     "contactTitle": "Contacto - LaCherada",
     "loginTitle": "Iniciar Sesión - LaCherada",
     "registerTitle": "Crear Cuenta - LaCherada",
-    "forgotPasswordTitle": "Restablecer Contraseña - LaCherada",
-    "dashboardTitle": "Panel de Control - LaCherada",
-    "dashboardProfileTitle": "Mi Perfil - LaCherada",
-    "dashboardStatsTitle": "Estadísticas - LaCherada",
-    "dashboardActivityTitle": "Actividad - LaCherada",
-    "dashboardSettingsTitle": "Configuración - LaCherada",
-    "profileTitle": "Mi Perfil - LaCherada"
+    "forgotPasswordTitle": "Restablecer Contraseña - LaCherada"
   }
 }

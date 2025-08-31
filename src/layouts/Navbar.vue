@@ -41,10 +41,20 @@
 
           <!-- Authenticated user menu -->
           <template v-if="authStore.isAuthenticated && authStore.currentUser">
-            <UserDropdownMenu
-              :user="authStore.currentUser"
-              :user-profile="authStore.currentUserProfile"
-            />
+            <div class="flex items-center space-x-4">
+              <span class="text-gray-700 dark:text-gray-200">
+                {{
+                  authStore.currentUser?.displayName ||
+                  authStore.currentUser?.email
+                }}
+              </span>
+              <BaseButton
+                label="Cerrar sesión"
+                @click="handleLogout"
+                outlined
+                size="small"
+              />
+            </div>
           </template>
 
           <!-- Guest user buttons -->
@@ -166,10 +176,18 @@
 
         <!-- Authenticated user menu for mobile -->
         <template v-if="authStore.isAuthenticated && authStore.currentUser">
-          <div class="flex justify-center pb-2" @click.stop>
-            <UserDropdownMenu
-              :user="authStore.currentUser"
-              :user-profile="authStore.currentUserProfile"
+          <div class="flex flex-col items-center space-y-2 pb-2" @click.stop>
+            <span class="text-gray-700 dark:text-gray-200">
+              {{
+                authStore.currentUser?.displayName ||
+                authStore.currentUser?.email
+              }}
+            </span>
+            <BaseButton
+              label="Cerrar sesión"
+              @click="handleLogout"
+              outlined
+              size="small"
             />
           </div>
         </template>
@@ -230,7 +248,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTranslation } from '@/composables/useTranslation'
 import { useAuthStore } from '@/stores/authStore'
-import { BaseButton, UserDropdownMenu } from '@/components/common'
+import { BaseButton } from '@/components/common'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
@@ -261,14 +279,24 @@ const closeMobileMenu = (): void => {
 }
 
 // Navigation handlers
-const handleLogin = (): void => {
+const handleLogin = async (): Promise<void> => {
   closeMobileMenu()
-  router.push({ name: 'login' })
+  await router.push({ name: 'login' })
 }
 
-const handleRegister = (): void => {
+const handleRegister = async (): Promise<void> => {
   closeMobileMenu()
-  router.push({ name: 'register' })
+  await router.push({ name: 'register' })
+}
+
+const handleLogout = async (): Promise<void> => {
+  closeMobileMenu()
+  try {
+    await authStore.logout()
+    await router.push('/')
+  } catch (error) {
+    // Handle logout error silently
+  }
 }
 
 // Cerrar menú móvil al hacer clic fuera o cambiar de ruta

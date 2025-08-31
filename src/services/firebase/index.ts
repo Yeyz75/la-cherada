@@ -7,6 +7,7 @@
 export { default as authService } from './authService'
 export { default as firestoreService } from './firestoreService'
 export { default as storageService } from './storageService'
+export { userService } from './userService'
 export { BaseFirebaseService } from './baseService'
 
 // Export service classes for advanced usage

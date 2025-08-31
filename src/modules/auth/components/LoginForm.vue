@@ -263,8 +263,8 @@ const handleSubmit = async (): Promise<void> => {
 
   try {
     await authStore.login(formData.email, formData.password)
-    // Redirect to home page after login
-    await router.push('/')
+    // Redirect to dashboard after login
+    await router.push('/dashboard')
   } catch (error: unknown) {
     handleError(error)
   } finally {
@@ -276,7 +276,7 @@ const handleGoogleSignIn = async (): Promise<void> => {
   await withLoading(async () => {
     try {
       await authStore.loginWithGoogle()
-      await router.push('/')
+      await router.push('/dashboard')
     } catch (error: unknown) {
       handleError(error)
     }

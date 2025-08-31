@@ -49,6 +49,14 @@
                 }}
               </span>
               <BaseButton
+                variant="primary"
+                size="small"
+                @click="handleDashboard"
+              >
+                <BaseIcon name="layout-dashboard" class="w-4 h-4 mr-2" />
+                Mi Panel
+              </BaseButton>
+              <BaseButton
                 label="Cerrar sesión"
                 @click="handleLogout"
                 outlined
@@ -184,6 +192,15 @@
               }}
             </span>
             <BaseButton
+              variant="primary"
+              size="small"
+              @click="handleDashboard"
+              class="w-full"
+            >
+              <BaseIcon name="layout-dashboard" class="w-4 h-4 mr-2" />
+              Mi Panel
+            </BaseButton>
+            <BaseButton
               label="Cerrar sesión"
               @click="handleLogout"
               outlined
@@ -248,7 +265,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTranslation } from '@/composables/useTranslation'
 import { useAuthStore } from '@/stores/authStore'
-import { BaseButton } from '@/components/common'
+import { BaseButton, BaseIcon } from '@/components/common'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
@@ -287,6 +304,11 @@ const handleLogin = async (): Promise<void> => {
 const handleRegister = async (): Promise<void> => {
   closeMobileMenu()
   await router.push({ name: 'register' })
+}
+
+const handleDashboard = async (): Promise<void> => {
+  closeMobileMenu()
+  await router.push({ name: 'dashboard' })
 }
 
 const handleLogout = async (): Promise<void> => {

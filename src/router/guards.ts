@@ -29,9 +29,9 @@ export const requireGuest: NavigationGuard = (to, from, next) => {
   const authStore = useAuthStore()
 
   if (authStore.isAuthenticated) {
-    // Redirect to home if already authenticated
+    // Redirect to dashboard if already authenticated
     const redirectTo = to.query.redirect as string
-    next(redirectTo ? { path: redirectTo } : { name: 'home' })
+    next(redirectTo ? { path: redirectTo } : { name: 'dashboard' })
     return
   }
 

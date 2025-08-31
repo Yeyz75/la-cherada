@@ -6,6 +6,7 @@
 export { useAppStore } from './appStore'
 export { useAuthStore } from './authStore'
 export { useUserStore } from './userStore'
+export { useDashboardStore } from './dashboardStore'
 
 // Re-export types for convenience
 export type {
@@ -21,3 +22,8 @@ export type {
   ProfileFormData,
   ProfileError
 } from '@/types/api'
+export type {
+  DashboardSection,
+  DashboardState,
+  DashboardUser
+} from '@/types/dashboard'

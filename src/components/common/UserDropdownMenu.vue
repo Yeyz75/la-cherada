@@ -219,7 +219,7 @@ const navigateToProfile = (): void => {
 
 const navigateToDashboard = (): void => {
   closeDropdown()
-  void router.push({ name: 'dashboard-home' })
+  void router.push({ name: 'dashboard-profile' })
 }
 
 const handleLogout = async (): Promise<void> => {

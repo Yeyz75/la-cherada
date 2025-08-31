@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-import { requireGuest } from './guards'
+import { requireGuest, requireAuth } from './guards'
 import { useAuthStore } from '@/stores/authStore'
 import i18n from '@/i18n'
 
@@ -13,6 +13,9 @@ const ContactPage = () => import('@/pages/ContactPage.vue')
 const LoginPage = () => import('@/pages/LoginPage.vue')
 const RegisterPage = () => import('@/pages/RegisterPage.vue')
 const ForgotPasswordPage = () => import('@/pages/ForgotPasswordPage.vue')
+
+// Dashboard pages
+const DashboardPage = () => import('@/pages/DashboardPage.vue')
 
 // Define routes with TypeScript typing
 const routes: RouteRecordRaw[] = [
@@ -101,6 +104,63 @@ const routes: RouteRecordRaw[] = [
       //   component: () => import('@/modules/auth/pages/RegisterPage.vue'),
       //   meta: { requiresAuth: false }
       // }
+    ]
+  },
+  // Dashboard routes - Protected area
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    beforeEnter: requireAuth,
+    children: [
+      // Default redirect to account section
+      {
+        path: '',
+        redirect: '/dashboard/account'
+      },
+      // Account section
+      {
+        path: 'account',
+        name: 'dashboard-account',
+        component: DashboardPage,
+        meta: {
+          titleKey: 'dashboard.sections.account.name',
+          requiresAuth: true,
+          dashboardSection: 'account'
+        }
+      },
+      // Preferences section
+      {
+        path: 'preferences',
+        name: 'dashboard-preferences',
+        component: DashboardPage,
+        meta: {
+          titleKey: 'dashboard.sections.preferences.name',
+          requiresAuth: true,
+          dashboardSection: 'preferences'
+        }
+      },
+      // Notifications section
+      {
+        path: 'notifications',
+        name: 'dashboard-notifications',
+        component: DashboardPage,
+        meta: {
+          titleKey: 'dashboard.sections.notifications.name',
+          requiresAuth: true,
+          dashboardSection: 'notifications'
+        }
+      },
+      // Appearance section
+      {
+        path: 'appearance',
+        name: 'dashboard-appearance',
+        component: DashboardPage,
+        meta: {
+          titleKey: 'dashboard.sections.appearance.name',
+          requiresAuth: true,
+          dashboardSection: 'appearance'
+        }
+      }
     ]
   },
   // Catch-all route for 404 pages

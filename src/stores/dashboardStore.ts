@@ -21,6 +21,18 @@ export const useDashboardStore = defineStore('dashboard', () => {
   const isLoading = ref<boolean>(false)
   const sections = ref<DashboardSection[]>(DASHBOARD_SECTIONS)
 
+  // Estado para manejo de errores
+  const error = ref<{
+    message: string
+    details?: string | Error
+    timestamp: Date
+    type: 'network' | 'section' | 'auth' | 'generic'
+    sectionId?: string
+  } | null>(null)
+  const isRetrying = ref<boolean>(false)
+  const retryCount = ref<number>(0)
+  const maxRetries = ref<number>(3)
+
   // Getters computados
   const currentSection = computed((): DashboardSection | undefined =>
     getSectionById(activeSection.value)
@@ -41,6 +53,20 @@ export const useDashboardStore = defineStore('dashboard', () => {
     sections: availableSections.value,
     activeSection: activeSection.value
   }))
+
+  // Getters para manejo de errores
+  const hasError = computed(() => error.value !== null)
+  const errorDetails = computed(() => error.value)
+  const canRetry = computed(
+    () =>
+      hasError.value && retryCount.value < maxRetries.value && !isRetrying.value
+  )
+  const hasNetworkError = computed(
+    () => hasError.value && error.value?.type === 'network'
+  )
+  const hasSectionError = computed(
+    () => hasError.value && error.value?.type === 'section'
+  )
 
   // Actions - Gestión de sección activa
   const setActiveSection = (sectionId: string): boolean => {
@@ -104,6 +130,101 @@ export const useDashboardStore = defineStore('dashboard', () => {
     setLoading(false)
   }
 
+  // Actions - Manejo de errores
+  const setError = (
+    message: string,
+    type: 'network' | 'section' | 'auth' | 'generic' = 'generic',
+    details?: string | Error,
+    sectionId?: string
+  ): void => {
+    error.value = {
+      message,
+      ...(details !== undefined ? { details } : {}),
+      timestamp: new Date(),
+      type,
+      ...(sectionId !== undefined ? { sectionId } : {})
+    }
+    isRetrying.value = false
+  }
+
+  const clearError = (): void => {
+    error.value = null
+    retryCount.value = 0
+    isRetrying.value = false
+  }
+
+  const retryLastAction = async (): Promise<boolean> => {
+    if (!canRetry.value || isRetrying.value) {
+      return false
+    }
+
+    try {
+      isRetrying.value = true
+      retryCount.value += 1
+
+      // Si el error es de una sección específica, intentar recargar
+      if (error.value?.sectionId) {
+        await navigateToSectionWithRetry(error.value.sectionId)
+      }
+
+      clearError()
+      return true
+    } catch (retryError) {
+      // Si el reintento falla, mantener el error original
+      // eslint-disable-next-line no-console
+      console.error('Retry failed:', retryError)
+      isRetrying.value = false
+      return false
+    }
+  }
+
+  const navigateToSectionWithRetry = async (
+    sectionId: string,
+    maxAttempts: number = 3
+  ): Promise<boolean> => {
+    let attempts = 0
+
+    while (attempts < maxAttempts) {
+      try {
+        startLoading()
+
+        // Simular carga de la sección
+        await new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (isValidSectionId(sectionId)) {
+              resolve(true)
+            } else {
+              reject(new Error(`Invalid section: ${sectionId}`))
+            }
+          }, 500)
+        })
+
+        setActiveSection(sectionId)
+        clearError()
+        return true
+      } catch (error) {
+        attempts += 1
+
+        if (attempts >= maxAttempts) {
+          setError(
+            `Failed to load section after ${maxAttempts} attempts`,
+            'section',
+            error instanceof Error ? error : String(error),
+            sectionId
+          )
+          return false
+        }
+
+        // Esperar antes del siguiente intento
+        await new Promise(resolve => setTimeout(resolve, 1000))
+      } finally {
+        stopLoading()
+      }
+    }
+
+    return false
+  }
+
   // Actions - Inicialización y persistencia
   const initializeDashboard = (): void => {
     try {
@@ -133,6 +254,7 @@ export const useDashboardStore = defineStore('dashboard', () => {
     activeSection.value = DASHBOARD_CONSTANTS.DEFAULT_SECTION
     sidebarCollapsed.value = false
     isLoading.value = false
+    clearError()
 
     // Limpiar localStorage
     try {
@@ -149,11 +271,24 @@ export const useDashboardStore = defineStore('dashboard', () => {
     isLoading,
     sections,
 
+    // Estado de errores
+    error,
+    isRetrying,
+    retryCount,
+    maxRetries,
+
     // Getters
     currentSection,
     availableSections,
     isValidSection,
     sidebarState,
+
+    // Getters para errores
+    hasError,
+    errorDetails,
+    canRetry,
+    hasNetworkError,
+    hasSectionError,
 
     // Actions - Navegación
     setActiveSection,
@@ -170,6 +305,12 @@ export const useDashboardStore = defineStore('dashboard', () => {
     setLoading,
     startLoading,
     stopLoading,
+
+    // Actions - Manejo de errores
+    setError,
+    clearError,
+    retryLastAction,
+    navigateToSectionWithRetry,
 
     // Actions - Inicialización
     initializeDashboard,

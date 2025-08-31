@@ -44,13 +44,14 @@
             key="loading"
             class="flex items-center justify-center h-full min-h-96"
           >
-            <div class="text-center">
-              <BaseLoader
-                size="lg"
-                variant="spinner"
-                :text="loadingText || 'Cargando...'"
-              />
-            </div>
+            <DashboardLoader
+              :is-visible="true"
+              :fullscreen="false"
+              :overlay="false"
+              :spinner-type="'ring'"
+              :message="loadingText || 'Cargando...'"
+              :message-variant="'primary'"
+            />
           </div>
 
           <!-- Estado de error -->
@@ -59,9 +60,18 @@
             key="error"
             class="flex items-center justify-center h-full min-h-96 p-6"
           >
-            <DashboardError
-              :error-message="errorMessage"
-              :section-name="currentSection?.name || ''"
+            <DashboardErrorComponent
+              :error-type="errorType"
+              :error-title="errorMessage || 'Error'"
+              :error-message="errorMessage || 'Ha ocurrido un error'"
+              :error-details="dashboardStore.error?.details"
+              :show-retry="
+                typeof canRetry === 'boolean' ? canRetry : canRetry.value
+              "
+              :show-go-home="true"
+              :show-details="isDevelopment"
+              :show-timestamp="true"
+              :error-timestamp="dashboardStore.error?.timestamp"
               @retry="handleRetry"
               @go-home="handleGoHome"
             />
@@ -121,7 +131,10 @@
 <script setup lang="ts">
 import { computed, ref, watch, defineAsyncComponent, type Component } from 'vue'
 import { useDashboardStore } from '@/stores/dashboardStore'
+import { useNetworkErrorHandler } from '@/composables/useNetworkErrorHandler'
 import { DASHBOARD_CONSTANTS } from '@/types/dashboard'
+import DashboardErrorComponent from './DashboardError.vue'
+import DashboardLoader from './DashboardLoader.vue'
 import BaseLoader from '@/components/common/BaseLoader.vue'
 import BaseCard from '@/components/common/BaseCard.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
@@ -148,14 +161,32 @@ const emit = defineEmits<{
   error: [error: Error]
 }>()
 
-// Store
+// Store y composables
 const dashboardStore = useDashboardStore()
+const networkHandler = useNetworkErrorHandler()
 
 // Estado local
 const isLoading = ref(false)
 const hasError = ref(false)
 const errorMessage = ref('')
 const componentCache = new Map<string, Component>()
+
+// Computed properties para manejo de errores
+const isDevelopment = computed(() => import.meta.env.MODE === 'development')
+const errorType = computed(() => {
+  if (networkHandler.hasNetworkError) {
+    return 'network'
+  }
+  if (dashboardStore.errorDetails?.type) {
+    return dashboardStore.errorDetails.type
+  }
+  return 'generic'
+})
+
+const errorDetails = computed(() => dashboardStore.errorDetails)
+const canRetry = computed(
+  () => dashboardStore.canRetry || networkHandler.canRetryNetworkError
+)
 
 // Getters computados
 const activeSection = computed(() => dashboardStore.activeSection)
@@ -264,22 +295,37 @@ const handleSectionError = (error: Error | string) => {
   }
 }
 
-const handleRetry = () => {
-  clearError()
+const handleRetry = async () => {
+  try {
+    // Si hay un error de red, usar el handler de red
+    if (networkHandler.hasNetworkError) {
+      await networkHandler.retryLastNetworkOperation()
+    } else if (dashboardStore.hasError) {
+      // Usar el retry del dashboard store
+      await dashboardStore.retryLastAction()
+    } else {
+      // Método fallback original
+      clearError()
 
-  // Limpiar caché del componente actual para forzar recarga
-  if (currentSection.value) {
-    componentCache.delete(currentSection.value.component)
+      // Limpiar caché del componente actual para forzar recarga
+      if (currentSection.value) {
+        componentCache.delete(currentSection.value.component)
+      }
+
+      // Forzar re-renderizado
+      const currentSectionId = activeSection.value
+      dashboardStore.setActiveSection('')
+
+      // Restaurar sección después de un tick
+      setTimeout(() => {
+        dashboardStore.setActiveSection(currentSectionId)
+      }, 50)
+    }
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error al reintentar:', error)
+    setError('Error al reintentar la operación')
   }
-
-  // Forzar re-renderizado
-  const currentSectionId = activeSection.value
-  dashboardStore.setActiveSection('')
-
-  // Restaurar sección después de un tick
-  setTimeout(() => {
-    dashboardStore.setActiveSection(currentSectionId)
-  }, 50)
 }
 
 const handleGoHome = () => {

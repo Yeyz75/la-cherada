@@ -473,6 +473,80 @@
     "registerTitle": "Crear Cuenta - LaCherada",
     "forgotPasswordTitle": "Restablecer Contraseña - LaCherada"
   },
+  "dashboard": {
+    "breadcrumb": {
+      "home": "Dashboard"
+    },
+    "sections": {
+      "overview": {
+        "title": "Resumen",
+        "description": "Vista general de tu actividad"
+      },
+      "profile": {
+        "title": "Mi Perfil",
+        "description": "Gestiona tu información personal"
+      },
+      "items": {
+        "title": "Mis Artículos",
+        "description": "Administra tus publicaciones"
+      },
+      "favorites": {
+        "title": "Favoritos",
+        "description": "Artículos que te interesan"
+      },
+      "messages": {
+        "title": "Mensajes",
+        "description": "Conversaciones con otros usuarios"
+      },
+      "settings": {
+        "title": "Configuración",
+        "description": "Preferencias de la cuenta"
+      }
+    },
+    "content": {
+      "noSection": {
+        "title": "Selecciona una sección",
+        "description": "Elige una opción del menú para comenzar",
+        "action": "Ir al resumen"
+      }
+    },
+    "loading": {
+      "initializing": "Iniciando dashboard...",
+      "section": "Cargando {section}...",
+      "cancel": "Cancelar"
+    },
+    "error": {
+      "showDetails": "Mostrar detalles técnicos",
+      "retry": "Reintentar",
+      "retrying": "Reintentando...",
+      "goHome": "Ir al inicio",
+      "network": {
+        "title": "Error de conexión",
+        "message": "No se pudo conectar al servidor. Verifica tu conexión a internet e intenta nuevamente.",
+        "offline": "Sin conexión a internet",
+        "timeout": "La conexión tardó demasiado",
+        "serverError": "Error del servidor",
+        "clientError": "Error de solicitud",
+        "generic": "Error de red desconocido"
+      },
+      "section": {
+        "title": "Error al cargar sección",
+        "message": "No se pudo cargar esta sección del dashboard. Intenta recargar la página."
+      },
+      "auth": {
+        "title": "Error de autenticación",
+        "message": "Tu sesión ha expirado. Por favor, inicia sesión nuevamente."
+      },
+      "generic": {
+        "title": "Ha ocurrido un error",
+        "message": "Algo salió mal. Intenta nuevamente en unos momentos."
+      },
+      "timestamp": {
+        "minutes": "Hace {minutes} minutos",
+        "seconds": "Hace {seconds} segundos"
+      }
+    }
+  },
   "location": {
     "selectLocation": "Selecciona tu ubicación",
     "selectLocationDescription": "Ayúdanos a mostrarte contenido relevante para tu área",

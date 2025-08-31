@@ -387,6 +387,18 @@ export const useAuthStore = defineStore('auth', () => {
     setFirebaseUser(null)
     setUserProfile(null)
     clearError()
+
+    // Limpiar el estado del dashboard cuando se cierra sesión
+    // Se hace de forma dinámica para evitar dependencias circulares
+    void import('@/stores/dashboardStore')
+      .then(({ useDashboardStore }) => {
+        const dashboardStore = useDashboardStore()
+        dashboardStore.resetDashboard()
+      })
+      .catch(() => {
+        // El dashboard store puede no estar disponible en algunos contextos
+        // Manejar silenciosamente el error
+      })
   }
 
   // Helper function to create user profile after registration

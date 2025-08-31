@@ -473,6 +473,80 @@
     "registerTitle": "Sign Up - LaCherada",
     "forgotPasswordTitle": "Reset Password - LaCherada"
   },
+  "dashboard": {
+    "breadcrumb": {
+      "home": "Dashboard"
+    },
+    "sections": {
+      "overview": {
+        "title": "Overview",
+        "description": "General view of your activity"
+      },
+      "profile": {
+        "title": "My Profile",
+        "description": "Manage your personal information"
+      },
+      "items": {
+        "title": "My Items",
+        "description": "Manage your listings"
+      },
+      "favorites": {
+        "title": "Favorites",
+        "description": "Items you're interested in"
+      },
+      "messages": {
+        "title": "Messages",
+        "description": "Conversations with other users"
+      },
+      "settings": {
+        "title": "Settings",
+        "description": "Account preferences"
+      }
+    },
+    "content": {
+      "noSection": {
+        "title": "Select a section",
+        "description": "Choose an option from the menu to get started",
+        "action": "Go to overview"
+      }
+    },
+    "loading": {
+      "initializing": "Starting dashboard...",
+      "section": "Loading {section}...",
+      "cancel": "Cancel"
+    },
+    "error": {
+      "showDetails": "Show technical details",
+      "retry": "Retry",
+      "retrying": "Retrying...",
+      "goHome": "Go home",
+      "network": {
+        "title": "Connection error",
+        "message": "Could not connect to server. Check your internet connection and try again.",
+        "offline": "No internet connection",
+        "timeout": "Connection took too long",
+        "serverError": "Server error",
+        "clientError": "Request error",
+        "generic": "Unknown network error"
+      },
+      "section": {
+        "title": "Error loading section",
+        "message": "Could not load this dashboard section. Try refreshing the page."
+      },
+      "auth": {
+        "title": "Authentication error",
+        "message": "Your session has expired. Please log in again."
+      },
+      "generic": {
+        "title": "An error occurred",
+        "message": "Something went wrong. Please try again in a few moments."
+      },
+      "timestamp": {
+        "minutes": "{minutes} minutes ago",
+        "seconds": "{seconds} seconds ago"
+      }
+    }
+  },
   "location": {
     "selectLocation": "Select your location",
     "selectLocationDescription": "Help us show you relevant content for your area",

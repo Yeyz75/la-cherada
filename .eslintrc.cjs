@@ -63,15 +63,23 @@ module.exports = {
       }
     },
     {
-      files: ['src/**/*.ts', 'src/**/*.tsx'],
+      files: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.vue'],
       parserOptions: {
         project: './tsconfig.json'
       },
       rules: {
-        // Reglas que requieren información de tipos (solo para archivos TS en src)
+        // Reglas que requieren información de tipos
         '@typescript-eslint/prefer-nullish-coalescing': 'error',
         '@typescript-eslint/prefer-optional-chain': 'error',
-        '@typescript-eslint/no-unnecessary-type-assertion': 'error'
+        '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+        '@typescript-eslint/no-unsafe-assignment': 'error',
+        '@typescript-eslint/no-unsafe-member-access': 'error',
+        '@typescript-eslint/no-unsafe-call': 'error',
+        '@typescript-eslint/no-unsafe-return': 'error',
+        '@typescript-eslint/restrict-template-expressions': 'error',
+        '@typescript-eslint/no-floating-promises': 'error',
+        '@typescript-eslint/await-thenable': 'error',
+        '@typescript-eslint/no-misused-promises': 'error'
       }
     },
     {

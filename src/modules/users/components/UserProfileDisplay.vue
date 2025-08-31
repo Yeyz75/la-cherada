@@ -282,7 +282,7 @@ const avatarColor = computed((): string => {
 
   // Generate consistent color based on user email or ID
   const identifier =
-    authUser.value?.email || userProfile.value?.userId || 'default'
+    authUser.value?.email ?? userProfile.value?.userId ?? 'default'
   const colors = [
     '#3B82F6',
     '#EF4444',
@@ -337,7 +337,7 @@ const onImageError = (): void => {
 
 // Load user profile on component mount if not already loaded
 if (!userStore.currentProfile && authUser.value?.id) {
-  userStore.loadProfile(authUser.value.id)
+  void userStore.loadProfile(authUser.value.id)
 }
 </script>
 

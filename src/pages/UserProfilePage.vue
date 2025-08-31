@@ -103,7 +103,7 @@ defineOptions({
 // Composables
 const userStore = useUserStore()
 const authStore = useAuthStore()
-const { handleError, errorMessage, clearError } = useError()
+const { handleError, errorMessage } = useError()
 
 // Page state interface
 interface PageState {

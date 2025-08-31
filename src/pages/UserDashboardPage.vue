@@ -53,11 +53,7 @@
             </div>
 
             <!-- User Profile Component -->
-            <UserProfile
-              :show-edit-button="false"
-              @profile-updated="handleProfileUpdated"
-              @edit-mode-changed="handleEditModeChanged"
-            />
+            <UserProfileDisplay />
           </section>
 
           <!-- Recent Activity Section -->
@@ -343,7 +339,7 @@ import BaseIcon from '@/components/common/BaseIcon.vue'
 import BaseLoader from '@/components/common/BaseLoader.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
-import UserProfile from '@/modules/users/components/UserProfile.vue'
+import { UserProfileDisplay } from '@/modules/users/components'
 import { ProfileCompletionWizard } from '@/components/ui'
 
 // Types
@@ -422,16 +418,6 @@ const navigateToExplore = (): void => {
 
 const navigateToContact = (): void => {
   void router.push({ name: 'Contact' })
-}
-
-const handleProfileUpdated = (formData: ProfileFormData): void => {
-  // Handle successful profile update
-  // Profile update feedback handled by components
-}
-
-const handleEditModeChanged = (isEditMode: boolean): void => {
-  // Handle edit mode changes if needed
-  // State managed by UserProfile component
 }
 
 const getActivityIcon = (type: ActivityItem['type']): string => {

@@ -348,9 +348,10 @@ if (!userStore.currentProfile && authUser.value?.id) {
   margin: 0 auto;
   padding: 2rem;
   background: white;
-  dark:background: #1f2937;
   border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .profile-detail-item {

@@ -1,12 +1,14 @@
 <template>
   <div class="user-profile-display">
     <!-- Avatar and Basic Info -->
-    <div class="flex items-start space-x-6 mb-8">
+    <div
+      class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6 mb-8"
+    >
       <!-- Avatar -->
       <div class="flex-shrink-0">
         <div
           v-if="userProfile?.photoURL && !imageError"
-          class="relative w-24 h-24 rounded-full overflow-hidden ring-4 ring-white dark:ring-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 group cursor-pointer"
+          class="relative w-28 h-28 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-4 ring-white dark:ring-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 group cursor-pointer"
         >
           <img
             :src="userProfile.photoURL"
@@ -21,7 +23,7 @@
         </div>
         <div
           v-else
-          class="w-24 h-24 rounded-full flex items-center justify-center text-white text-xl font-bold ring-4 ring-white dark:ring-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer"
+          class="w-28 h-28 sm:w-24 sm:h-24 rounded-full flex items-center justify-center text-white text-2xl sm:text-xl font-bold ring-4 ring-white dark:ring-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer"
           :style="{ backgroundColor: avatarColor }"
         >
           {{ userInitials }}
@@ -29,18 +31,22 @@
       </div>
 
       <!-- User Info -->
-      <div class="flex-1 min-w-0">
-        <div class="flex items-start justify-between">
-          <div>
+      <div class="flex-1 min-w-0 text-center sm:text-left">
+        <div
+          class="flex flex-col sm:flex-row sm:items-start sm:justify-between"
+        >
+          <div class="space-y-2">
             <h1
-              class="text-3xl font-bold text-gray-900 dark:text-white truncate"
+              class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white truncate"
             >
               {{ userDisplayName || $t('profile.noName') }}
             </h1>
-            <p class="text-lg text-gray-600 dark:text-gray-300 mt-1">
+            <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300">
               {{ authUser?.email || $t('profile.noEmail') }}
             </p>
-            <div class="flex items-center mt-2 space-x-4">
+            <div
+              class="flex flex-col sm:flex-row items-center sm:items-start space-y-2 sm:space-y-0 sm:space-x-4"
+            >
               <div
                 class="flex items-center text-sm text-gray-500 dark:text-gray-400"
               >
@@ -60,7 +66,9 @@
 
         <!-- Bio Section -->
         <div v-if="userProfile?.bio" class="mt-4">
-          <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+          <p
+            class="text-gray-700 dark:text-gray-300 leading-relaxed text-center sm:text-left"
+          >
             {{ userProfile.bio }}
           </p>
         </div>
@@ -68,21 +76,21 @@
     </div>
 
     <!-- Profile Details -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
       <div class="profile-detail-item">
         <label
-          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
         >
           {{ $t('profile.firstName') }}
         </label>
         <div class="flex items-center justify-between">
-          <p class="text-gray-900 dark:text-white">
+          <p class="text-gray-900 dark:text-white font-medium">
             {{ userProfile?.firstName || $t('profile.notProvided') }}
           </p>
           <BaseIcon
             v-if="!userProfile?.firstName"
             name="exclamation-circle"
-            class="w-4 h-4 text-amber-500"
+            class="w-4 h-4 text-amber-500 flex-shrink-0"
             :title="$t('profile.fieldMissing')"
           />
         </div>
@@ -90,18 +98,18 @@
 
       <div class="profile-detail-item">
         <label
-          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
         >
           {{ $t('profile.lastName') }}
         </label>
         <div class="flex items-center justify-between">
-          <p class="text-gray-900 dark:text-white">
+          <p class="text-gray-900 dark:text-white font-medium">
             {{ userProfile?.lastName || $t('profile.notProvided') }}
           </p>
           <BaseIcon
             v-if="!userProfile?.lastName"
             name="exclamation-circle"
-            class="w-4 h-4 text-amber-500"
+            class="w-4 h-4 text-amber-500 flex-shrink-0"
             :title="$t('profile.fieldMissing')"
           />
         </div>
@@ -109,18 +117,18 @@
 
       <div class="profile-detail-item">
         <label
-          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
         >
           {{ $t('profile.displayName') }}
         </label>
         <div class="flex items-center justify-between">
-          <p class="text-gray-900 dark:text-white">
+          <p class="text-gray-900 dark:text-white font-medium">
             {{ userProfile?.displayName || $t('profile.notProvided') }}
           </p>
           <BaseIcon
             v-if="!userProfile?.displayName"
             name="exclamation-circle"
-            class="w-4 h-4 text-amber-500"
+            class="w-4 h-4 text-amber-500 flex-shrink-0"
             :title="$t('profile.fieldMissing')"
           />
         </div>
@@ -128,18 +136,18 @@
 
       <div class="profile-detail-item">
         <label
-          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
         >
           {{ $t('profile.accountStatus') }}
         </label>
         <div class="flex items-center">
           <div
             :class="[
-              'w-2 h-2 rounded-full mr-2',
+              'w-3 h-3 rounded-full mr-3 flex-shrink-0',
               authUser?.emailVerified ? 'bg-green-500' : 'bg-yellow-500'
             ]"
           ></div>
-          <span class="text-gray-900 dark:text-white">
+          <span class="text-gray-900 dark:text-white font-medium">
             {{
               authUser?.emailVerified
                 ? $t('profile.active')
@@ -179,7 +187,7 @@
         size="large"
         @click="handleEditProfile"
         :disabled="isLoading"
-        class="px-8 py-3 text-lg font-semibold"
+        class="w-full sm:w-auto px-8 py-3 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
       >
         <BaseIcon name="pi-pencil" class="w-5 h-5 mr-3" />
         {{ $t('profile.editProfile') }}
@@ -352,48 +360,80 @@ if (!userStore.currentProfile && authUser.value?.id) {
   box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
 }
 
 .profile-detail-item {
-  @apply p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg;
+  @apply p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl border border-gray-100 dark:border-gray-600/50 transition-all duration-200 hover:shadow-md hover:bg-gray-100/50 dark:hover:bg-gray-600/50;
 }
 
+/* Mobile optimizations */
 @media (max-width: 640px) {
   .user-profile-display {
-    @apply p-4;
-  }
-
-  .flex.items-start.space-x-6 {
-    @apply flex-col space-x-0 space-y-4 text-center items-center;
-  }
-
-  .grid.grid-cols-1.md\\:grid-cols-2 {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    @apply gap-3;
+    @apply p-4 rounded-lg;
+    margin: 0;
   }
 
   .profile-detail-item {
-    @apply p-3;
+    @apply p-3 rounded-lg;
   }
 
-  /* Ajustar tamaño del avatar en móviles */
-  .w-24.h-24 {
-    @apply w-20 h-20;
+  /* Ensure proper spacing on mobile */
+  .grid.grid-cols-1.sm\\:grid-cols-2 {
+    @apply gap-3;
   }
 
-  /* Reducir tamaños de texto en móviles */
-  .text-3xl {
-    @apply text-2xl;
-  }
-
-  .text-lg {
-    @apply text-base;
+  /* Mobile-specific button styling */
+  .w-full.sm\\:w-auto {
+    @apply text-base py-3;
   }
 }
 
+/* Tablet optimizations */
 @media (max-width: 768px) {
   .user-profile-display {
     max-width: none;
+    @apply mx-2;
   }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1024px) {
+  .user-profile-display {
+    @apply p-8;
+  }
+
+  .profile-detail-item {
+    @apply p-5;
+  }
+}
+
+/* Animation classes */
+.profile-detail-item:hover {
+  transform: translateY(-1px);
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .user-profile-display {
+    background: rgb(31 41 55);
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.3),
+      0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Focus states for accessibility */
+.profile-detail-item:focus-within {
+  @apply ring-2 ring-blue-500 ring-opacity-50;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
 }
 </style>

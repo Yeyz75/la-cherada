@@ -46,54 +46,88 @@
 
     <!-- Dropdown Menu -->
     <Transition
-      enter-active-class="transition ease-out duration-100"
-      enter-from-class="transform opacity-0 scale-95"
-      enter-to-class="transform opacity-100 scale-100"
-      leave-active-class="transition ease-in duration-75"
-      leave-from-class="transform opacity-100 scale-100"
-      leave-to-class="transform opacity-0 scale-95"
+      enter-active-class="transition ease-out duration-200"
+      enter-from-class="transform opacity-0 scale-95 translate-y-1"
+      enter-to-class="transform opacity-100 scale-100 translate-y-0"
+      leave-active-class="transition ease-in duration-150"
+      leave-from-class="transform opacity-100 scale-100 translate-y-0"
+      leave-to-class="transform opacity-0 scale-95 translate-y-1"
     >
       <div
         v-if="isOpen"
-        class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-gray-700 z-50"
+        class="absolute right-0 mt-2 w-56 sm:w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl ring-1 ring-black ring-opacity-5 dark:ring-gray-700 z-50 border border-gray-100 dark:border-gray-600"
         role="menu"
         aria-orientation="vertical"
         :aria-labelledby="'user-menu-button'"
       >
-        <div class="py-1" role="none">
+        <div class="py-2" role="none">
+          <!-- User Info Header (Mobile Only) -->
+          <div
+            class="sm:hidden px-4 py-3 border-b border-gray-100 dark:border-gray-700"
+          >
+            <div class="flex items-center space-x-3">
+              <div
+                v-if="userProfile?.photoURL && !imageError"
+                class="w-10 h-10 rounded-full overflow-hidden ring-2 ring-white dark:ring-gray-800"
+              >
+                <img
+                  :src="userProfile.photoURL"
+                  :alt="userDisplayName"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div
+                v-else
+                class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm"
+              >
+                {{ userInitials }}
+              </div>
+              <div class="flex-1 min-w-0">
+                <p
+                  class="text-sm font-medium text-gray-900 dark:text-white truncate"
+                >
+                  {{ userDisplayName }}
+                </p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
+                  {{ props.user.email }}
+                </p>
+              </div>
+            </div>
+          </div>
+
           <!-- Mi Perfil -->
           <button
             @click="navigateToProfile"
-            class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+            class="flex items-center w-full px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-200 hover:translate-x-1"
             role="menuitem"
           >
-            <BaseIcon name="user" class="w-4 h-4 mr-3" />
+            <BaseIcon name="user" class="w-5 h-5 mr-3 text-blue-500" />
             {{ t('userMenu.profile') }}
           </button>
 
           <!-- Panel -->
           <button
             @click="navigateToDashboard"
-            class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+            class="flex items-center w-full px-4 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-200 hover:translate-x-1"
             role="menuitem"
           >
-            <BaseIcon name="cog" class="w-4 h-4 mr-3" />
+            <BaseIcon name="cog" class="w-5 h-5 mr-3 text-green-500" />
             {{ t('userMenu.dashboard') }}
           </button>
 
           <!-- Divider -->
-          <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
+          <div class="border-t border-gray-100 dark:border-gray-700 my-2"></div>
 
           <!-- Cerrar Sesión -->
           <button
             @click="handleLogout"
             :disabled="isLoggingOut"
-            class="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="flex items-center w-full px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:translate-x-1"
             role="menuitem"
           >
             <BaseIcon
               :name="isLoggingOut ? 'spinner' : 'sign-out'"
-              class="w-4 h-4 mr-3"
+              class="w-5 h-5 mr-3"
               :spin="isLoggingOut"
             />
             {{ isLoggingOut ? t('userMenu.loggingOut') : t('userMenu.logout') }}
@@ -143,7 +177,7 @@ const userDisplayName = computed((): string => {
   if (props.user.firstName) {
     return props.user.firstName
   }
-  return props.user.email || t('userMenu.user')
+  return props.user.email ?? t('userMenu.user')
 })
 
 const userInitials = computed((): string => {
@@ -156,7 +190,7 @@ const userInitials = computed((): string => {
   if (props.user.displayName) {
     const parts = props.user.displayName.split(' ')
     if (parts.length >= 2) {
-      return `${parts[0]?.charAt(0) || ''}${parts[parts.length - 1]?.charAt(0) || ''}`.toUpperCase()
+      return `${parts[0]?.charAt(0) ?? ''}${parts[parts.length - 1]?.charAt(0) ?? ''}`.toUpperCase()
     }
     return props.user.displayName.charAt(0).toUpperCase()
   }
@@ -181,12 +215,12 @@ const handleImageError = (): void => {
 
 const navigateToProfile = (): void => {
   closeDropdown()
-  router.push({ name: 'profile' })
+  void router.push({ name: 'profile' })
 }
 
 const navigateToDashboard = (): void => {
   closeDropdown()
-  router.push({ name: 'dashboard-home' })
+  void router.push({ name: 'dashboard-home' })
 }
 
 const handleLogout = async (): Promise<void> => {
@@ -204,7 +238,7 @@ const handleLogout = async (): Promise<void> => {
     await authStore.logout()
 
     // Redirect to home page after logout
-    router.push({ name: 'home' })
+    void router.push({ name: 'home' })
   } catch (error) {
     // Handle error silently or use proper error handling
     authStore.setError({
@@ -243,3 +277,109 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown)
 })
 </script>
+
+<style scoped>
+/* Enhanced dropdown animations */
+.dropdown-menu {
+  transform-origin: top right;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+  .dropdown-menu {
+    @apply w-64 right-0;
+    transform-origin: top right;
+  }
+
+  /* Larger touch targets on mobile */
+  .dropdown-menu button {
+    @apply py-4 text-base;
+    min-height: 48px; /* Minimum touch target size */
+  }
+
+  /* Better spacing for mobile user info */
+  .dropdown-menu .border-b {
+    @apply pb-4 mb-2;
+  }
+}
+
+/* Smooth hover animations */
+.dropdown-menu button {
+  position: relative;
+  overflow: hidden;
+}
+
+.dropdown-menu button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.dropdown-menu button:hover::before {
+  left: 100%;
+}
+
+/* Avatar improvements */
+.user-avatar {
+  position: relative;
+  overflow: hidden;
+}
+
+.user-avatar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.user-avatar:hover::after {
+  opacity: 1;
+}
+
+/* Focus states for accessibility */
+.user-avatar:focus-visible {
+  @apply ring-2 ring-blue-500 ring-offset-2 dark:ring-offset-gray-800;
+}
+
+.dropdown-menu button:focus-visible {
+  @apply bg-blue-50 dark:bg-blue-900/20 ring-2 ring-blue-500 ring-inset;
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .dropdown-menu {
+    background: rgba(31, 41, 55, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-menu button,
+  .user-avatar,
+  .dropdown-menu button::before {
+    transition: none;
+  }
+}
+</style>

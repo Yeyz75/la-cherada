@@ -156,7 +156,7 @@
           :placeholder="$t('profile.bioPlaceholder')"
           rows="4"
           maxlength="500"
-          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-none"
+          class="w-full px-3 py-3 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-none text-base sm:text-sm"
           :class="{
             'border-red-500 focus:ring-red-500 focus:border-red-500':
               shouldShowError('bio')
@@ -170,14 +170,18 @@
             )
           "
         ></textarea>
-        <div class="flex justify-between items-center mt-1">
+        <div
+          class="flex flex-col sm:flex-row sm:justify-between sm:items-center mt-2 space-y-1 sm:space-y-0"
+        >
           <span
             v-if="shouldShowError('bio')"
-            class="text-sm text-red-600 dark:text-red-400"
+            class="text-sm text-red-600 dark:text-red-400 order-2 sm:order-1"
           >
             {{ getFieldError('bio')?.message }}
           </span>
-          <span class="text-xs text-gray-500 dark:text-gray-400 ml-auto">
+          <span
+            class="text-xs text-gray-500 dark:text-gray-400 order-1 sm:order-2 sm:ml-auto"
+          >
             {{ (formData.bio || '').length }}/500
           </span>
         </div>
@@ -185,8 +189,22 @@
 
       <!-- Form Actions -->
       <div
-        class="form-actions flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200 dark:border-gray-700"
+        class="form-actions flex flex-col-reverse sm:flex-row gap-3 sm:gap-4 pt-6 border-t border-gray-200 dark:border-gray-700"
       >
+        <BaseButton
+          type="button"
+          variant="secondary"
+          size="large"
+          :disabled="isFormLoading || isValidating"
+          class="w-full sm:w-auto sm:flex-initial bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 font-medium shadow-md hover:shadow-lg transition-all duration-300"
+          @click="handleCancel"
+        >
+          <template #icon>
+            <BaseIcon name="x" class="w-5 h-5" />
+          </template>
+          {{ $t('profile.cancel') }}
+        </BaseButton>
+
         <BaseButton
           type="submit"
           :loading="isFormLoading || isValidating"
@@ -195,26 +213,12 @@
           "
           variant="primary"
           size="large"
-          class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white font-medium shadow-lg hover:shadow-xl dark:shadow-blue-500/25 dark:hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105"
+          class="w-full sm:flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white font-medium shadow-lg hover:shadow-xl dark:shadow-blue-500/25 dark:hover:shadow-blue-500/40 transition-all duration-300 transform hover:scale-105"
         >
           <template #icon>
             <BaseIcon name="save" class="w-5 h-5" />
           </template>
           {{ $t('profile.saveChanges') }}
-        </BaseButton>
-
-        <BaseButton
-          type="button"
-          variant="secondary"
-          size="large"
-          :disabled="isFormLoading || isValidating"
-          class="flex-1 sm:flex-initial bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 hover:border-gray-400 dark:hover:border-gray-500 font-medium shadow-md hover:shadow-lg transition-all duration-300"
-          @click="handleCancel"
-        >
-          <template #icon>
-            <BaseIcon name="x" class="w-5 h-5" />
-          </template>
-          {{ $t('profile.cancel') }}
         </BaseButton>
       </div>
 
@@ -395,7 +399,7 @@ const hasChanges = computed((): boolean => {
     formData.firstName !== originalData.value.firstName ||
     formData.lastName !== originalData.value.lastName ||
     formData.displayName !== originalData.value.displayName ||
-    (formData.bio || '') !== (originalData.value.bio || '')
+    (formData.bio ?? '') !== (originalData.value.bio ?? '')
   )
 })
 
@@ -453,7 +457,7 @@ const handleImageUpload = async (file: File): Promise<void> => {
     )
 
     if (!result.success) {
-      throw new Error(result.error?.message || 'Error al subir imagen')
+      throw new Error(result.error?.message ?? 'Error al subir imagen')
     }
 
     // Update user profile in store
@@ -493,7 +497,7 @@ const handleImageRemove = async (): Promise<void> => {
     )
 
     if (!result.success) {
-      throw new Error(result.error?.message || 'Error al eliminar imagen')
+      throw new Error(result.error?.message ?? 'Error al eliminar imagen')
     }
 
     // Update user profile in store
@@ -594,13 +598,13 @@ const performCancel = (): void => {
 const initializeForm = (): void => {
   // Initialize from props or current profile
   const currentProfile = userStore.currentProfile
-  const initialData = props.initialData || currentProfile
+  const initialData = props.initialData ?? currentProfile
 
   if (initialData) {
-    formData.firstName = initialData.firstName || ''
-    formData.lastName = initialData.lastName || ''
-    formData.displayName = initialData.displayName || ''
-    formData.bio = initialData.bio || ''
+    formData.firstName = initialData.firstName ?? ''
+    formData.lastName = initialData.lastName ?? ''
+    formData.displayName = initialData.displayName ?? ''
+    formData.bio = initialData.bio ?? ''
   }
 
   // Store original data for change detection
@@ -620,7 +624,7 @@ const handleAutoSave = (): void => {
   }
 
   autoSaveTimeout = setTimeout(() => {
-    handleSubmit()
+    void handleSubmit()
   }, 2000) // Auto-save after 2 seconds of inactivity
 }
 
@@ -722,40 +726,86 @@ defineExpose({
 /* Responsive design */
 @media (max-width: 640px) {
   .profile-edit-form {
-    @apply p-3 rounded-lg space-y-3;
+    @apply p-4 rounded-xl space-y-4;
+    margin: 0;
+  }
+
+  .profile-edit-form-container {
+    @apply px-2;
   }
 
   .form-actions {
-    @apply flex-col gap-3 pt-4;
+    @apply flex-col-reverse gap-3 pt-4;
   }
 
   .form-field {
-    @apply space-y-1;
+    @apply space-y-2;
   }
 
   /* Reducir padding en los headers del formulario */
   .form-header {
-    @apply mb-4;
+    @apply mb-4 pb-3;
   }
 
   .form-header h2 {
     @apply text-xl;
   }
 
+  .form-header p {
+    @apply text-xs;
+  }
+
+  /* Ajustar inputs en móviles */
+  .form-field input,
+  .form-field textarea {
+    @apply text-base py-3 px-4 rounded-xl;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
   /* Ajustar botones en móviles */
-  .form-actions .flex-1 {
-    @apply w-full;
+  .form-actions button {
+    @apply w-full py-3 text-base font-semibold;
+  }
+
+  /* Mejorar espaciado de labels */
+  .form-field label {
+    @apply text-sm font-medium mb-2;
+  }
+
+  /* Ajustar imagen de perfil en móviles */
+  .profile-image-section {
+    @apply text-center;
   }
 }
 
 @media (max-width: 768px) {
   .profile-edit-form-container {
-    @apply px-2;
+    @apply px-3;
   }
 
   /* Botones stack verticalmente en tablet */
   .form-actions {
-    @apply flex-col;
+    @apply flex-col-reverse gap-3;
+  }
+
+  .form-field input,
+  .form-field textarea {
+    @apply py-3;
+  }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1024px) {
+  .profile-edit-form {
+    @apply p-8 space-y-8;
+  }
+
+  .form-header {
+    @apply mb-6;
+  }
+
+  .form-actions {
+    @apply pt-8;
   }
 }
 

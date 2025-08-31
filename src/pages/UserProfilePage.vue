@@ -1,9 +1,11 @@
 <template>
   <div class="user-profile-page min-h-screen bg-gray-50 dark:bg-gray-900">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6">
       <!-- Simplified Page Header -->
-      <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+      <div class="mb-6 sm:mb-8">
+        <h1
+          class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white text-center sm:text-left"
+        >
           Perfil de Usuario
         </h1>
       </div>
@@ -46,20 +48,24 @@
       </div>
 
       <!-- Profile Content -->
-      <div v-else class="space-y-6">
+      <div v-else class="space-y-4 sm:space-y-6">
         <!-- Read-only Profile Display -->
         <div v-if="!pageState.isEditing" class="profile-view">
-          <ModernCard variant="solid" :hover-effect="false">
+          <ModernCard
+            variant="solid"
+            :hover-effect="false"
+            class="overflow-hidden"
+          >
             <UserProfileDisplay />
             <div
-              class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700"
+              class="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700"
             >
               <BaseButton
                 variant="primary"
                 size="large"
                 @click="startEditing"
                 :disabled="pageState.isLoading"
-                class="w-full sm:w-auto"
+                class="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
                 <BaseIcon name="edit" class="w-5 h-5 mr-2" />
                 Editar Perfil
@@ -70,7 +76,11 @@
 
         <!-- Profile Edit Form -->
         <div v-else class="profile-edit">
-          <ModernCard variant="solid" :hover-effect="false">
+          <ModernCard
+            variant="solid"
+            :hover-effect="false"
+            class="overflow-hidden"
+          >
             <ProfileEditForm
               v-if="initialFormData"
               @submit="handleSave"

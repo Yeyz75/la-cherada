@@ -133,6 +133,14 @@
     "preferences": "Preferences",
     "characters": "characters"
   },
+  "userMenu": {
+    "toggleMenu": "Toggle user menu",
+    "profile": "My Profile",
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "loggingOut": "Logging out...",
+    "user": "User"
+  },
   "auth": {
     "login": "Login",
     "logout": "Logout",
@@ -178,6 +186,7 @@
     "displayNamePlaceholder": "John Doe",
     "confirmPasswordPlaceholder": "Confirm your password",
     "confirmLogout": "Are you sure you want to log out?",
+    "logoutError": "Error logging out",
     "termsDescription": "By signing up, you agree to our terms of service and privacy policy",
     "recoverAccessTitle": "Recover Your Access",
     "recoverAccessDescription": "Don't worry, it's normal to forget passwords. We'll help you recover access to your account quickly and securely.",

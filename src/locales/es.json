@@ -133,6 +133,14 @@
     "preferences": "Preferencias",
     "characters": "caracteres"
   },
+  "userMenu": {
+    "toggleMenu": "Abrir menú de usuario",
+    "profile": "Mi Perfil",
+    "dashboard": "Panel",
+    "logout": "Cerrar Sesión",
+    "loggingOut": "Cerrando sesión...",
+    "user": "Usuario"
+  },
   "auth": {
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
@@ -178,6 +186,7 @@
     "displayNamePlaceholder": "Juan Pérez",
     "confirmPasswordPlaceholder": "Confirma tu contraseña",
     "confirmLogout": "¿Estás seguro de que deseas cerrar sesión?",
+    "logoutError": "Error al cerrar sesión",
     "termsDescription": "Al registrarte, aceptas nuestras condiciones de uso y política de privacidad",
     "recoverAccessTitle": "Recupera tu Acceso",
     "recoverAccessDescription": "No te preocupes, es normal olvidar contraseñas. Te ayudamos a recuperar el acceso a tu cuenta de forma rápida y segura.",

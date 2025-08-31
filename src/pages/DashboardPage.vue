@@ -17,13 +17,13 @@ const dashboardStore = useDashboardStore()
 
 // Manejo de parámetros de ruta para sección inicial
 const handleRouteParams = (): void => {
-  const sectionParam = route.params.section as string
+  const dashboardSection = route.meta.dashboardSection as string
 
-  if (sectionParam && dashboardStore.isValidSection(sectionParam)) {
-    dashboardStore.setActiveSection(sectionParam)
-  } else if (sectionParam) {
-    // Sección inválida, redirigir a la sección por defecto
-    void router.replace('/dashboard/account')
+  if (dashboardSection && dashboardStore.isValidSection(dashboardSection)) {
+    dashboardStore.setActiveSection(dashboardSection)
+  } else {
+    // Si no hay sección válida, usar la sección por defecto
+    dashboardStore.setActiveSection('account')
   }
 }
 
@@ -54,14 +54,13 @@ onMounted(() => {
 
 // Watchers
 watch(
-  () => route.params.section,
+  () => route.meta.dashboardSection,
   newSection => {
-    if (typeof newSection === 'string') {
-      if (dashboardStore.isValidSection(newSection)) {
-        dashboardStore.setActiveSection(newSection)
-      } else {
-        void router.replace('/dashboard/account')
-      }
+    if (
+      typeof newSection === 'string' &&
+      dashboardStore.isValidSection(newSection)
+    ) {
+      dashboardStore.setActiveSection(newSection)
     }
   }
 )

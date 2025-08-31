@@ -109,12 +109,12 @@ const routes: RouteRecordRaw[] = [
   // Dashboard routes - Protected area
   {
     path: '/dashboard',
-    name: 'dashboard',
     beforeEnter: requireAuth,
     children: [
       // Default redirect to account section
       {
         path: '',
+        name: 'dashboard',
         redirect: '/dashboard/account'
       },
       // Account section

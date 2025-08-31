@@ -74,6 +74,7 @@
               @success="handleSaveSuccess"
               @error="handleSaveError"
               :initial-data="initialFormData"
+              :key="pageState.isEditing ? 'editing' : 'not-editing'"
             />
           </ModernCard>
         </div>
@@ -129,20 +130,10 @@ const initialFormData = computed((): Partial<ProfileFormData> | undefined => {
   return {
     firstName: profile.firstName ?? '',
     lastName: profile.lastName ?? '',
-    phone: '', // No disponible en UserProfile actual
-    address: '', // No disponible en UserProfile actual
-    city: '', // No disponible en UserProfile actual
-    state: '', // No disponible en UserProfile actual
-    zipCode: '', // No disponible en UserProfile actual
-    country: '', // No disponible en UserProfile actual
-    bio: profile.bio ?? '',
-    dateOfBirth: '', // No disponible en UserProfile actual
-    gender: '', // No disponible en UserProfile actual
-    occupation: '', // No disponible en UserProfile actual
-    website: '', // No disponible en UserProfile actual
-    socialLinks: {}, // No disponible en UserProfile actual
-    preferences: profile.preferences ?? {},
-    photoURL: profile.photoURL ?? ''
+    displayName:
+      profile.displayName ??
+      `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim(),
+    bio: profile.bio ?? ''
   }
 })
 

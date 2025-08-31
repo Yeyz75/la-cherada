@@ -268,8 +268,11 @@ export function useFormValidation<T extends Record<string, unknown>>(
   const handleFieldChange = (fieldName: keyof T, value: string): void => {
     const fieldKey = fieldName as string
 
+    // Ensure value is a string
+    const stringValue = String(value || '')
+
     // Update form data
-    ;(formData as T)[fieldName] = value as T[keyof T]
+    ;(formData as T)[fieldName] = stringValue as T[keyof T]
 
     // Mark as dirty
     validationState.dirty[fieldKey] = true
@@ -278,8 +281,8 @@ export function useFormValidation<T extends Record<string, unknown>>(
 
     // Apply sanitizer immediately
     if (config?.sanitizer) {
-      const sanitized = config.sanitizer(value)
-      if (sanitized !== value) {
+      const sanitized = config.sanitizer(stringValue)
+      if (sanitized !== stringValue) {
         ;(formData as T)[fieldName] = sanitized as T[keyof T]
       }
     }
@@ -295,7 +298,7 @@ export function useFormValidation<T extends Record<string, unknown>>(
 
       // Debounced validation
       debounceTimers[fieldKey] = setTimeout(() => {
-        validateField(
+        void validateField(
           fieldName,
           String((formData as T)[fieldName] ?? ''),
           validationState.touched[fieldKey] ?? false
@@ -313,7 +316,7 @@ export function useFormValidation<T extends Record<string, unknown>>(
 
     const config = fieldConfigs[fieldName]
     if (config?.validateOnBlur !== false) {
-      validateField(fieldName, String((formData as T)[fieldName] ?? ''))
+      void validateField(fieldName, String((formData as T)[fieldName] ?? ''))
     }
   }
 

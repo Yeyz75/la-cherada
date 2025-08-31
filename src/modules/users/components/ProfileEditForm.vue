@@ -2,7 +2,7 @@
   <div class="profile-edit-form-container">
     <!-- Confirmation Modal for Unsaved Changes -->
     <BaseModal
-      v-model:visible="showUnsavedChangesModal"
+      v-model="showUnsavedChangesModal"
       title="Cambios sin guardar"
       :closable="false"
       size="sm"
@@ -98,9 +98,7 @@
         :required="true"
         :disabled="isFormLoading || imageState.isLoading"
         @blur="handleFieldBlur('firstName')"
-        @input="
-          (value: string) => handleEnhancedFieldChange('firstName', value)
-        "
+        @update:model-value="handleEnhancedFieldChange('firstName', $event)"
       />
 
       <!-- Last Name Field -->
@@ -117,7 +115,7 @@
         :required="true"
         :disabled="isFormLoading || imageState.isLoading"
         @blur="handleFieldBlur('lastName')"
-        @input="(value: string) => handleEnhancedFieldChange('lastName', value)"
+        @update:model-value="handleEnhancedFieldChange('lastName', $event)"
       />
 
       <!-- Display Name Field -->
@@ -134,9 +132,7 @@
         :required="true"
         :disabled="isFormLoading || imageState.isLoading"
         @blur="handleFieldBlur('displayName')"
-        @input="
-          (value: string) => handleEnhancedFieldChange('displayName', value)
-        "
+        @update:model-value="handleEnhancedFieldChange('displayName', $event)"
       />
 
       <!-- Bio Field -->
@@ -152,7 +148,7 @@
         </label>
         <textarea
           id="bio"
-          v-model="formData.bio"
+          :value="formData.bio || ''"
           :placeholder="$t('profile.bioPlaceholder')"
           rows="4"
           maxlength="500"
@@ -253,7 +249,7 @@ import {
   sanitizers
 } from '@/composables/useFormValidation'
 import { userService } from '@/modules/users/services/userService'
-import type { ProfileFormData, FormError } from '@/types/api'
+import type { ProfileFormData } from '@/types/api'
 import {
   BaseInput,
   BaseButton,
@@ -266,12 +262,10 @@ import {
 interface Props {
   initialData?: Partial<ProfileFormData>
   autoSave?: boolean
-  showSuccessMessage?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  autoSave: false,
-  showSuccessMessage: true
+  autoSave: false
 })
 
 const emit = defineEmits<Emits>()
@@ -286,7 +280,6 @@ interface Emits {
 }
 
 // Composables
-const { t } = useI18n()
 const userStore = useUserStore()
 const authStore = useAuthStore()
 const { handleError } = useError()
@@ -337,14 +330,13 @@ const fieldConfigs = {
     validateOnChange: true,
     debounceMs: 500
   }
-} as const
+}
 
 const {
   formData,
   validationState,
   isFormValid,
   hasErrors,
-  isFormDirty,
   isValidating,
   handleFieldChange,
   handleFieldBlur,
@@ -369,6 +361,9 @@ const isFormLoading = ref(false)
 
 // Modal state for unsaved changes confirmation
 const showUnsavedChangesModal = ref(false)
+
+// Success message state
+const showSuccessMessage = ref(false)
 
 // Image upload state
 interface ImageUploadState {
@@ -406,10 +401,13 @@ const hasChanges = computed((): boolean => {
 // Enhanced field change handler with auto-generation of displayName
 const handleEnhancedFieldChange = (
   fieldName: keyof ProfileFormData,
-  value: string
+  value: string | number
 ): void => {
+  // Convert to string
+  const stringValue = String(value)
+
   // Handle the validation
-  handleFieldChange(fieldName, value)
+  handleFieldChange(fieldName, stringValue)
 
   // Auto-generate displayName if it matches the pattern "firstName lastName"
   if (fieldName === 'firstName' || fieldName === 'lastName') {
@@ -560,6 +558,12 @@ const handleSubmit = async (): Promise<void> => {
     // Update form data with sanitized values
     Object.assign(formData, sanitizedData)
 
+    // Show success message
+    showSuccessMessage.value = true
+    setTimeout(() => {
+      showSuccessMessage.value = false
+    }, 3000)
+
     emit('submit', sanitizedData)
     emit('success')
   } catch (error: unknown) {
@@ -603,7 +607,10 @@ const initializeForm = (): void => {
   if (initialData) {
     formData.firstName = initialData.firstName ?? ''
     formData.lastName = initialData.lastName ?? ''
-    formData.displayName = initialData.displayName ?? ''
+    // Auto-generate displayName if not provided
+    formData.displayName =
+      initialData.displayName ??
+      `${initialData.firstName ?? ''} ${initialData.lastName ?? ''}`.trim()
     formData.bio = initialData.bio ?? ''
   }
 

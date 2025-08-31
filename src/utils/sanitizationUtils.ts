@@ -39,7 +39,7 @@ export const stripHtmlTags = (input: string): string => {
  * Sanitize text input for names and basic text fields
  */
 export const sanitizeTextInput = (input: string): string => {
-  if (!input) {
+  if (!input || typeof input !== 'string') {
     return ''
   }
 

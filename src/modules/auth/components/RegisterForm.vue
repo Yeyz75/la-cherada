@@ -47,7 +47,7 @@
 
       <!-- Form -->
       <BaseCard class="p-8 shadow-xl border-0">
-        <form @submit.prevent="handleSubmit" class="space-y-6">
+        <form @submit.prevent="handleSubmit" class="space-y-5">
           <!-- Name Fields -->
           <div class="grid grid-cols-2 gap-4">
             <BaseInput

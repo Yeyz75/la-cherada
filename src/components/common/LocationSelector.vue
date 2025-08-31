@@ -1,15 +1,15 @@
 <template>
-  <div class="w-full space-y-4">
-    <!-- Header con título y opción omitir -->
-    <div class="flex items-center justify-between">
-      <div>
+  <div class="w-full space-y-3">
+    <!-- Header más compacto con título y opción omitir -->
+    <div class="flex items-start justify-between">
+      <div class="flex-1">
         <label
-          class="block text-sm-project font-medium text-gray-700 dark:text-gray-300"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
           {{ $t('location.selectLocation') }}
           <span v-if="required && !canSkip" class="text-red-500 ml-1">*</span>
         </label>
-        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
           {{ $t('location.selectLocationDescription') }}
         </p>
       </div>
@@ -19,6 +19,7 @@
         variant="secondary"
         size="small"
         text
+        class="flex-shrink-0 ml-3"
         :class="
           skipped ? 'text-orange-600 dark:text-orange-400' : 'text-gray-500'
         "
@@ -26,13 +27,13 @@
       >
         <BaseIcon
           :name="skipped ? 'eye-slash' : 'x-mark'"
-          class="w-4 h-4 mr-2"
+          class="w-4 h-4 mr-1"
         />
         {{ skipped ? $t('location.configure') : $t('location.skip') }}
       </BaseButton>
     </div>
 
-    <!-- Contenedor de selecciones -->
+    <!-- Contenedor de selecciones más compacto -->
     <div
       class="space-y-3 transition-all duration-300"
       :class="skipped ? 'opacity-50 pointer-events-none' : 'opacity-100'"
@@ -41,7 +42,7 @@
       <div class="w-full">
         <label
           :for="departmentId"
-          class="block text-sm-project font-medium text-gray-600 dark:text-gray-400 mb-1"
+          class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2"
         >
           {{ $t('location.department') }}
           <span
@@ -63,18 +64,19 @@
           :pt="{
             root: 'w-full',
             input:
-              'w-full px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed',
+              'w-full px-3 py-2.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed',
+            trigger: 'hidden',
             panel:
               'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg mt-1',
-            list: 'max-h-48 overflow-auto',
-            item: 'px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100'
+            list: 'max-h-40 overflow-auto py-1',
+            item: 'px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm'
           }"
           @change="onDepartmentChange"
         />
 
         <p
           v-if="departmentError && !skipped"
-          class="mt-1 text-sm-project text-red-600 dark:text-red-400"
+          class="mt-1.5 text-xs text-red-600 dark:text-red-400"
         >
           {{ departmentError }}
         </p>
@@ -84,7 +86,7 @@
       <div class="w-full">
         <label
           :for="municipalityId"
-          class="block text-sm-project font-medium text-gray-600 dark:text-gray-400 mb-1"
+          class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2"
         >
           {{ $t('location.municipality') }}
           <span
@@ -115,38 +117,39 @@
           :pt="{
             root: 'w-full',
             input:
-              'w-full px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed',
+              'w-full px-3 py-2.5 text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-400 dark:focus:border-blue-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed',
+            trigger: 'hidden',
             panel:
               'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg mt-1',
-            list: 'max-h-48 overflow-auto',
-            item: 'px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100'
+            list: 'max-h-40 overflow-auto py-1',
+            item: 'px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm'
           }"
           @change="onMunicipalityChange"
         />
 
         <p
           v-if="municipalityError && !skipped"
-          class="mt-1 text-sm-project text-red-600 dark:text-red-400"
+          class="mt-1.5 text-xs text-red-600 dark:text-red-400"
         >
           {{ municipalityError }}
         </p>
       </div>
 
-      <!-- Información de ubicación seleccionada -->
+      <!-- Información de ubicación seleccionada - más compacta -->
       <div
         v-if="selectedDepartment && selectedMunicipality && !skipped"
-        class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3"
+        class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-2.5 mt-2"
       >
-        <div class="flex items-start space-x-2">
+        <div class="flex items-center space-x-2">
           <BaseIcon
             name="map-pin"
-            class="w-4 h-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0"
+            class="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0"
           />
           <div class="flex-1 min-w-0">
-            <p class="text-sm font-medium text-green-800 dark:text-green-200">
+            <p class="text-xs font-medium text-green-800 dark:text-green-200">
               {{ $t('location.selectedLocation') }}
             </p>
-            <p class="text-sm text-green-700 dark:text-green-300">
+            <p class="text-xs text-green-700 dark:text-green-300 truncate">
               {{ selectedMunicipalityName }}, {{ selectedDepartmentName }}
             </p>
           </div>
@@ -154,21 +157,21 @@
       </div>
     </div>
 
-    <!-- Mensaje cuando está omitido -->
+    <!-- Mensaje cuando está omitido - más compacto -->
     <div
       v-if="skipped"
-      class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-3"
+      class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-2.5"
     >
-      <div class="flex items-start space-x-2">
+      <div class="flex items-center space-x-2">
         <BaseIcon
           name="information-circle"
-          class="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0"
+          class="w-4 h-4 text-orange-600 dark:text-orange-400 flex-shrink-0"
         />
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-medium text-orange-800 dark:text-orange-200">
+          <p class="text-xs font-medium text-orange-800 dark:text-orange-200">
             {{ $t('location.skippedTitle') }}
           </p>
-          <p class="text-sm text-orange-700 dark:text-orange-300">
+          <p class="text-xs text-orange-700 dark:text-orange-300">
             {{ $t('location.skippedDescription') }}
           </p>
         </div>
@@ -334,5 +337,38 @@ watch(
 </script>
 
 <style scoped>
-/* Estilos adicionales si son necesarios */
+/* Ocultar la flecha del dropdown de PrimeVue */
+:deep(.p-dropdown-trigger) {
+  display: none !important;
+}
+
+/* Mejorar el cursor para indicar que es clickeable */
+:deep(.p-dropdown-label) {
+  cursor: pointer;
+}
+
+/* Ajustar el padding para compensar la ausencia de la flecha */
+:deep(.p-dropdown .p-inputtext) {
+  padding-right: 0.75rem !important;
+}
+
+/* Mejor espaciado vertical */
+:deep(.p-dropdown) {
+  line-height: 1.5;
+}
+
+/* Estilos para placeholders más visibles */
+:deep(.p-dropdown-label) {
+  color: rgb(156, 163, 175); /* gray-400 */
+}
+
+:deep(.p-dropdown-label.p-placeholder) {
+  color: rgb(156, 163, 175); /* gray-400 */
+  opacity: 1;
+}
+
+/* Transición suave para los estados */
+.transition-all {
+  transition: all 0.2s ease-in-out;
+}
 </style>

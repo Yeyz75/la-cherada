@@ -560,7 +560,7 @@ export class UserService extends BaseFirebaseService {
     photoURL: string
   ): Promise<boolean> {
     try {
-      if (!photoURL || !photoURL.includes('profile-images')) {
+      if (!photoURL?.includes('profile-images')) {
         return true // No image to delete or not a profile image
       }
 

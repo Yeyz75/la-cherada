@@ -40,73 +40,11 @@
           <ThemeToggle />
 
           <!-- Authenticated user menu -->
-          <template v-if="authStore.isAuthenticated">
-            <!-- User avatar and name -->
-            <div class="flex items-center space-x-3">
-              <div class="flex items-center space-x-2">
-                <div
-                  v-if="authStore.currentUser?.photoURL"
-                  class="w-8 h-8 rounded-full overflow-hidden ring-2 ring-white dark:ring-gray-800"
-                >
-                  <img
-                    :src="authStore.currentUser.photoURL"
-                    :alt="authStore.currentUser.displayName"
-                    class="w-full h-full object-cover"
-                  />
-                </div>
-                <div
-                  v-else
-                  class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm"
-                >
-                  {{
-                    getInitials(
-                      authStore.currentUser?.displayName ||
-                        authStore.currentUser?.email ||
-                        ''
-                    )
-                  }}
-                </div>
-                <span
-                  class="text-sm-project font-medium text-gray-700 dark:text-gray-300"
-                >
-                  {{
-                    authStore.currentUser?.displayName ||
-                    authStore.currentUser?.firstName
-                  }}
-                </span>
-              </div>
-
-              <!-- Dashboard Button -->
-              <BaseButton
-                variant="secondary"
-                size="small"
-                @click="handleDashboard"
-              >
-                <BaseIcon name="cog" class="w-4 h-4" />
-                {{ t('dashboard.title') }}
-              </BaseButton>
-
-              <!-- Profile Button -->
-              <BaseButton
-                variant="secondary"
-                size="small"
-                @click="handleProfile"
-              >
-                <BaseIcon name="user" class="w-4 h-4" />
-                {{ t('profile.title') }}
-              </BaseButton>
-
-              <!-- Logout Button -->
-              <BaseButton
-                variant="danger"
-                size="small"
-                @click="handleLogout"
-                :loading="authStore.isLoading"
-              >
-                <BaseIcon name="sign-out" class="w-4 h-4" />
-                {{ t('auth.logout') }}
-              </BaseButton>
-            </div>
+          <template v-if="authStore.isAuthenticated && authStore.currentUser">
+            <UserDropdownMenu
+              :user="authStore.currentUser"
+              :user-profile="authStore.currentUserProfile"
+            />
           </template>
 
           <!-- Guest user buttons -->
@@ -226,49 +164,62 @@
           <ThemeToggle />
         </div>
 
-        <BaseButton
-          :outlined="true"
-          variant="secondary"
-          size="small"
-          @click.stop="handleLogin"
-          class="w-full"
-        >
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+        <!-- Authenticated user menu for mobile -->
+        <template v-if="authStore.isAuthenticated && authStore.currentUser">
+          <div class="flex justify-center pb-2" @click.stop>
+            <UserDropdownMenu
+              :user="authStore.currentUser"
+              :user-profile="authStore.currentUserProfile"
             />
-          </svg>
-          {{ t('auth.login') }}
-        </BaseButton>
-        <BaseButton
-          variant="primary"
-          size="small"
-          @click.stop="handleRegister"
-          class="w-full"
-        >
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+          </div>
+        </template>
+
+        <!-- Guest user buttons -->
+        <template v-else>
+          <BaseButton
+            :outlined="true"
+            variant="secondary"
+            size="small"
+            @click.stop="handleLogin"
+            class="w-full"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-            />
-          </svg>
-          {{ t('auth.register') }}
-        </BaseButton>
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+              />
+            </svg>
+            {{ t('auth.login') }}
+          </BaseButton>
+          <BaseButton
+            variant="primary"
+            size="small"
+            @click.stop="handleRegister"
+            class="w-full"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+              />
+            </svg>
+            {{ t('auth.register') }}
+          </BaseButton>
+        </template>
       </div>
     </div>
   </nav>
@@ -279,7 +230,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTranslation } from '@/composables/useTranslation'
 import { useAuthStore } from '@/stores/authStore'
-import { BaseButton, BaseIcon } from '@/components/common'
+import { BaseButton, UserDropdownMenu } from '@/components/common'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
@@ -309,20 +260,6 @@ const closeMobileMenu = (): void => {
   isMobileMenuOpen.value = false
 }
 
-// Helper function to get user initials
-const getInitials = (name: string): string => {
-  if (!name) {
-    return 'U'
-  }
-  const parts = name.split(' ')
-  if (parts.length === 1) {
-    return parts[0]?.charAt(0).toUpperCase() || 'U'
-  }
-  const firstInitial = parts[0]?.charAt(0) || ''
-  const lastInitial = parts[parts.length - 1]?.charAt(0) || ''
-  return (firstInitial + lastInitial).toUpperCase() || 'U'
-}
-
 // Navigation handlers
 const handleLogin = (): void => {
   closeMobileMenu()
@@ -332,40 +269,6 @@ const handleLogin = (): void => {
 const handleRegister = (): void => {
   closeMobileMenu()
   router.push({ name: 'register' })
-}
-
-const handleDashboard = (): void => {
-  closeMobileMenu()
-  router.push({ name: 'dashboard-home' })
-}
-
-const handleProfile = (): void => {
-  closeMobileMenu()
-  router.push({ name: 'profile' })
-}
-
-const handleLogout = async (): Promise<void> => {
-  try {
-    // Show confirmation dialog
-    const confirmed = window.confirm(t('auth.confirmLogout'))
-
-    if (!confirmed) {
-      return
-    }
-
-    closeMobileMenu()
-    await authStore.logout()
-
-    // Redirect to home page after logout
-    router.push({ name: 'home' })
-  } catch (error) {
-    // Handle error silently or use proper error handling
-    authStore.setError({
-      message: 'Error al cerrar sesión',
-      type: 'auth',
-      timestamp: new Date()
-    })
-  }
 }
 
 // Cerrar menú móvil al hacer clic fuera o cambiar de ruta

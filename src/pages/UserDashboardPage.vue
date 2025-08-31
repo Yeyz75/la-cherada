@@ -19,16 +19,7 @@
           <div class="flex items-center space-x-4">
             <div class="hidden sm:block">
               <div class="flex items-center space-x-3">
-                <!-- Quick Action Buttons -->
-                <BaseButton
-                  variant="secondary"
-                  size="small"
-                  @click="navigateToProfile"
-                >
-                  <BaseIcon name="user" class="w-4 h-4" />
-                  {{ $t('dashboard.editProfile') }}
-                </BaseButton>
-
+                <!-- Quick Action Button - Only Explore -->
                 <BaseButton
                   variant="info"
                   size="small"
@@ -56,11 +47,14 @@
               <p class="text-gray-600 dark:text-gray-400 mt-1">
                 {{ $t('dashboard.profileSubtitle') }}
               </p>
+              <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">
+                {{ $t('dashboard.editProfileHint') }}
+              </p>
             </div>
 
             <!-- User Profile Component -->
             <UserProfile
-              :show-edit-button="true"
+              :show-edit-button="false"
               @profile-updated="handleProfileUpdated"
               @edit-mode-changed="handleEditModeChanged"
             />
@@ -268,16 +262,6 @@
           >
             <div class="quick-actions space-y-3">
               <BaseButton
-                variant="success"
-                size="small"
-                class="w-full justify-start"
-                @click="navigateToProfile"
-              >
-                <BaseIcon name="user-edit" class="w-4 h-4" />
-                {{ $t('dashboard.editProfile') }}
-              </BaseButton>
-
-              <BaseButton
                 variant="secondary"
                 size="small"
                 class="w-full justify-start"
@@ -432,16 +416,12 @@ const memberSinceFormatted = computed(() => {
 })
 
 // Methods
-const navigateToProfile = (): void => {
-  router.push({ name: 'profile' })
-}
-
 const navigateToExplore = (): void => {
-  router.push({ name: 'Explore' })
+  void router.push({ name: 'Explore' })
 }
 
 const navigateToContact = (): void => {
-  router.push({ name: 'Contact' })
+  void router.push({ name: 'Contact' })
 }
 
 const handleProfileUpdated = (formData: ProfileFormData): void => {

@@ -516,7 +516,7 @@ const handleSubmit = async (): Promise<void> => {
 
   try {
     // Get sanitized form data
-    const sanitizedData = getSanitizedData() as ProfileFormData
+    const sanitizedData = getSanitizedData()
 
     await userStore.updateProfileFromForm(
       authStore.currentUser.id,

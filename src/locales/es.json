@@ -501,6 +501,18 @@
       "settings": {
         "title": "Configuración",
         "description": "Preferencias de la cuenta"
+      },
+      "account": {
+        "name": "Cuenta"
+      },
+      "preferences": {
+        "name": "Preferencias"
+      },
+      "notifications": {
+        "name": "Notificaciones"
+      },
+      "appearance": {
+        "name": "Apariencia"
       }
     },
     "content": {

@@ -64,7 +64,7 @@
               :error-type="errorType"
               :error-title="errorMessage || 'Error'"
               :error-message="errorMessage || 'Ha ocurrido un error'"
-              :error-details="dashboardStore.error?.details"
+              :error-details="dashboardStore.error?.details || ''"
               :show-retry="
                 typeof canRetry === 'boolean' ? canRetry : canRetry.value
               "
@@ -83,25 +83,12 @@
             :key="activeSection"
             class="h-full"
           >
-            <Suspense>
-              <component
-                :is="currentSectionComponent"
-                :section-id="activeSection"
-                @loading="handleSectionLoading"
-                @error="handleSectionError"
-              />
-
-              <!-- Fallback de carga para Suspense -->
-              <template #fallback>
-                <div class="flex items-center justify-center h-full min-h-96">
-                  <BaseLoader
-                    size="md"
-                    variant="dots"
-                    text="Cargando sección..."
-                  />
-                </div>
-              </template>
-            </Suspense>
+            <component
+              :is="currentSectionComponent"
+              :section-id="activeSection"
+              @loading="handleSectionLoading"
+              @error="handleSectionError"
+            />
           </div>
 
           <!-- Estado por defecto cuando no hay sección -->
@@ -129,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, defineAsyncComponent, type Component } from 'vue'
+import { computed, ref, watch, type Component } from 'vue'
 import { useDashboardStore } from '@/stores/dashboardStore'
 import { useNetworkErrorHandler } from '@/composables/useNetworkErrorHandler'
 import { DASHBOARD_CONSTANTS } from '@/types/dashboard'
@@ -138,6 +125,12 @@ import DashboardLoader from './DashboardLoader.vue'
 import BaseLoader from '@/components/common/BaseLoader.vue'
 import BaseCard from '@/components/common/BaseCard.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
+
+// Importaciones estáticas de componentes
+import AccountSection from '@/components/dashboard/sections/AccountSection.vue'
+import PreferencesSection from '@/components/dashboard/sections/PreferencesSection.vue'
+import NotificationsSection from '@/components/dashboard/sections/NotificationsSection.vue'
+import AppearanceSection from '@/components/dashboard/sections/AppearanceSection.vue'
 
 interface Props {
   /** Mostrar breadcrumbs en la parte superior */
@@ -169,7 +162,6 @@ const networkHandler = useNetworkErrorHandler()
 const isLoading = ref(false)
 const hasError = ref(false)
 const errorMessage = ref('')
-const componentCache = new Map<string, Component>()
 
 // Computed properties para manejo de errores
 const isDevelopment = computed(() => import.meta.env.MODE === 'development')
@@ -192,6 +184,14 @@ const canRetry = computed(
 const activeSection = computed(() => dashboardStore.activeSection)
 const currentSection = computed(() => dashboardStore.currentSection)
 
+// Mapeo de componentes
+const componentMap: Record<string, Component> = {
+  AccountSection,
+  PreferencesSection,
+  NotificationsSection,
+  AppearanceSection
+}
+
 // Componente dinámico de la sección actual
 const currentSectionComponent = computed(() => {
   if (!currentSection.value || hasError.value) {
@@ -199,71 +199,15 @@ const currentSectionComponent = computed(() => {
   }
 
   const componentName = currentSection.value.component
+  const component = componentMap[componentName]
 
-  // Verificar si el componente ya está en caché
-  if (componentCache.has(componentName)) {
-    return componentCache.get(componentName)
+  if (!component) {
+    setError(`Componente '${componentName}' no encontrado`)
+    return null
   }
 
-  // Crear componente asíncrono con manejo de errores
-  const asyncComponent = defineAsyncComponent({
-    loader: () => loadSectionComponent(componentName),
-    delay: 100, // Delay antes de mostrar loading
-    timeout: 10000 // Timeout de 10 segundos
-  })
-
-  // Guardar en caché
-  componentCache.set(componentName, asyncComponent)
-
-  return asyncComponent
+  return component
 })
-
-// Métodos para carga dinámica de componentes
-const loadSectionComponent = async (
-  componentName: string
-): Promise<Component> => {
-  try {
-    setLoading(true)
-
-    // Mapeo de nombres de componentes a rutas de archivos
-    const componentMap: Record<string, () => Promise<{ default: Component }>> =
-      {
-        AccountSection: () =>
-          import('@/components/dashboard/sections/AccountSection.vue'),
-        PreferencesSection: () =>
-          import('@/components/dashboard/sections/PreferencesSection.vue'),
-        NotificationsSection: () =>
-          import('@/components/dashboard/sections/NotificationsSection.vue'),
-        AppearanceSection: () =>
-          import('@/components/dashboard/sections/AppearanceSection.vue')
-      }
-
-    const componentLoader = componentMap[componentName]
-
-    if (!componentLoader) {
-      throw new Error(`Componente '${componentName}' no encontrado`)
-    }
-
-    const module = await componentLoader()
-
-    // Simular delay mínimo para evitar flashes
-    await new Promise(resolve => setTimeout(resolve, 150))
-
-    setLoading(false)
-    clearError()
-
-    return module.default
-  } catch (error) {
-    setLoading(false)
-    const errorMsg =
-      error instanceof Error
-        ? error.message
-        : 'Error desconocido al cargar la sección'
-    setError(errorMsg)
-    emit('error', error instanceof Error ? error : new Error(errorMsg))
-    throw error
-  }
-}
 
 // Gestión de estados
 const setLoading = (loading: boolean) => {
@@ -306,11 +250,6 @@ const handleRetry = async () => {
     } else {
       // Método fallback original
       clearError()
-
-      // Limpiar caché del componente actual para forzar recarga
-      if (currentSection.value) {
-        componentCache.delete(currentSection.value.component)
-      }
 
       // Forzar re-renderizado
       const currentSectionId = activeSection.value
@@ -368,9 +307,9 @@ watch(
   { immediate: true }
 )
 
-// Limpiar caché cuando el componente se desmonta
+// Limpiar caché cuando el componente se desmonta (ya no necesario con importaciones estáticas)
 const clearComponentCache = () => {
-  componentCache.clear()
+  // No hay caché que limpiar con importaciones estáticas
 }
 
 // Exponer métodos para uso externo si es necesario
